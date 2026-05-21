@@ -1,0 +1,199 @@
+import { useEffect } from 'react'
+import { useStore } from '../store'
+import { connectWs, disconnectWs, onWs } from '../api/socket'
+import { useNotificationStore } from '../store/notificationStore'
+import { playMessageSound, showBrowserNotification, getMessagePreview } from '../utils/notification'
+import { getKeys } from '../crypto/keystore'
+import { decryptHybrid } from '../crypto/ratchet'
+
+export function useSocket() {
+  const token = useStore(s => s.token)
+
+  useEffect(() => {
+    if (!token) return
+
+    connectWs()
+
+    // Listen for incoming messages and route to store
+    const unsubMsg = onWs('message', async (data) => {
+      const myId = useStore.getState().user?.id
+      const chatId = data.group_id || (data.from === myId ? data.to : data.from)
+      if (chatId) {
+        // Filter out expired offline messages based on auto_delete settings
+        if (data.offline && data.ts) {
+          const friends = useStore.getState().friends
+          const groups = useStore.getState().groups
+          let autoDeleteSec = 0
+          if (data.group_id) {
+            const group = groups.find(g => g.id === data.group_id)
+            autoDeleteSec = group?.auto_delete ?? 604800
+          } else {
+            const friend = friends.find(f => f.id === (data.from === myId ? data.to : data.from))
+            autoDeleteSec = friend?.auto_delete ?? 604800
+          }
+          if (autoDeleteSec > 0) {
+            const cutoff = Date.now() - autoDeleteSec * 1000
+            if (data.ts < cutoff) return // Skip expired message
+          }
+        }
+
+        // Decrypt private messages before adding to store
+        let msgToAdd = data
+        if (!data.group_id && data.ciphertext && data.header) {
+          try {
+            const keys = getKeys()
+            if (keys) {
+              const isMe = data.from === myId
+              if (isMe && data.self_ciphertext && data.self_header) {
+                const text = await decryptHybrid(data.self_header, keys.ik_priv, null, data.self_ciphertext)
+                msgToAdd = { ...data, decrypted: text }
+              } else if (!isMe) {
+                const text = await decryptHybrid(data.header, keys.ik_priv, null, data.ciphertext)
+                msgToAdd = { ...data, decrypted: text }
+              }
+            }
+          } catch {
+            // Decryption failed, keep original data
+          }
+        } else if (data.group_id) {
+          // Group messages are unencrypted
+          msgToAdd = { ...data, decrypted: data.ciphertext }
+        }
+
+        useStore.getState().addMessage(chatId, msgToAdd)
+
+        // If not on that chat page AND message is not from me, trigger notification
+        const isFromMe = data.from === myId
+        const isOnChat = window.location.pathname.includes(chatId)
+
+        if (!isFromMe && !isOnChat) {
+          useStore.getState().incrementUnread(chatId)
+
+          // Skip all notifications for offline catch-up messages
+          // (they are historical and should not ring/toast)
+          if (data.offline) return
+
+          // Check if this group is muted
+          const groups = useStore.getState().groups
+          const group = data.group_id ? groups.find(g => g.id === data.group_id) : null
+          if (data.group_id) {
+            // If groups haven't loaded yet, skip notification (fail-closed)
+            // If group is muted, also skip
+            if (!group || group.muted) return
+          }
+
+          // Resolve sender info
+          const friends = useStore.getState().friends
+          const friend = friends.find(f => f.id === data.from)
+          const senderName = data.from_nickname || friend?.nickname || friend?.username || data.from || '?'
+          const chatName = group ? group.name : senderName
+          const avatar = friend?.avatar || group?.avatar
+
+          // Message preview
+          let preview: string
+          if (data.msg_type && data.msg_type !== 'text') {
+            preview = getMessagePreview(data.msg_type, getI18nT())
+          } else {
+            // For text: show decrypted if available, else ciphertext preview
+            const text = data.decrypted || data.ciphertext || ''
+            preview = text.length > 50 ? text.substring(0, 50) + '...' : text
+          }
+
+          // In-app toast notification
+          useNotificationStore.getState().showToast({
+            type: 'message',
+            title: chatName,
+            body: group ? `${senderName}: ${preview}` : preview,
+            avatar,
+            chatId,
+            isGroup: !!data.group_id,
+          })
+
+          // Play sound
+          playMessageSound()
+
+          // Browser notification (only if tab hidden)
+          showBrowserNotification(
+            chatName,
+            group ? `${senderName}: ${preview}` : preview,
+            () => {
+              window.location.href = data.group_id
+                ? `/chat/${chatId}?group=1`
+                : `/chat/${chatId}`
+            }
+          )
+        } else if (!isFromMe && isOnChat) {
+          // On the chat page but still play a subtle sound for new messages
+          // (skip if it's a self message)
+        }
+      }
+    })
+
+    // Listen for ack: add sent message to local store for real-time display
+    const unsubAck = onWs('ack', (data) => {
+      const pending = (window as any).__pendingMsg
+      if (pending && data.msg_id) {
+        const chatId = pending.group_id || pending.to
+        if (chatId) {
+          useStore.getState().addMessage(chatId, {
+            ...pending,
+            id: data.msg_id,
+            ts: data.ts || Date.now(),
+          })
+        }
+        ;(window as any).__pendingMsg = null
+      }
+    })
+
+    // Listen for read receipts
+    const unsubRead = onWs('msg_read', (data) => {
+      if (data.msg_ids && data.ts) {
+        useStore.getState().markMessagesRead(data.msg_ids, data.ts)
+      }
+    })
+
+    // Listen for online/offline status
+    const unsubOnline = onWs('online', (data) => {
+      if (data.user_id) {
+        useStore.getState().updateFriendOnline(data.user_id, true)
+      }
+    })
+
+    const unsubOffline = onWs('offline', (data) => {
+      if (data.user_id) {
+        useStore.getState().updateFriendOnline(data.user_id, false)
+      }
+    })
+
+    return () => {
+      unsubMsg()
+      unsubAck()
+      unsubRead()
+      unsubOnline()
+      unsubOffline()
+      disconnectWs()
+    }
+  }, [token])
+}
+
+/**
+ * Helper to get the i18n translation function outside of React components.
+ * Falls back to English defaults.
+ */
+function getI18nT(): (key: string) => string {
+  // Access i18n translations from the store
+  try {
+    const lang = useStore.getState().lang || 'en'
+    // Dynamic import not possible here, use a simple fallback map
+    const fallbacks: Record<string, string> = {
+      'notification.image': lang === 'zh' ? '[图片]' : '[Image]',
+      'notification.voice': lang === 'zh' ? '[语音]' : '[Voice]',
+      'notification.file': lang === 'zh' ? '[文件]' : '[File]',
+      'notification.video': lang === 'zh' ? '[视频]' : '[Video]',
+      'notification.sticker': lang === 'zh' ? '[表情]' : '[Sticker]',
+    }
+    return (key: string) => fallbacks[key] || key
+  } catch {
+    return (key: string) => key
+  }
+}

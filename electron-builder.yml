@@ -1,0 +1,32 @@
+appId: com.paperphone.plus.desktop
+productName: PaperPhone Plus
+directories:
+  buildResources: build
+  output: release/${version}
+
+files:
+  - dist-electron/**/*
+  - dist/**/*
+
+# Disable auto-update publish (no update server configured)
+publish: null
+
+# Windows
+win:
+  icon: build/icon.ico
+  target:
+    - target: nsis
+      arch:
+        - x64
+    - target: portable
+      arch:
+        - x64
+
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  deleteAppDataOnUninstall: false
+  artifactName: ${productName}-${version}-Windows-Setup.${ext}
+
+portable:
+  artifactName: ${productName}-${version}-Windows-Portable.${ext}

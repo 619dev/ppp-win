@@ -6,7 +6,7 @@
 
   <p>
     <img src="https://img.shields.io/badge/Platform-Windows-0078D6?style=flat-square&logo=windows" alt="Platform" />
-    <img src="https://img.shields.io/badge/Electron-42-47848F?style=flat-square&logo=electron" alt="Electron" />
+    <img src="https://img.shields.io/badge/Electron-36-47848F?style=flat-square&logo=electron" alt="Electron" />
     <img src="https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react" alt="React" />
     <img src="https://img.shields.io/badge/TypeScript-5.7-3178C6?style=flat-square&logo=typescript" alt="TypeScript" />
     <img src="https://img.shields.io/badge/Vite-6-646CFF?style=flat-square&logo=vite" alt="Vite" />
@@ -78,8 +78,8 @@ PaperPhone Plus Desktop 是 [Paperphone-plus](https://github.com/619dev/Paperpho
 
 ```bash
 # 克隆仓库
-git clone https://github.com/619dev/Paperphone-plus.git
-cd Paperphone-plus
+git clone https://github.com/619dev/ppp-win.git
+cd ppp-win
 
 # 安装依赖
 npm install
@@ -132,7 +132,7 @@ npm run build:win
 
 | 层级 | 技术 |
 |------|------|
-| 桌面框架 | Electron 42 |
+| 桌面框架 | Electron 36 |
 | 前端框架 | React 19 + TypeScript 5.7 |
 | 构建工具 | Vite 6 |
 | 状态管理 | Zustand 5 |
@@ -232,8 +232,8 @@ Go to the [Releases](../../releases) page and download:
 
 ```bash
 # Clone the repository
-git clone https://github.com/619dev/Paperphone-plus.git
-cd Paperphone-plus
+git clone https://github.com/619dev/ppp-win.git
+cd ppp-win
 
 # Install dependencies
 npm install
@@ -286,7 +286,7 @@ The proxy is implemented via Electron's `session.setProxy()` API, transparently 
 
 | Layer | Technology |
 |-------|-----------:|
-| Desktop Framework | Electron 42 |
+| Desktop Framework | Electron 36 |
 | Frontend | React 19 + TypeScript 5.7 |
 | Build Tool | Vite 6 |
 | State Management | Zustand 5 |

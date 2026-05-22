@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useStore } from '../store'
 import { useSocket } from '../hooks/useSocket'
+import { useAutoDeleteCleanup } from '../hooks/useAutoDeleteCleanup'
 import Sidebar from './Sidebar'
 import Chat from '../pages/Chat'
 import Profile from '../pages/Profile'
@@ -81,6 +82,7 @@ function MainPanel() {
 
 export default function DesktopLayout() {
   useSocket()
+  useAutoDeleteCleanup()
 
   return (
     <CallProvider>

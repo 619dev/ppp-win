@@ -10,7 +10,7 @@
     <img src="https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react" alt="React" />
     <img src="https://img.shields.io/badge/TypeScript-5.7-3178C6?style=flat-square&logo=typescript" alt="TypeScript" />
     <img src="https://img.shields.io/badge/Vite-6-646CFF?style=flat-square&logo=vite" alt="Vite" />
-    <img src="https://img.shields.io/badge/License-MIT-green?style=flat-square" alt="License" />
+    <img src="https://img.shields.io/badge/License-AGPL--3.0-blue?style=flat-square" alt="License" />
   </p>
 </div>
 
@@ -170,7 +170,18 @@ npm run build:win
 
 ## 📄 许可证
 
-本项目基于 [Paperphone-plus](https://github.com/619dev/Paperphone-plus) 开发。
+本项目基于 [Paperphone-plus](https://github.com/619dev/Paperphone-plus) 开发，采用 [GNU Affero General Public License v3.0](LICENSE)（AGPL-3.0）许可证。
+
+这意味着：
+- ✅ 你可以自由使用、修改和分发本软件
+- ✅ 你可以将本软件用于商业用途
+- 📋 你必须公开修改后的源代码
+- 📋 修改后的版本必须同样使用 AGPL-3.0 许可证
+- 📋 通过网络提供服务时，也必须提供源代码
+
+完整许可证文本请参阅 [LICENSE](LICENSE) 文件。
+
+Copyright © 2025 619dev
 
 ---
 
@@ -324,4 +335,15 @@ The proxy is implemented via Electron's `session.setProxy()` API, transparently 
 
 ## 📄 License
 
-This project is built upon [Paperphone-plus](https://github.com/619dev/Paperphone-plus).
+This project is built upon [Paperphone-plus](https://github.com/619dev/Paperphone-plus) and is licensed under the [GNU Affero General Public License v3.0](LICENSE) (AGPL-3.0).
+
+This means:
+- ✅ You are free to use, modify, and distribute this software
+- ✅ You may use this software for commercial purposes
+- 📋 You must disclose the source code of any modifications
+- 📋 Modified versions must be licensed under AGPL-3.0 as well
+- 📋 If you provide the software as a network service, you must make the source code available
+
+See the [LICENSE](LICENSE) file for the full license text.
+
+Copyright © 2025 619dev

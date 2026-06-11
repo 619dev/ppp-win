@@ -7,7 +7,7 @@ import { get, post, put, uploadFileWithProgress, normalizeFileUrl } from '../api
 import { sendWs, onWs } from '../api/socket'
 import { getKeys } from '../crypto/keystore'
 import { encryptHybrid, decryptHybrid } from '../crypto/ratchet'
-import { getMySenderKey, getSenderKey, generateSenderKey, encryptWithSenderKey, decryptWithSenderKey, distributeSenderKey, storeSenderKey } from '../crypto/groupCrypto'
+import { getMySenderKey, getSenderKey, generateSenderKey, encryptWithSenderKey, decryptWithSenderKey, distributeSenderKey, storeSenderKey, receiveSenderKey } from '../crypto/groupCrypto'
 import { Shield } from 'lucide-react'
 import { ChevronLeft, Lock, Settings, Timer, ImageIcon, Film, Plus, Mic, Download, Paperclip, AlertTriangle, Clock, Package as PackageIcon, FileText, File as FileIcon, Image as LucideImage, Music, Video, Check, CheckCheck, Phone, VideoIcon, SendHorizonal, Smile, WifiOff, X, ZoomIn, ZoomOut } from 'lucide-react'
 import TgsPlayer from '../components/TgsPlayer'
@@ -387,7 +387,36 @@ export default function Chat({ chatId, isGroup }: { chatId: string; isGroup: boo
   useEffect(() => {
     if (!id) return
     const path = isGroup ? `/api/messages/group/${id}?limit=50000` : `/api/messages/private/${id}?limit=50000`
-    get(path).then(async (msgs: any[]) => {
+
+    const loadMessages = async () => {
+      // For encrypted groups, fetch sender keys from server BEFORE loading messages
+      // This ensures keys distributed while we were offline are available for decryption
+      if (isGroup && group?.encrypted) {
+        try {
+          const keys = getKeys()
+          if (keys) {
+            const skData = await get(`/api/groups/${id}/sender-keys`)
+            if (skData?.keys && Array.isArray(skData.keys)) {
+              for (const k of skData.keys) {
+                // Only import if we don't already have this sender's key
+                if (!getSenderKey(id!, k.from_id)) {
+                  try {
+                    const senderKey = await receiveSenderKey(
+                      k.encrypted_key,
+                      k.header,
+                      keys.ik_priv,
+                      null
+                    )
+                    storeSenderKey(id!, k.from_id, senderKey, k.key_version || 1)
+                  } catch {}
+                }
+              }
+            }
+          }
+        } catch {}
+      }
+
+      const msgs = await get(path)
       if (!Array.isArray(msgs)) return
 
       // Client-side defense: filter out expired messages based on auto_delete
@@ -416,7 +445,6 @@ export default function Chat({ chatId, isGroup }: { chatId: string; isGroup: boo
         }))
       } else if (group?.encrypted) {
         // Encrypted group: decrypt with sender keys
-        const keys = getKeys()
         serverMessages = await Promise.all(filtered.map(async (msg) => {
           if (msg.nonce && msg.sender_key_version) {
             try {
@@ -441,7 +469,9 @@ export default function Chat({ chatId, isGroup }: { chatId: string; isGroup: boo
       const localOnly = localMsgs.filter(m => m.id && !serverIds.has(m.id))
       const merged = [...serverMessages, ...localOnly].sort((a, b) => (a.ts || 0) - (b.ts || 0))
       setMessages(id, merged)
-    }).catch(() => {})
+    }
+
+    loadMessages().catch(() => {})
   }, [id])
 
   useEffect(() => {
@@ -523,7 +553,7 @@ export default function Chat({ chatId, isGroup }: { chatId: string; isGroup: boo
                   }
                 }
                 if (distributions.length > 0) {
-                  post(`/api/groups/${id}/sender-keys`, { distributions, key_version: 1 }).catch(() => {})
+                  await post(`/api/groups/${id}/sender-keys`, { distributions, key_version: 1 })
                 }
               }
               sk = { groupId: id!, userId: user.id, senderKey: newKey, keyVersion: 1 }

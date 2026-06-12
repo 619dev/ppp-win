@@ -1,0 +1,181 @@
+<div align="center">
+  <img src="public/icons/icon-512.png" width="128" height="128" alt="PaperPhone Plus" style="border-radius: 24px;" />
+  <h1>PaperPhone Plus Desktop</h1>
+  <p><strong>端对端加密即时通讯 Windows 桌面客户端</strong></p>
+
+  <p>
+    <img src="https://img.shields.io/badge/Platform-Windows-0078D6?style=flat-square&logo=windows" alt="Platform" />
+    <img src="https://img.shields.io/badge/Electron-36-47848F?style=flat-square&logo=electron" alt="Electron" />
+    <img src="https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react" alt="React" />
+    <img src="https://img.shields.io/badge/TypeScript-5.7-3178C6?style=flat-square&logo=typescript" alt="TypeScript" />
+    <img src="https://img.shields.io/badge/Vite-6-646CFF?style=flat-square&logo=vite" alt="Vite" />
+    <img src="https://img.shields.io/badge/License-AGPL--3.0-blue?style=flat-square" alt="License" />
+  </p>
+</div>
+
+---
+
+[English](README_EN.md)
+
+---
+
+## 📖 简介
+
+PaperPhone Plus Desktop 是 [Paperphone-plus](https://github.com/619dev/Paperphone-plus) 的 Windows 桌面客户端版本，基于 Electron 构建。它将原项目的 React 前端封装为原生桌面应用，提供完整的即时通讯功能，并内置网络代理支持。
+
+## ✨ 功能特性
+
+### 💬 即时通讯
+- 私聊 & 群聊，支持文字、图片、视频、文件、语音消息
+- 一对一视频/语音通话 & 群组通话
+- 朋友圈（Moments）动态发布与浏览
+- 联系人管理、扫码添加好友
+
+### 🔐 端对端加密
+- **E2EE（端对端加密）**：所有消息在发送前加密，服务器无法读取
+- **前向保密（Forward Secrecy）**：基于 Double Ratchet 算法，每条消息使用不同密钥
+- **抗量子加密**：集成 CRYSTALS-Kyber 后量子密钥封装，抵御量子计算攻击
+- **加密库**：libsodium (X25519, XSalsa20-Poly1305, Ed25519)
+
+### 🌐 网络代理
+- 支持 **SOCKS5**、**HTTP**、**HTTPS** 代理协议
+- 系统级透明代理 — 所有 HTTP 和 WebSocket 流量自动走代理
+- 多代理配置管理，一键切换
+- 代理延迟测试
+- 配置持久化，重启自动恢复
+
+### 🖥️ 桌面特性
+- NSIS 安装包 + 免安装便携版（x64）
+- Telegram 风格桌面横屏布局（左侧边栏 + 右侧主面板）
+- 侧边栏宽度可拖拽调整（280px–480px）
+- 窗口位置 & 大小记忆
+- 外部链接自动在系统浏览器中打开
+- 暗色模式支持
+
+## 📦 安装
+
+### 从 Release 下载
+
+前往 [Releases](../../releases) 页面下载安装包：
+
+| 文件 | 说明 |
+|------|------|
+| `PaperPhone Plus-x.x.x-Windows-Setup.exe` | NSIS 安装包（x64） |
+| `PaperPhone Plus-x.x.x-Windows-Portable.exe` | 免安装便携版（x64） |
+
+### 从源码构建
+
+#### 环境要求
+
+- Node.js >= 18
+- npm >= 9
+- Windows 系统（推荐）或 macOS / Linux（交叉编译）
+
+#### 步骤
+
+```bash
+# 克隆仓库
+git clone https://github.com/619dev/ppp-win.git
+cd ppp-win
+
+# 安装依赖
+npm install
+
+# 开发模式（Vite 热重载 + Electron）
+npm run dev:electron
+
+# 构建生产版本
+npm run build
+
+# 打包 Windows 安装包
+npm run build:win
+```
+
+## 🔧 代理配置
+
+1. 打开应用，进入登录页面
+2. 点击代理设置图标
+3. 添加代理节点（支持 SOCKS5 / HTTP / HTTPS）
+4. 填写主机、端口、用户名（可选）、密码（可选）
+5. 激活代理并测试连接
+
+代理通过 Electron 的 `session.setProxy()` API 实现，对所有网络请求（包括 WebSocket）透明生效。
+
+## 🏗️ 技术架构
+
+```
+┌─────────────────────────────────────────┐
+│            Electron Main Process         │
+│  ┌─────────┐  ┌──────────┐  ┌────────┐ │
+│  │  Proxy  │  │  Window  │  │  IPC   │ │
+│  │ Manager │  │ Manager  │  │Handler │ │
+│  └─────────┘  └──────────┘  └────────┘ │
+│       ↕ session.setProxy()    ↕ IPC     │
+├─────────────────────────────────────────┤
+│          Preload (contextBridge)         │
+├─────────────────────────────────────────┤
+│          Renderer (React 19 + Vite)      │
+│  ┌──────┐ ┌───────┐ ┌──────┐ ┌──────┐ │
+│  │Login │ │ Chats │ │Calls │ │Moments│ │
+│  └──────┘ └───────┘ └──────┘ └──────┘ │
+│  ┌─────────────────────────────────┐   │
+│  │  Crypto (libsodium + Kyber)     │   │
+│  │  Double Ratchet + E2EE          │   │
+│  └─────────────────────────────────┘   │
+└─────────────────────────────────────────┘
+```
+
+### 技术栈
+
+| 层级 | 技术 |
+|------|------|
+| 桌面框架 | Electron 36 |
+| 前端框架 | React 19 + TypeScript 5.7 |
+| 构建工具 | Vite 6 |
+| 状态管理 | Zustand 5 |
+| 加密 | libsodium-wrappers-sumo + crystals-kyber-js |
+| 打包 | electron-builder (NSIS + Portable) |
+| 持久化 | electron-store |
+
+## 📁 项目结构
+
+```
+├── electron/
+│   ├── main.ts          # 主进程：窗口、代理、IPC
+│   └── preload.ts       # 预加载：安全 API 桥接
+├── src/
+│   ├── api/             # HTTP、WebSocket、代理桥接
+│   ├── components/      # UI 组件
+│   ├── contexts/        # React Context（通话等）
+│   ├── crypto/          # E2EE 加密模块
+│   ├── hooks/           # 自定义 Hooks
+│   ├── i18n/            # 国际化
+│   ├── pages/           # 页面组件
+│   ├── store/           # Zustand 状态管理
+│   ├── utils/           # 工具函数
+│   ├── electron.d.ts    # Electron API 类型声明
+│   └── main.tsx         # React 入口
+├── build/
+│   ├── icon.ico         # Windows 应用图标
+│   ├── icon.png         # 通用 PNG 图标
+│   └── icons/           # 各尺寸 PNG 图标
+├── electron-builder.yml # 打包配置（Windows NSIS + Portable）
+├── tsconfig.electron.json # Electron TypeScript 配置
+├── vite.config.ts       # Vite 构建配置
+└── package.json         # 项目配置
+```
+
+## 📄 许可证
+
+本项目基于 [Paperphone-plus](https://github.com/619dev/Paperphone-plus) 开发，采用 [GNU Affero General Public License v3.0](LICENSE)（AGPL-3.0）许可证。
+
+这意味着：
+- ✅ 你可以自由使用、修改和分发本软件
+- ✅ 你可以将本软件用于商业用途
+- 📋 你必须公开修改后的源代码
+- 📋 修改后的版本必须同样使用 AGPL-3.0 许可证
+- 📋 通过网络提供服务时，也必须提供源代码
+
+完整许可证文本请参阅 [LICENSE](LICENSE) 文件。
+
+Copyright © 2025 619dev

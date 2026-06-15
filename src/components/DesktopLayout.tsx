@@ -72,7 +72,7 @@ function MainPanel() {
       <div className="main-empty-icon">
         <MessageCircle size={36} strokeWidth={1.5} />
       </div>
-      <div className="main-empty-text">PaperPhone Plus</div>
+      <div className="main-empty-text">PaperPhonePlus</div>
       <div className="main-empty-hint">
         {t('chats.empty_hint') || 'Select a chat to start messaging'}
       </div>

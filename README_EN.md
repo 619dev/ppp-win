@@ -1,6 +1,6 @@
 <div align="center">
-  <img src="public/icons/icon-512.png" width="128" height="128" alt="PaperPhone Plus" style="border-radius: 24px;" />
-  <h1>PaperPhone Plus Desktop</h1>
+  <img src="public/icons/icon-512.png" width="128" height="128" alt="PaperPhonePlus" style="border-radius: 24px;" />
+  <h1>PaperPhonePlus Desktop</h1>
   <p><strong>End-to-End Encrypted Messaging Windows Desktop Client</strong></p>
 
   <p>
@@ -21,7 +21,7 @@
 
 ## 📖 Introduction
 
-PaperPhone Plus Desktop is the Windows desktop client of [Paperphone-plus](https://github.com/619dev/Paperphone-plus), built with Electron. It wraps the original React frontend into a native desktop application with full instant messaging capabilities and built-in network proxy support.
+PaperPhonePlus Desktop is the Windows desktop client of [Paperphone-plus](https://github.com/619dev/Paperphone-plus), built with Electron. It wraps the original React frontend into a native desktop application with full instant messaging capabilities and built-in network proxy support.
 
 ## ✨ Features
 
@@ -60,8 +60,8 @@ Go to the [Releases](../../releases) page and download:
 
 | File | Description |
 |------|-------------|
-| `PaperPhone Plus-x.x.x-Windows-Setup.exe` | NSIS installer (x64) |
-| `PaperPhone Plus-x.x.x-Windows-Portable.exe` | Portable executable (x64) |
+| `PaperPhonePlus-x.x.x-Windows-Setup.exe` | NSIS installer (x64) |
+| `PaperPhonePlus-x.x.x-Windows-Portable.exe` | Portable executable (x64) |
 
 ### Build from Source
 

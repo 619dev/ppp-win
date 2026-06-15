@@ -140,7 +140,7 @@ function createWindow(): void {
     y: bounds.y,
     minWidth: 375,
     minHeight: 600,
-    title: 'PaperPhone Plus',
+    title: 'PaperPhonePlus',
     icon: icon as any,
     webPreferences: {
       preload: path.join(__dirname, 'preload.cjs'),

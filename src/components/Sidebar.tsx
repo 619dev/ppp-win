@@ -189,7 +189,7 @@ export default function Sidebar() {
             : (user?.nickname || user?.username || 'U')[0]?.toUpperCase()
           }
         </div>
-        <span className="sidebar-title">PaperPhone</span>
+        <span className="sidebar-title">PaperPhonePlus</span>
       </div>
 
       {/* Content based on sidebarView */}

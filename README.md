@@ -1,6 +1,6 @@
 <div align="center">
-  <img src="public/icons/icon-512.png" width="128" height="128" alt="PaperPhone Plus" style="border-radius: 24px;" />
-  <h1>PaperPhone Plus Desktop</h1>
+  <img src="public/icons/icon-512.png" width="128" height="128" alt="PaperPhonePlus" style="border-radius: 24px;" />
+  <h1>PaperPhonePlus Desktop</h1>
   <p><strong>端对端加密即时通讯 Windows 桌面客户端</strong></p>
   <p><strong>End-to-End Encrypted Messaging Windows Desktop Client</strong></p>
 

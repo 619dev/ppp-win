@@ -1,5 +1,5 @@
 appId: com.paperphone.plus.desktop
-productName: PaperPhone Plus
+productName: PaperPhonePlus
 directories:
   buildResources: build
   output: release/${version}

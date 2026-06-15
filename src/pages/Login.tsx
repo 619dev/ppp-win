@@ -170,6 +170,10 @@ export default function Login() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
+    const normalizedServerUrl = serverUrl.trim().replace(/\/+$/, '')
+    if (normalizedServerUrl !== serverUrl) {
+      setServerUrl(normalizedServerUrl)
+    }
     setLoading(true)
 
     try {
@@ -304,7 +308,7 @@ export default function Login() {
       {/* Left: Branding Panel */}
       <div className="login-brand">
         <div className="login-brand-content">
-          <img src="./icons/icon-512.png" alt="PaperPhone" className="login-brand-logo" />
+          <img src="./icons/icon-512.png" alt="PaperPhonePlus" className="login-brand-logo" />
           <h1 className="login-brand-title">{t('app.name')}</h1>
           <p className="login-brand-subtitle">{t('auth.subtitle')}</p>
 

@@ -5,7 +5,7 @@
 
   <p>
     <img src="https://img.shields.io/badge/Platform-Windows-0078D6?style=flat-square&logo=windows" alt="Platform" />
-    <img src="https://img.shields.io/badge/Version-1.1.3-22c55e?style=flat-square" alt="Version 1.1.3" />
+    <img src="https://img.shields.io/badge/Version-1.1.5-22c55e?style=flat-square" alt="Version 1.1.5" />
     <img src="https://img.shields.io/badge/Electron-36-47848F?style=flat-square&logo=electron" alt="Electron" />
     <img src="https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react" alt="React" />
     <img src="https://img.shields.io/badge/TypeScript-5.7-3178C6?style=flat-square&logo=typescript" alt="TypeScript" />
@@ -33,7 +33,9 @@ PaperPhonePlus Desktop 是 [Paperphone-plus](https://github.com/619dev/Paperphon
 - 会议主席、全员静音、讲课模式与自由讨论模式
 - 参会者列表、发言状态、摄像头及麦克风状态显示
 - 朋友圈（Moments）动态发布与浏览
-- 联系人管理、扫码添加好友
+- 联系人管理、扫码添加好友，以及在桌面侧边栏搜索用户并发送好友请求
+- 联系人侧边栏同时显示好友与群聊，支持搜索和直接进入会话
+- 完整的会议界面与通知多语言支持
 
 ### 🔐 端对端加密
 - **E2EE（端对端加密）**：所有消息在发送前加密，服务器无法读取
@@ -64,8 +66,8 @@ PaperPhonePlus Desktop 是 [Paperphone-plus](https://github.com/619dev/Paperphon
 
 | 文件 | 说明 |
 |------|------|
-| `PaperPhonePlus-1.1.3-Windows-Setup.exe` | NSIS 安装包（Windows x64） |
-| `PaperPhonePlus-1.1.3-Windows-Portable.exe` | 免安装便携版（Windows x64） |
+| `PaperPhonePlus-1.1.5-Windows-Setup.exe` | NSIS 安装包（Windows x64） |
+| `PaperPhonePlus-1.1.5-Windows-Portable.exe` | 免安装便携版（Windows x64） |
 
 安装版允许选择安装目录，并默认保留本地应用数据；便携版无需安装即可运行。首次加入会议时，请允许 Windows 使用摄像头和麦克风。
 

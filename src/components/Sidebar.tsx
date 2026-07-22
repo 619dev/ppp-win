@@ -1,8 +1,8 @@
 import { useEffect, useState, useCallback, useRef } from 'react'
-import { get } from '../api/http'
+import { get, post } from '../api/http'
 import { useStore, Friend, Group, SidebarView } from '../store'
 import { useI18n } from '../hooks/useI18n'
-import { MessageCircle, Users, Compass, User, Search, Settings, Plus } from 'lucide-react'
+import { MessageCircle, Users, Compass, User, Search, UserPlus, X } from 'lucide-react'
 
 /* ── Chat List (embedded in sidebar) ─────────────────────────── */
 function ChatList() {
@@ -234,27 +234,124 @@ export default function Sidebar() {
 function ContactsInSidebar() {
   const { t } = useI18n()
   const friends = useStore(s => s.friends)
+  const groups = useStore(s => s.groups)
   const setActiveChat = useStore(s => s.setActiveChat)
   const [search, setSearch] = useState('')
+  const [showAdd, setShowAdd] = useState(false)
+  const [userQuery, setUserQuery] = useState('')
+  const [requestMessage, setRequestMessage] = useState('')
+  const [searchResults, setSearchResults] = useState<any[]>([])
+  const [searching, setSearching] = useState(false)
+  const [sentIds, setSentIds] = useState<Set<string>>(new Set())
 
-  const filtered = friends.filter(f => {
+  const filteredFriends = friends.filter(f => {
     if (!search) return true
     const name = f.nickname || f.username
-    return name.toLowerCase().includes(search.toLowerCase())
+    const query = search.toLowerCase()
+    return name.toLowerCase().includes(query) || f.username.toLowerCase().includes(query)
   })
+  const filteredGroups = groups.filter(g => !search || g.name.toLowerCase().includes(search.toLowerCase()))
+
+  const searchUsers = async () => {
+    const query = userQuery.trim()
+    if (!query || searching) return
+    setSearching(true)
+    try {
+      const results = await get<any[]>(`/api/users/search?q=${encodeURIComponent(query)}`)
+      const friendIds = new Set(friends.map(friend => friend.id))
+      setSearchResults(results.filter(user => !friendIds.has(user.id)))
+    } catch (error: any) {
+      alert(error.message || t('common.error'))
+    } finally {
+      setSearching(false)
+    }
+  }
+
+  const sendFriendRequest = async (friendId: string) => {
+    try {
+      await post('/api/friends/request', {
+        friend_id: friendId,
+        message: requestMessage.trim() || null,
+      })
+      setSentIds(previous => new Set(previous).add(friendId))
+      setRequestMessage('')
+      alert(t('contacts.request_sent'))
+    } catch (error: any) {
+      alert(error.message || t('common.error'))
+    }
+  }
+
+  const closeAdd = () => {
+    setShowAdd(false)
+    setUserQuery('')
+    setRequestMessage('')
+    setSearchResults([])
+  }
 
   return (
     <>
-      <div className="sidebar-search">
+      <div className="sidebar-search" style={{ display: 'flex', gap: 8 }}>
         <input
           type="text"
-          placeholder={t('chats.search')}
+          placeholder={t('common.search')}
           value={search}
           onChange={e => setSearch(e.target.value)}
         />
+        <button
+          className="sidebar-action-button"
+          title={t('contacts.add')}
+          aria-label={t('contacts.add')}
+          onClick={() => showAdd ? closeAdd() : setShowAdd(true)}
+        >
+          {showAdd ? <X size={17} /> : <UserPlus size={17} />}
+        </button>
       </div>
+      {showAdd && (
+        <div className="sidebar-add-friend">
+          <div className="sidebar-add-search">
+            <input
+              value={userQuery}
+              placeholder={t('contacts.search_user')}
+              autoFocus
+              onChange={event => setUserQuery(event.target.value)}
+              onKeyDown={event => event.key === 'Enter' && searchUsers()}
+            />
+            <button className="btn btn-primary btn-sm" disabled={!userQuery.trim() || searching} onClick={searchUsers}>
+              <Search size={15} />
+            </button>
+          </div>
+          {searchResults.length > 0 && (
+            <textarea
+              className="input"
+              value={requestMessage}
+              maxLength={512}
+              rows={2}
+              placeholder={t('contacts.request_message_hint')}
+              onChange={event => setRequestMessage(event.target.value)}
+            />
+          )}
+          {searchResults.map(user => {
+            const sent = sentIds.has(user.id)
+            return (
+              <div className="sidebar-search-result" key={user.id}>
+                <div className="avatar avatar-sm">
+                  {user.avatar ? <img src={user.avatar} alt="" /> : (user.nickname || user.username)?.[0]?.toUpperCase()}
+                </div>
+                <div className="list-content">
+                  <div className="name">{user.nickname || user.username}</div>
+                  <div className="preview">@{user.username}</div>
+                </div>
+                <button className="btn btn-primary btn-sm" disabled={sent} onClick={() => sendFriendRequest(user.id)}>
+                  {sent ? '✓' : t('contacts.add_friend')}
+                </button>
+              </div>
+            )
+          })}
+        </div>
+      )}
       <div className="sidebar-body">
-        {filtered.map(f => (
+        {filteredFriends.length > 0 && <div className="section-title">{t('contacts.friends')}</div>}
+        {filteredFriends.map(f => (
           <div
             key={f.id}
             className="list-item"
@@ -270,6 +367,27 @@ function ContactsInSidebar() {
             </div>
           </div>
         ))}
+        {filteredGroups.length > 0 && <div className="section-title">{t('contacts.groups')}</div>}
+        {filteredGroups.map(group => (
+          <div
+            key={group.id}
+            className="list-item"
+            onClick={() => setActiveChat(group.id, true)}
+          >
+            <div className="avatar">
+              {group.avatar ? <img src={group.avatar} alt="" /> : <Users size={20} />}
+            </div>
+            <div className="list-content">
+              <div className="name">{group.name}</div>
+              <div className="preview">
+                {group.members?.length ? `${group.members.length} ${t('group.members_count')}` : t('contacts.groups')}
+              </div>
+            </div>
+          </div>
+        ))}
+        {filteredFriends.length === 0 && filteredGroups.length === 0 && (
+          <div className="empty-state" style={{ padding: '32px 16px' }}>{t('contacts.empty')}</div>
+        )}
       </div>
     </>
   )

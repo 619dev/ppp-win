@@ -5,7 +5,7 @@
 
   <p>
     <img src="https://img.shields.io/badge/Platform-Windows-0078D6?style=flat-square&logo=windows" alt="Platform" />
-    <img src="https://img.shields.io/badge/Version-1.1.3-22c55e?style=flat-square" alt="Version 1.1.3" />
+    <img src="https://img.shields.io/badge/Version-1.1.5-22c55e?style=flat-square" alt="Version 1.1.5" />
     <img src="https://img.shields.io/badge/Electron-36-47848F?style=flat-square&logo=electron" alt="Electron" />
     <img src="https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react" alt="React" />
     <img src="https://img.shields.io/badge/TypeScript-5.7-3178C6?style=flat-square&logo=typescript" alt="TypeScript" />
@@ -33,7 +33,9 @@ PaperPhonePlus Desktop is the Windows desktop client of [Paperphone-plus](https:
 - Host controls, mute all, lecture mode, and open discussion mode
 - Participant list with speaking, camera, and microphone status
 - Moments (timeline) posting and browsing
-- Contact management, QR code friend requests
+- Contact management, QR code friend requests, and sidebar user search with friend requests
+- Friends and groups displayed together in the contacts sidebar with search and direct navigation
+- Complete localization for the meeting interface and notifications
 
 ### 🔐 End-to-End Encryption
 - **E2EE**: All messages encrypted before sending; the server cannot read them
@@ -64,8 +66,8 @@ Go to the [Releases](../../releases) page and download:
 
 | File | Description |
 |------|-------------|
-| `PaperPhonePlus-1.1.3-Windows-Setup.exe` | NSIS installer (Windows x64) |
-| `PaperPhonePlus-1.1.3-Windows-Portable.exe` | Portable executable (Windows x64) |
+| `PaperPhonePlus-1.1.5-Windows-Setup.exe` | NSIS installer (Windows x64) |
+| `PaperPhonePlus-1.1.5-Windows-Portable.exe` | Portable executable (Windows x64) |
 
 The installer lets users select the destination and preserves local app data by default. The portable build runs without installation. Allow Windows camera and microphone access when joining a meeting for the first time.
 

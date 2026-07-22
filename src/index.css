@@ -328,6 +328,48 @@ body {
   box-shadow: 0 0 0 3px var(--accent-bg);
 }
 
+.sidebar-action-button {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: var(--radius-full);
+  color: var(--accent);
+  background: var(--accent-bg);
+  cursor: pointer;
+}
+.sidebar-action-button:hover { background: var(--bg-hover); }
+
+.sidebar-add-friend {
+  padding: 0 12px 10px;
+  display: grid;
+  gap: 8px;
+  border-bottom: 0.5px solid var(--border);
+}
+.sidebar-add-search {
+  display: flex;
+  gap: 8px;
+}
+.sidebar-add-search input {
+  min-width: 0;
+  flex: 1;
+  padding: 8px 10px;
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  background: var(--bg-input);
+  outline: none;
+}
+.sidebar-add-friend textarea { resize: none; box-sizing: border-box; width: 100%; }
+.sidebar-search-result {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
 .sidebar-body {
   flex: 1;
   overflow-y: auto;

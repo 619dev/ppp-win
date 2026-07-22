@@ -5,6 +5,7 @@
 
   <p>
     <img src="https://img.shields.io/badge/Platform-Windows-0078D6?style=flat-square&logo=windows" alt="Platform" />
+    <img src="https://img.shields.io/badge/Version-1.1.3-22c55e?style=flat-square" alt="Version 1.1.3" />
     <img src="https://img.shields.io/badge/Electron-36-47848F?style=flat-square&logo=electron" alt="Electron" />
     <img src="https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react" alt="React" />
     <img src="https://img.shields.io/badge/TypeScript-5.7-3178C6?style=flat-square&logo=typescript" alt="TypeScript" />
@@ -27,7 +28,10 @@ PaperPhonePlus Desktop 是 [Paperphone-plus](https://github.com/619dev/Paperphon
 
 ### 💬 即时通讯
 - 私聊 & 群聊，支持文字、图片、视频、文件、语音消息
-- 一对一视频/语音通话 & 群组通话
+- 一对一视频/语音通话
+- 基于 LiveKit SFU 的群组语音和视频会议（最多 100 人）
+- 会议主席、全员静音、讲课模式与自由讨论模式
+- 参会者列表、发言状态、摄像头及麦克风状态显示
 - 朋友圈（Moments）动态发布与浏览
 - 联系人管理、扫码添加好友
 
@@ -60,8 +64,10 @@ PaperPhonePlus Desktop 是 [Paperphone-plus](https://github.com/619dev/Paperphon
 
 | 文件 | 说明 |
 |------|------|
-| `PaperPhonePlus-x.x.x-Windows-Setup.exe` | NSIS 安装包（x64） |
-| `PaperPhonePlus-x.x.x-Windows-Portable.exe` | 免安装便携版（x64） |
+| `PaperPhonePlus-1.1.3-Windows-Setup.exe` | NSIS 安装包（Windows x64） |
+| `PaperPhonePlus-1.1.3-Windows-Portable.exe` | 免安装便携版（Windows x64） |
+
+安装版允许选择安装目录，并默认保留本地应用数据；便携版无需安装即可运行。首次加入会议时，请允许 Windows 使用摄像头和麦克风。
 
 ### 从源码构建
 
@@ -90,6 +96,17 @@ npm run build
 # 打包 Windows 安装包
 npm run build:win
 ```
+
+## 🎥 视频会议部署要求
+
+桌面端通过服务端获取 LiveKit 访问令牌，因此仅升级客户端还不足以启用会议功能。部署环境需要：
+
+1. 服务端包含上游最新的会议接口 `POST /api/calls/meeting-token`
+2. 配置并启动可由参会者访问的 LiveKit 服务
+3. 在服务端设置正确的 LiveKit URL、API Key 和 API Secret
+4. 反向代理允许 HTTPS、WebSocket/WSS 和 LiveKit 所需媒体端口通过
+
+会议控制消息（全员静音、讲课模式）通过 LiveKit 数据通道传递。HTTP 和 WebSocket 信令会遵循应用内代理设置；音视频媒体能否通过代理取决于所使用代理和 LiveKit 的网络配置。
 
 ## 🔧 代理配置
 
@@ -133,6 +150,7 @@ npm run build:win
 | 前端框架 | React 19 + TypeScript 5.7 |
 | 构建工具 | Vite 6 |
 | 状态管理 | Zustand 5 |
+| 视频会议 | LiveKit Client 2.20（SFU） |
 | 加密 | libsodium-wrappers-sumo + crystals-kyber-js |
 | 打包 | electron-builder (NSIS + Portable) |
 | 持久化 | electron-store |

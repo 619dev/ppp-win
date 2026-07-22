@@ -6,6 +6,7 @@
 
   <p>
     <img src="https://img.shields.io/badge/Platform-Windows-0078D6?style=flat-square&logo=windows" alt="Platform" />
+    <img src="https://img.shields.io/badge/Version-1.1.3-22c55e?style=flat-square" alt="Version 1.1.3" />
     <img src="https://img.shields.io/badge/Electron-36-47848F?style=flat-square&logo=electron" alt="Electron" />
     <img src="https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react" alt="React" />
     <img src="https://img.shields.io/badge/TypeScript-5.7-3178C6?style=flat-square&logo=typescript" alt="TypeScript" />
@@ -17,6 +18,16 @@
 ---
 
 [📖 中文文档](README_CN.md) | [📖 English Documentation](README_EN.md)
+
+---
+
+## v1.1.3
+
+- 全新 LiveKit SFU 群组视频会议模式
+- 支持主席、全员静音、讲课模式和自由讨论模式
+- 提供 Windows x64 安装版与免安装便携版
+
+> 视频会议需要服务端启用 `/api/calls/meeting-token` 接口并正确配置 LiveKit。
 
 ---
 

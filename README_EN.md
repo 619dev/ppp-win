@@ -5,6 +5,7 @@
 
   <p>
     <img src="https://img.shields.io/badge/Platform-Windows-0078D6?style=flat-square&logo=windows" alt="Platform" />
+    <img src="https://img.shields.io/badge/Version-1.1.3-22c55e?style=flat-square" alt="Version 1.1.3" />
     <img src="https://img.shields.io/badge/Electron-36-47848F?style=flat-square&logo=electron" alt="Electron" />
     <img src="https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react" alt="React" />
     <img src="https://img.shields.io/badge/TypeScript-5.7-3178C6?style=flat-square&logo=typescript" alt="TypeScript" />
@@ -27,7 +28,10 @@ PaperPhonePlus Desktop is the Windows desktop client of [Paperphone-plus](https:
 
 ### 💬 Instant Messaging
 - Private & group chat with text, images, videos, files, and voice messages
-- One-on-one video/voice calls & group calls
+- One-on-one video and voice calls
+- LiveKit SFU-backed group voice and video meetings for up to 100 participants
+- Host controls, mute all, lecture mode, and open discussion mode
+- Participant list with speaking, camera, and microphone status
 - Moments (timeline) posting and browsing
 - Contact management, QR code friend requests
 
@@ -60,8 +64,10 @@ Go to the [Releases](../../releases) page and download:
 
 | File | Description |
 |------|-------------|
-| `PaperPhonePlus-x.x.x-Windows-Setup.exe` | NSIS installer (x64) |
-| `PaperPhonePlus-x.x.x-Windows-Portable.exe` | Portable executable (x64) |
+| `PaperPhonePlus-1.1.3-Windows-Setup.exe` | NSIS installer (Windows x64) |
+| `PaperPhonePlus-1.1.3-Windows-Portable.exe` | Portable executable (Windows x64) |
+
+The installer lets users select the destination and preserves local app data by default. The portable build runs without installation. Allow Windows camera and microphone access when joining a meeting for the first time.
 
 ### Build from Source
 
@@ -90,6 +96,17 @@ npm run build
 # Package for Windows
 npm run build:win
 ```
+
+## 🎥 Video Meeting Deployment
+
+The desktop client obtains a LiveKit access token from the application server, so updating the client alone does not enable meetings. The deployment must:
+
+1. Run a server version that provides `POST /api/calls/meeting-token`
+2. Run a LiveKit service reachable by every participant
+3. Configure the correct LiveKit URL, API Key, and API Secret on the server
+4. Allow HTTPS, WebSocket/WSS, and the required LiveKit media ports through the reverse proxy and firewall
+
+Meeting controls such as mute-all and lecture mode use the LiveKit data channel. HTTP and WebSocket signaling follows the in-app proxy setting; media proxy support depends on the proxy type and LiveKit network configuration.
 
 ## 🔧 Proxy Configuration
 
@@ -133,6 +150,7 @@ The proxy is implemented via Electron's `session.setProxy()` API, transparently 
 | Frontend | React 19 + TypeScript 5.7 |
 | Build Tool | Vite 6 |
 | State Management | Zustand 5 |
+| Video Meetings | LiveKit Client 2.20 (SFU) |
 | Encryption | libsodium-wrappers-sumo + crystals-kyber-js |
 | Packaging | electron-builder (NSIS + Portable) |
 | Persistence | electron-store |

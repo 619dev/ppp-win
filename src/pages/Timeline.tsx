@@ -3,6 +3,7 @@ import { get, post, del, uploadFile as httpUploadFile, normalizeFileUrl } from '
 import { useStore } from '../store'
 import { useI18n } from '../hooks/useI18n'
 import { ChevronLeft, ChevronRight, Film, Heart, ImageIcon, MessageCircle, Pencil, Trash2, VenetianMask, X, Play, FileText, User, Flag } from 'lucide-react'
+import { readOfflineData, writeOfflineData } from '../utils/offlineCache'
 
 /** Capture the first frame of a video File as a JPEG Blob */
 const generateVideoThumbnail = (file: File): Promise<Blob | null> =>
@@ -38,7 +39,7 @@ export default function Timeline() {
   const { t } = useI18n()
   const setMainView = useStore(s => s.setMainView)
   const user = useStore(s => s.user)
-  const [posts, setPosts] = useState<any[]>([])
+  const [posts, setPosts] = useState<any[]>(() => readOfflineData('timeline', []))
   const [loading, setLoading] = useState(true)
   const [showComposer, setShowComposer] = useState(false)
   const [selectedPost, setSelectedPost] = useState<any>(null)
@@ -48,6 +49,7 @@ export default function Timeline() {
     try {
       const data = await get('/api/timeline')
       setPosts(data)
+      writeOfflineData('timeline', data)
     } catch {}
     setLoading(false)
   }
@@ -202,7 +204,13 @@ function PostDetail({ t, postId, user, onBack }: {
   }
 
   const loadPost = async () => {
-    try { const data = await get(`/api/timeline/${postId}`); setPost(data) } catch {}
+    const cacheKey = `timeline:${postId}`
+    setPost(readOfflineData(cacheKey, null))
+    try {
+      const data = await get(`/api/timeline/${postId}`)
+      setPost(data)
+      writeOfflineData(cacheKey, data)
+    } catch {}
   }
   useEffect(() => { loadPost() }, [postId])
 

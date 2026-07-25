@@ -27,6 +27,7 @@ export const fr: Record<string, string> = {
   'contacts.title': 'Contacts', 'contacts.friends': 'Amis', 'contacts.groups': 'Groupes',
   'contacts.requests': 'Demandes d\'amis', 'contacts.add': 'Ajouter un ami',
   'contacts.search_user': 'Rechercher des utilisateurs...', 'contacts.add_friend': 'Ajouter', 'contacts.request_message_hint': 'Écrire un message (max 512 car.)',
+  'contacts.search_no_results': 'Aucun utilisateur correspondant', 'contacts.search_failed': 'Échec de la recherche',
   'contacts.pending': 'En attente', 'contacts.accept': 'Accepter', 'contacts.reject': 'Refuser',
   'contacts.send_request': 'Envoyer', 'contacts.request_sent': 'Demande envoyée', 'contacts.request_message': 'Message',
   'contacts.empty': 'Aucun contact', 'contacts.scan_qr': 'Scanner QR',
@@ -104,6 +105,7 @@ export const fr: Record<string, string> = {
 
   // Proxy
   'profile.network': 'Réseau',
+  'profile.clear_cache': 'Vider le cache local', 'profile.clear_cache_confirm': 'Le contenu disponible hors ligne sera supprimé. Continuer ?', 'profile.cache_cleared': 'Cache local vidé',
   'proxy.title': 'Paramètres du proxy',
   'proxy.enabled': 'Activer le proxy',
   'proxy.type': 'Type de proxy',

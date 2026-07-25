@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 import { get, post, del, put } from '../api/http'
 import { useStore, Friend, Group } from '../store'
 import { useI18n } from '../hooks/useI18n'
@@ -29,6 +29,7 @@ export default function Contacts() {
   const [showAdd, setShowAdd] = useState(false)
   const [searchQ, setSearchQ] = useState('')
   const [searchResults, setSearchResults] = useState<any[]>([])
+  const searchInputRef = useRef<HTMLInputElement>(null)
 
   const [requestMsg, setRequestMsg] = useState('')
   const [sentIds, setSentIds] = useState<Set<string>>(new Set())
@@ -104,12 +105,18 @@ export default function Contacts() {
     return map
   }, [tags, assignments])
 
-  const searchUsers = async () => {
-    if (!searchQ.trim()) return
+  const searchUsers = async (inputValue?: string) => {
+    const query = (inputValue ?? searchInputRef.current?.value ?? searchQ).trim().normalize('NFC')
+    if (!query) return
     try {
-      const res = await get(`/api/users/search?q=${encodeURIComponent(searchQ)}`)
+      const params = new URLSearchParams({ q: query })
+      const res = await get<any[]>(`/api/users/search?${params.toString()}`)
       setSearchResults(res)
-    } catch {}
+      if (res.length === 0) alert(t('contacts.search_no_results'))
+    } catch (error: any) {
+      console.error('[Contacts] User search failed:', error)
+      alert(`${t('contacts.search_failed')}: ${error?.message || t('common.error')}`)
+    }
   }
 
   const sendFriendRequest = async (friendId: string) => {
@@ -326,13 +333,24 @@ export default function Contacts() {
         <div style={{ padding: '8px 16px' }}>
           <div style={{ display: 'flex', gap: 8 }}>
             <input
+              ref={searchInputRef}
               className="input" id="search-user-input"
+              type="search"
+              enterKeyHint="search"
+              autoComplete="off"
               placeholder={t('contacts.search_user')}
               value={searchQ} onChange={e => setSearchQ(e.target.value)}
-              onKeyDown={e => e.key === 'Enter' && searchUsers()}
+              onKeyDown={e => {
+                if (e.key === 'Enter' && !e.nativeEvent.isComposing && e.keyCode !== 229) {
+                  e.preventDefault()
+                  void searchUsers(e.currentTarget.value)
+                }
+              }}
               style={{ flex: 1 }}
             />
-            <button className="btn btn-primary btn-sm" onClick={searchUsers}>{t('common.search')}</button>
+            <button className="btn btn-primary btn-sm" onClick={() => void searchUsers(searchInputRef.current?.value)}>
+              {t('common.search')}
+            </button>
           </div>
           {searchResults.length > 0 && (
             <div style={{ marginTop: 8 }}>

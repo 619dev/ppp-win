@@ -25,6 +25,7 @@ export const ko: Record<string, string> = {
 
   'contacts.title': '연락처', 'contacts.friends': '친구', 'contacts.groups': '그룹',
   'contacts.requests': '친구 요청', 'contacts.add': '친구 추가', 'contacts.search_user': '사용자 검색...',
+  'contacts.search_no_results': '일치하는 사용자를 찾을 수 없습니다', 'contacts.search_failed': '검색 실패',
   'contacts.add_friend': '추가', 'contacts.request_message_hint': '메시지 작성 (최대 512자)', 'contacts.pending': '대기 중', 'contacts.accept': '수락',
   'contacts.reject': '거절', 'contacts.send_request': '요청 보내기', 'contacts.request_sent': '친구 요청을 보냈습니다', 'contacts.request_message': '메시지',
   'contacts.empty': '연락처가 없습니다', 'contacts.scan_qr': 'QR 스캔',
@@ -102,6 +103,7 @@ export const ko: Record<string, string> = {
 
   // Proxy
   'profile.network': '네트워크',
+  'profile.clear_cache': '로컬 캐시 지우기', 'profile.clear_cache_confirm': '오프라인 콘텐츠가 삭제됩니다. 계속할까요?', 'profile.cache_cleared': '로컬 캐시를 지웠습니다',
   'proxy.title': '프록시 설정',
   'proxy.enabled': '프록시 활성화',
   'proxy.type': '프록시 유형',

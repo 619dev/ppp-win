@@ -75,6 +75,8 @@ export const zh: Record<string, string> = {
   'contacts.requests': '好友请求',
   'contacts.add': '添加好友',
   'contacts.search_user': '搜索用户...',
+  'contacts.search_no_results': '没有找到匹配的用户',
+  'contacts.search_failed': '搜索失败',
   'contacts.add_friend': '添加',
   'contacts.request_message_hint': '写一段验证消息（最多512字）',
   'contacts.pending': '等待确认',
@@ -387,6 +389,9 @@ export const zh: Record<string, string> = {
 
   // Proxy
   'profile.network': '网络设置',
+  'profile.clear_cache': '清理本地缓存',
+  'profile.clear_cache_confirm': '清理后，断网时将无法查看已缓存的联系人、聊天记录、朋友圈和时间线。确定继续吗？',
+  'profile.cache_cleared': '本地缓存已清理',
   'proxy.title': '代理设置',
   'proxy.enabled': '启用代理',
   'proxy.type': '代理类型',

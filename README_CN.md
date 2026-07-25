@@ -5,7 +5,7 @@
 
   <p>
     <img src="https://img.shields.io/badge/Platform-Windows-0078D6?style=flat-square&logo=windows" alt="Platform" />
-    <img src="https://img.shields.io/badge/Version-1.1.5-22c55e?style=flat-square" alt="Version 1.1.5" />
+    <img src="https://img.shields.io/badge/Version-1.1.6-22c55e?style=flat-square" alt="Version 1.1.6" />
     <img src="https://img.shields.io/badge/Electron-36-47848F?style=flat-square&logo=electron" alt="Electron" />
     <img src="https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react" alt="React" />
     <img src="https://img.shields.io/badge/TypeScript-5.7-3178C6?style=flat-square&logo=typescript" alt="TypeScript" />
@@ -23,6 +23,16 @@
 ## 📖 简介
 
 PaperPhonePlus Desktop 是 [Paperphone-plus](https://github.com/619dev/Paperphone-plus) 的 Windows 桌面客户端版本，基于 Electron 构建。它将原项目的 React 前端封装为原生桌面应用，提供完整的即时通讯功能，并内置网络代理支持。
+
+## 🆕 v1.1.6 更新说明
+
+- 修复中文用户名搜索及中文输入法回车提交问题
+- 修复私聊视频通话画面挂载问题
+- 避免 WebSocket 处于连接中时重复创建连接
+- 新增联系人、群组、消息、朋友圈及时间线离线缓存
+- 消息本地缓存上限由每个会话 200 条提升至 2000 条
+- 新增本地缓存清理入口
+- 优化会话保持逻辑，普通网络或鉴权故障不再清除本地登录状态
 
 ## ✨ 功能特性
 
@@ -66,8 +76,8 @@ PaperPhonePlus Desktop 是 [Paperphone-plus](https://github.com/619dev/Paperphon
 
 | 文件 | 说明 |
 |------|------|
-| `PaperPhonePlus-1.1.5-Windows-Setup.exe` | NSIS 安装包（Windows x64） |
-| `PaperPhonePlus-1.1.5-Windows-Portable.exe` | 免安装便携版（Windows x64） |
+| `PaperPhonePlus-1.1.6-Windows-Setup.exe` | NSIS 安装包（Windows x64） |
+| `PaperPhonePlus-1.1.6-Windows-Portable.exe` | 免安装便携版（Windows x64） |
 
 安装版允许选择安装目录，并默认保留本地应用数据；便携版无需安装即可运行。首次加入会议时，请允许 Windows 使用摄像头和麦克风。
 

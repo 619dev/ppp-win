@@ -27,6 +27,7 @@ export const de: Record<string, string> = {
   'contacts.title': 'Kontakte', 'contacts.friends': 'Freunde', 'contacts.groups': 'Gruppen',
   'contacts.requests': 'Freundschaftsanfragen', 'contacts.add': 'Freund hinzufügen',
   'contacts.search_user': 'Benutzer suchen...', 'contacts.add_friend': 'Hinzufügen', 'contacts.request_message_hint': 'Nachricht schreiben (max. 512 Zeichen)',
+  'contacts.search_no_results': 'Keine passenden Benutzer gefunden', 'contacts.search_failed': 'Suche fehlgeschlagen',
   'contacts.pending': 'Ausstehend', 'contacts.accept': 'Annehmen', 'contacts.reject': 'Ablehnen',
   'contacts.send_request': 'Anfrage senden', 'contacts.request_sent': 'Anfrage gesendet', 'contacts.request_message': 'Nachricht',
   'contacts.empty': 'Keine Kontakte', 'contacts.scan_qr': 'QR scannen',
@@ -104,6 +105,7 @@ export const de: Record<string, string> = {
 
   // Proxy
   'profile.network': 'Netzwerk',
+  'profile.clear_cache': 'Lokalen Cache leeren', 'profile.clear_cache_confirm': 'Offline gespeicherte Inhalte werden entfernt. Fortfahren?', 'profile.cache_cleared': 'Lokaler Cache geleert',
   'proxy.title': 'Proxy-Einstellungen',
   'proxy.enabled': 'Proxy aktivieren',
   'proxy.type': 'Proxy-Typ',

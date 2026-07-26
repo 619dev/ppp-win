@@ -6,7 +6,7 @@
 
   <p>
     <img src="https://img.shields.io/badge/Platform-Windows-0078D6?style=flat-square&logo=windows" alt="Platform" />
-    <img src="https://img.shields.io/badge/Version-1.1.6-22c55e?style=flat-square" alt="Version 1.1.6" />
+    <img src="https://img.shields.io/badge/Version-1.1.7-22c55e?style=flat-square" alt="Version 1.1.7" />
     <img src="https://img.shields.io/badge/Electron-36-47848F?style=flat-square&logo=electron" alt="Electron" />
     <img src="https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react" alt="React" />
     <img src="https://img.shields.io/badge/TypeScript-5.7-3178C6?style=flat-square&logo=typescript" alt="TypeScript" />
@@ -21,8 +21,10 @@
 
 ---
 
-## v1.1.6
+## v1.1.7
 
+- 修复离线消息重放导致未读消息数字重复累加的问题
+- 修复从通知或其他入口直接进入会话时未读数字未清零的问题
 - 修复中文用户名搜索及中文输入法回车提交问题
 - 修复私聊视频通话画面挂载和 WebSocket 重复连接问题
 - 新增联系人、群组、消息、朋友圈及时间线离线缓存

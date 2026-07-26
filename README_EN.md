@@ -5,7 +5,7 @@
 
   <p>
     <img src="https://img.shields.io/badge/Platform-Windows-0078D6?style=flat-square&logo=windows" alt="Platform" />
-    <img src="https://img.shields.io/badge/Version-1.1.7-22c55e?style=flat-square" alt="Version 1.1.7" />
+    <img src="https://img.shields.io/badge/Version-1.1.8-22c55e?style=flat-square" alt="Version 1.1.8" />
     <img src="https://img.shields.io/badge/Electron-36-47848F?style=flat-square&logo=electron" alt="Electron" />
     <img src="https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react" alt="React" />
     <img src="https://img.shields.io/badge/TypeScript-5.7-3178C6?style=flat-square&logo=typescript" alt="TypeScript" />
@@ -24,8 +24,13 @@
 
 PaperPhonePlus Desktop is the Windows desktop client of [Paperphone-plus](https://github.com/619dev/Paperphone-plus), built with Electron. It wraps the original React frontend into a native desktop application with full instant messaging capabilities and built-in network proxy support.
 
-## 🆕 What's New in v1.1.7
+## 🆕 What's New in v1.1.8
 
+- Fixed missing remote audio in one-to-one voice calls
+- Fixed voice-mode changes not being applied in real time
+- Improved the video-call information overlay to avoid obscuring the remote video
+- Improved auto-growing chat input and Chinese IME newline/send behavior
+- Refined the attachment panel layout and restored the image attachment entry
 - Fixed duplicate unread-count increments when offline messages are replayed after reconnecting
 - Fixed unread counts not clearing when a conversation is opened directly from a notification or another entry point
 - Fixed Chinese username search and Enter handling with Chinese IMEs
@@ -78,8 +83,8 @@ Go to the [Releases](../../releases) page and download:
 
 | File | Description |
 |------|-------------|
-| `PaperPhonePlus-1.1.7-Windows-Setup.exe` | NSIS installer (Windows x64) |
-| `PaperPhonePlus-1.1.7-Windows-Portable.exe` | Portable executable (Windows x64) |
+| `PaperPhonePlus-1.1.8-Windows-Setup.exe` | NSIS installer (Windows x64) |
+| `PaperPhonePlus-1.1.8-Windows-Portable.exe` | Portable executable (Windows x64) |
 
 The installer lets users select the destination and preserves local app data by default. The portable build runs without installation. Allow Windows camera and microphone access when joining a meeting for the first time.
 

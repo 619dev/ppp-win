@@ -6,7 +6,7 @@
 
   <p>
     <img src="https://img.shields.io/badge/Platform-Windows-0078D6?style=flat-square&logo=windows" alt="Platform" />
-    <img src="https://img.shields.io/badge/Version-1.1.7-22c55e?style=flat-square" alt="Version 1.1.7" />
+    <img src="https://img.shields.io/badge/Version-1.1.8-22c55e?style=flat-square" alt="Version 1.1.8" />
     <img src="https://img.shields.io/badge/Electron-36-47848F?style=flat-square&logo=electron" alt="Electron" />
     <img src="https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react" alt="React" />
     <img src="https://img.shields.io/badge/TypeScript-5.7-3178C6?style=flat-square&logo=typescript" alt="TypeScript" />
@@ -21,8 +21,11 @@
 
 ---
 
-## v1.1.7
+## v1.1.8
 
+- 修复私聊语音通话无远端声音的问题
+- 修复变声模式切换未实时应用的问题
+- 优化聊天文字输入区的自适应高度、中文输入法及附件面板布局
 - 修复离线消息重放导致未读消息数字重复累加的问题
 - 修复从通知或其他入口直接进入会话时未读数字未清零的问题
 - 修复中文用户名搜索及中文输入法回车提交问题

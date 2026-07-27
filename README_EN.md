@@ -5,7 +5,7 @@
 
   <p>
     <img src="https://img.shields.io/badge/Platform-Windows-0078D6?style=flat-square&logo=windows" alt="Platform" />
-    <img src="https://img.shields.io/badge/Version-1.1.8-22c55e?style=flat-square" alt="Version 1.1.8" />
+    <img src="https://img.shields.io/badge/Version-2.2.8-22c55e?style=flat-square" alt="Version 2.2.8" />
     <img src="https://img.shields.io/badge/Electron-36-47848F?style=flat-square&logo=electron" alt="Electron" />
     <img src="https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react" alt="React" />
     <img src="https://img.shields.io/badge/TypeScript-5.7-3178C6?style=flat-square&logo=typescript" alt="TypeScript" />
@@ -24,8 +24,12 @@
 
 PaperPhonePlus Desktop is the Windows desktop client of [Paperphone-plus](https://github.com/619dev/Paperphone-plus), built with Electron. It wraps the original React frontend into a native desktop application with full instant messaging capabilities and built-in network proxy support.
 
-## 🆕 What's New in v1.1.8
+## 🆕 What's New in v2.2.8
 
+- Added message replies with quoted previews and navigation to the original message
+- Migrated one-to-one voice and video calls to LiveKit SFU for unified media connection, reconnection, and track subscription
+- Updated conversation and notification previews to show the body of replied messages correctly
+- Added the current app version to the About section
 - Fixed missing remote audio in one-to-one voice calls
 - Fixed voice-mode changes not being applied in real time
 - Improved the video-call information overlay to avoid obscuring the remote video
@@ -45,7 +49,7 @@ PaperPhonePlus Desktop is the Windows desktop client of [Paperphone-plus](https:
 
 ### 💬 Instant Messaging
 - Private & group chat with text, images, videos, files, and voice messages
-- One-on-one video and voice calls
+- LiveKit SFU-backed one-on-one video and voice calls
 - LiveKit SFU-backed group voice and video meetings for up to 100 participants
 - Host controls, mute all, lecture mode, and open discussion mode
 - Participant list with speaking, camera, and microphone status
@@ -83,8 +87,8 @@ Go to the [Releases](../../releases) page and download:
 
 | File | Description |
 |------|-------------|
-| `PaperPhonePlus-1.1.8-Windows-Setup.exe` | NSIS installer (Windows x64) |
-| `PaperPhonePlus-1.1.8-Windows-Portable.exe` | Portable executable (Windows x64) |
+| `PaperPhonePlus-2.2.8-Windows-Setup.exe` | NSIS installer (Windows x64) |
+| `PaperPhonePlus-2.2.8-Windows-Portable.exe` | Portable executable (Windows x64) |
 
 The installer lets users select the destination and preserves local app data by default. The portable build runs without installation. Allow Windows camera and microphone access when joining a meeting for the first time.
 

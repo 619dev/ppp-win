@@ -6,7 +6,7 @@
 
   <p>
     <img src="https://img.shields.io/badge/Platform-Windows-0078D6?style=flat-square&logo=windows" alt="Platform" />
-    <img src="https://img.shields.io/badge/Version-1.1.8-22c55e?style=flat-square" alt="Version 1.1.8" />
+    <img src="https://img.shields.io/badge/Version-2.2.8-22c55e?style=flat-square" alt="Version 2.2.8" />
     <img src="https://img.shields.io/badge/Electron-36-47848F?style=flat-square&logo=electron" alt="Electron" />
     <img src="https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react" alt="React" />
     <img src="https://img.shields.io/badge/TypeScript-5.7-3178C6?style=flat-square&logo=typescript" alt="TypeScript" />
@@ -21,8 +21,11 @@
 
 ---
 
-## v1.1.8
+## v2.2.8
 
+- 新增消息引用与回复预览，支持从引用内容定位原消息
+- 一对一语音和视频通话全面迁移至 LiveKit，提升连接与重连稳定性
+- 在“关于”区域显示当前应用版本号
 - 修复私聊语音通话无远端声音的问题
 - 修复变声模式切换未实时应用的问题
 - 优化聊天文字输入区的自适应高度、中文输入法及附件面板布局

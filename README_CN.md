@@ -5,7 +5,7 @@
 
   <p>
     <img src="https://img.shields.io/badge/Platform-Windows-0078D6?style=flat-square&logo=windows" alt="Platform" />
-    <img src="https://img.shields.io/badge/Version-1.1.8-22c55e?style=flat-square" alt="Version 1.1.8" />
+    <img src="https://img.shields.io/badge/Version-2.2.8-22c55e?style=flat-square" alt="Version 2.2.8" />
     <img src="https://img.shields.io/badge/Electron-36-47848F?style=flat-square&logo=electron" alt="Electron" />
     <img src="https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react" alt="React" />
     <img src="https://img.shields.io/badge/TypeScript-5.7-3178C6?style=flat-square&logo=typescript" alt="TypeScript" />
@@ -24,8 +24,12 @@
 
 PaperPhonePlus Desktop 是 [Paperphone-plus](https://github.com/619dev/Paperphone-plus) 的 Windows 桌面客户端版本，基于 Electron 构建。它将原项目的 React 前端封装为原生桌面应用，提供完整的即时通讯功能，并内置网络代理支持。
 
-## 🆕 v1.1.8 更新说明
+## 🆕 v2.2.8 更新说明
 
+- 新增消息引用与回复预览，支持点击引用内容定位原消息
+- 一对一语音和视频通话全面迁移至 LiveKit SFU，统一媒体连接、重连和轨道订阅
+- 会话列表与通知可正确显示引用消息正文
+- 在个人资料“关于”区域显示当前应用版本号
 - 修复私聊语音通话无法播放远端声音的问题
 - 修复慢速、快速变声模式切换后未实时应用的问题
 - 优化私聊视频通话中的信息浮层，避免遮挡视频画面
@@ -45,7 +49,7 @@ PaperPhonePlus Desktop 是 [Paperphone-plus](https://github.com/619dev/Paperphon
 
 ### 💬 即时通讯
 - 私聊 & 群聊，支持文字、图片、视频、文件、语音消息
-- 一对一视频/语音通话
+- 基于 LiveKit SFU 的一对一视频/语音通话
 - 基于 LiveKit SFU 的群组语音和视频会议（最多 100 人）
 - 会议主席、全员静音、讲课模式与自由讨论模式
 - 参会者列表、发言状态、摄像头及麦克风状态显示
@@ -83,8 +87,8 @@ PaperPhonePlus Desktop 是 [Paperphone-plus](https://github.com/619dev/Paperphon
 
 | 文件 | 说明 |
 |------|------|
-| `PaperPhonePlus-1.1.8-Windows-Setup.exe` | NSIS 安装包（Windows x64） |
-| `PaperPhonePlus-1.1.8-Windows-Portable.exe` | 免安装便携版（Windows x64） |
+| `PaperPhonePlus-2.2.8-Windows-Setup.exe` | NSIS 安装包（Windows x64） |
+| `PaperPhonePlus-2.2.8-Windows-Portable.exe` | 免安装便携版（Windows x64） |
 
 安装版允许选择安装目录，并默认保留本地应用数据；便携版无需安装即可运行。首次加入会议时，请允许 Windows 使用摄像头和麦克风。
 

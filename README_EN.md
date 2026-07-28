@@ -5,7 +5,7 @@
 
   <p>
     <img src="https://img.shields.io/badge/Platform-Windows-0078D6?style=flat-square&logo=windows" alt="Platform" />
-    <img src="https://img.shields.io/badge/Version-2.2.8-22c55e?style=flat-square" alt="Version 2.2.8" />
+    <img src="https://img.shields.io/badge/Version-2.2.9-22c55e?style=flat-square" alt="Version 2.2.9" />
     <img src="https://img.shields.io/badge/Electron-36-47848F?style=flat-square&logo=electron" alt="Electron" />
     <img src="https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react" alt="React" />
     <img src="https://img.shields.io/badge/TypeScript-5.7-3178C6?style=flat-square&logo=typescript" alt="TypeScript" />
@@ -24,7 +24,14 @@
 
 PaperPhonePlus Desktop is the Windows desktop client of [Paperphone-plus](https://github.com/619dev/Paperphone-plus), built with Electron. It wraps the original React frontend into a native desktop application with full instant messaging capabilities and built-in network proxy support.
 
-## 🆕 What's New in v2.2.8
+## 🆕 What's New in v2.2.9
+
+- Added persistent sticker caching for pack lists, sticker metadata, and media files
+- Cached stickers remain available offline or during temporary server failures
+- Sticker media is cached before sending, with static, animated, and video stickers consistently using stable `file_id` values
+- “Clear cache” now also removes cached sticker media
+
+## What's New in v2.2.8
 
 - Added message replies with quoted previews and navigation to the original message
 - Migrated one-to-one voice and video calls to LiveKit SFU for unified media connection, reconnection, and track subscription
@@ -87,8 +94,8 @@ Go to the [Releases](../../releases) page and download:
 
 | File | Description |
 |------|-------------|
-| `PaperPhonePlus-2.2.8-Windows-Setup.exe` | NSIS installer (Windows x64) |
-| `PaperPhonePlus-2.2.8-Windows-Portable.exe` | Portable executable (Windows x64) |
+| `PaperPhonePlus-2.2.9-Windows-Setup.exe` | NSIS installer (Windows x64) |
+| `PaperPhonePlus-2.2.9-Windows-Portable.exe` | Portable executable (Windows x64) |
 
 The installer lets users select the destination and preserves local app data by default. The portable build runs without installation. Allow Windows camera and microphone access when joining a meeting for the first time.
 

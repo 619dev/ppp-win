@@ -5,7 +5,7 @@
 
   <p>
     <img src="https://img.shields.io/badge/Platform-Windows-0078D6?style=flat-square&logo=windows" alt="Platform" />
-    <img src="https://img.shields.io/badge/Version-2.2.8-22c55e?style=flat-square" alt="Version 2.2.8" />
+    <img src="https://img.shields.io/badge/Version-2.2.9-22c55e?style=flat-square" alt="Version 2.2.9" />
     <img src="https://img.shields.io/badge/Electron-36-47848F?style=flat-square&logo=electron" alt="Electron" />
     <img src="https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react" alt="React" />
     <img src="https://img.shields.io/badge/TypeScript-5.7-3178C6?style=flat-square&logo=typescript" alt="TypeScript" />
@@ -24,7 +24,14 @@
 
 PaperPhonePlus Desktop 是 [Paperphone-plus](https://github.com/619dev/Paperphone-plus) 的 Windows 桌面客户端版本，基于 Electron 构建。它将原项目的 React 前端封装为原生桌面应用，提供完整的即时通讯功能，并内置网络代理支持。
 
-## 🆕 v2.2.8 更新说明
+## 🆕 v2.2.9 更新说明
+
+- 新增贴纸持久化缓存，缓存贴纸包列表、贴纸元数据与媒体文件
+- 已缓存贴纸可在离线状态或服务暂时不可用时继续展示
+- 发送贴纸前完成本地缓存写入，静态、动画及视频贴纸统一使用稳定的 `file_id`
+- “清空缓存”功能现会同时清理贴纸媒体缓存
+
+## v2.2.8 更新说明
 
 - 新增消息引用与回复预览，支持点击引用内容定位原消息
 - 一对一语音和视频通话全面迁移至 LiveKit SFU，统一媒体连接、重连和轨道订阅
@@ -87,8 +94,8 @@ PaperPhonePlus Desktop 是 [Paperphone-plus](https://github.com/619dev/Paperphon
 
 | 文件 | 说明 |
 |------|------|
-| `PaperPhonePlus-2.2.8-Windows-Setup.exe` | NSIS 安装包（Windows x64） |
-| `PaperPhonePlus-2.2.8-Windows-Portable.exe` | 免安装便携版（Windows x64） |
+| `PaperPhonePlus-2.2.9-Windows-Setup.exe` | NSIS 安装包（Windows x64） |
+| `PaperPhonePlus-2.2.9-Windows-Portable.exe` | 免安装便携版（Windows x64） |
 
 安装版允许选择安装目录，并默认保留本地应用数据；便携版无需安装即可运行。首次加入会议时，请允许 Windows 使用摄像头和麦克风。
 

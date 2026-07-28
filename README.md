@@ -6,7 +6,7 @@
 
   <p>
     <img src="https://img.shields.io/badge/Platform-Windows-0078D6?style=flat-square&logo=windows" alt="Platform" />
-    <img src="https://img.shields.io/badge/Version-2.2.8-22c55e?style=flat-square" alt="Version 2.2.8" />
+    <img src="https://img.shields.io/badge/Version-2.2.9-22c55e?style=flat-square" alt="Version 2.2.9" />
     <img src="https://img.shields.io/badge/Electron-36-47848F?style=flat-square&logo=electron" alt="Electron" />
     <img src="https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react" alt="React" />
     <img src="https://img.shields.io/badge/TypeScript-5.7-3178C6?style=flat-square&logo=typescript" alt="TypeScript" />
@@ -20,6 +20,13 @@
 [📖 中文文档](README_CN.md) | [📖 English Documentation](README_EN.md)
 
 ---
+
+## v2.2.9
+
+- 新增贴纸持久化缓存：贴纸包列表、贴纸元数据和媒体文件均可复用本地缓存
+- 优化离线及服务暂时不可用时的贴纸展示
+- 发送贴纸前完成本地缓存写入，静态、动画和视频贴纸统一使用稳定的 `file_id`
+- “清空缓存”功能同步清理贴纸媒体缓存
 
 ## v2.2.8
 

@@ -631,6 +631,7 @@ export default function Chat({ chatId, isGroup }: { chatId: string; isGroup: boo
     if (!id || !user || sending) return
     const reply = replyingTo
     const wireContent = encodeMessagePayload(content, reply)
+    const clientMsgId = crypto.randomUUID()
     setSending(true)
     try {
       if (msgType === 'text') setInput('')
@@ -639,6 +640,10 @@ export default function Chat({ chatId, isGroup }: { chatId: string; isGroup: boo
       // For encrypted groups, do NOT put plaintext in ciphertext field.
       // The real ciphertext is on the server; ciphertext here is only for display fallback.
       const pendingMsg: any = {
+        id: clientMsgId,
+        client_msg_id: clientMsgId,
+        ts: Date.now(),
+        delivery_status: 'queued',
         from: user.id,
         msg_type: msgType,
         decrypted: wireContent,
@@ -718,7 +723,7 @@ export default function Chat({ chatId, isGroup }: { chatId: string; isGroup: boo
               } else {
                 // Distribution failed — send unencrypted as fallback
                 console.warn('[Chat] Sender key distribution failed, sending unencrypted')
-                sent = sendWs({ type: 'message', msg_type: msgType, group_id: id, ciphertext: wireContent })
+                sent = sendWs({ type: 'message', client_msg_id: clientMsgId, msg_type: msgType, group_id: id, ciphertext: wireContent })
               }
             }
             if (sk && !sent) {
@@ -729,33 +734,33 @@ export default function Chat({ chatId, isGroup }: { chatId: string; isGroup: boo
               pendingMsg.ciphertext = encrypted.ciphertext
               pendingMsg.nonce = encrypted.nonce
               pendingMsg.sender_key_version = sk.keyVersion
-              sent = sendWs({ type: 'message', msg_type: msgType, group_id: id, ciphertext: encrypted.ciphertext, nonce: encrypted.nonce, sender_key_version: sk.keyVersion })
+              sent = sendWs({ type: 'message', client_msg_id: clientMsgId, msg_type: msgType, group_id: id, ciphertext: encrypted.ciphertext, nonce: encrypted.nonce, sender_key_version: sk.keyVersion })
             }
           } catch (encErr) {
             console.warn('[Chat] Group encryption failed:', encErr)
-            sent = sendWs({ type: 'message', msg_type: msgType, group_id: id, ciphertext: wireContent })
+            sent = sendWs({ type: 'message', client_msg_id: clientMsgId, msg_type: msgType, group_id: id, ciphertext: wireContent })
           }
         } else {
-          sent = sendWs({ type: 'message', msg_type: msgType, group_id: id, ciphertext: wireContent })
+          sent = sendWs({ type: 'message', client_msg_id: clientMsgId, msg_type: msgType, group_id: id, ciphertext: wireContent })
         }
       } else {
         const keys = getKeys()
         const recipientPub = friend?.ik_pub
         const recipientKem = friend?.kem_pub
         if (!recipientPub || !keys) {
-          sent = sendWs({ type: 'message', msg_type: msgType, to: id, ciphertext: wireContent })
+          sent = sendWs({ type: 'message', client_msg_id: clientMsgId, msg_type: msgType, to: id, ciphertext: wireContent })
         } else {
           try {
             const forRecipient = await encryptHybrid(recipientPub, recipientKem, wireContent)
             const forSelf = await encryptHybrid(keys.ik_pub, null, wireContent)
             sent = sendWs({
-              type: 'message', msg_type: msgType, to: id,
+              type: 'message', client_msg_id: clientMsgId, msg_type: msgType, to: id,
               ciphertext: forRecipient.ciphertext, header: forRecipient.header,
               self_ciphertext: forSelf.ciphertext, self_header: forSelf.header,
             })
           } catch (encErr) {
             console.warn('[Chat] Encryption failed, sending unencrypted:', encErr)
-            sent = sendWs({ type: 'message', msg_type: msgType, to: id, ciphertext: wireContent })
+            sent = sendWs({ type: 'message', client_msg_id: clientMsgId, msg_type: msgType, to: id, ciphertext: wireContent })
           }
         }
       }
@@ -765,6 +770,7 @@ export default function Chat({ chatId, isGroup }: { chatId: string; isGroup: boo
         if (msgType === 'text' && content) setInput(content)
         alert(t('chat.ws_disconnected') || 'Connection lost. Please check your network and try again.')
       } else {
+        useStore.getState().addMessage(id, pendingMsg)
         setReplyingTo(null)
       }
     } catch (err) {
@@ -1355,7 +1361,10 @@ export default function Chat({ chatId, isGroup }: { chatId: string; isGroup: boo
                 </div>
                 <div className="msg-time">
                   {formatTime(msg.ts)}
-                  {isMe && !isGroup && (
+                  {isMe && msg.delivery_status === 'queued' && (
+                    <Clock size={12} style={{ marginLeft: 3, opacity: 0.65, verticalAlign: 'middle' }} />
+                  )}
+                  {isMe && !isGroup && msg.delivery_status !== 'queued' && (
                     <span style={{ marginLeft: 3, display: 'inline-flex', verticalAlign: 'middle' }}>
                       {msg.read_at
                         ? <CheckCheck size={13} style={{ color: '#3b82f6' }} />

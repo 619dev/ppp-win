@@ -6,7 +6,7 @@
 
   <p>
     <img src="https://img.shields.io/badge/Platform-Windows-0078D6?style=flat-square&logo=windows" alt="Platform" />
-    <img src="https://img.shields.io/badge/Version-2.2.9-22c55e?style=flat-square" alt="Version 2.2.9" />
+    <img src="https://img.shields.io/badge/Version-2.3.1-22c55e?style=flat-square" alt="Version 2.3.1" />
     <img src="https://img.shields.io/badge/Electron-36-47848F?style=flat-square&logo=electron" alt="Electron" />
     <img src="https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react" alt="React" />
     <img src="https://img.shields.io/badge/TypeScript-5.7-3178C6?style=flat-square&logo=typescript" alt="TypeScript" />
@@ -20,6 +20,14 @@
 [📖 中文文档](README_CN.md) | [📖 English Documentation](README_EN.md)
 
 ---
+
+## v2.3.1
+
+- 新增长期设备会话与访问令牌自动刷新，减少正常使用中的重复登录
+- 旧版登录会话可自动升级为可刷新的持久会话
+- 增强 WebSocket 鉴权、心跳检测和网络恢复重连
+- 新增离线发件箱、消息确认去重与断线消息补拉，提升弱网可靠性
+- 退出登录时主动撤销当前设备会话，同时保留本地身份密钥
 
 ## v2.2.9
 

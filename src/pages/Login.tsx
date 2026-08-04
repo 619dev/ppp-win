@@ -224,7 +224,7 @@ export default function Login() {
           opks,
         })
 
-        setAuth(res.token, res.user)
+        setAuth(res.token, res.user, res.refresh_token)
       } else {
         const res = await post('/api/auth/login', { username, password })
 
@@ -232,7 +232,7 @@ export default function Login() {
           setNeeds2fa(true)
           setLoginToken(res.login_token)
         } else {
-          setAuth(res.token, res.user)
+          setAuth(res.token, res.user, res.refresh_token)
           // Restore or generate keys after login
           await ensureKeysExist()
           // Check if local keys match server (fixes existing old accounts)
@@ -252,7 +252,7 @@ export default function Login() {
     setLoading(true)
     try {
       const res = await post('/api/totp/verify', { login_token: loginToken, code: totpCode })
-      setAuth(res.token, res.user)
+      setAuth(res.token, res.user, res.refresh_token)
       await ensureKeysExist()
       await checkKeyConsistency()
     } catch (err: any) {

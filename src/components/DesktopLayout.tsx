@@ -13,6 +13,7 @@ import PrivacyPolicy from '../pages/PrivacyPolicy'
 import TermsOfUse from '../pages/TermsOfUse'
 import CallOverlay from './CallOverlay'
 import GroupCallOverlay from './GroupCallOverlay'
+import CallKeepAwake from './CallKeepAwake'
 import NotificationToast from './NotificationToast'
 import { CallProvider } from '../contexts/CallContext'
 import { GroupCallProvider } from '../contexts/GroupCallContext'
@@ -87,6 +88,7 @@ export default function DesktopLayout() {
   return (
     <CallProvider>
       <GroupCallProvider>
+        <CallKeepAwake />
         <div className="desktop-layout">
           <Sidebar />
           <main className="main-content">

@@ -6,7 +6,7 @@
 
   <p>
     <img src="https://img.shields.io/badge/Platform-Windows-0078D6?style=flat-square&logo=windows" alt="Platform" />
-    <img src="https://img.shields.io/badge/Version-2.3.1-22c55e?style=flat-square" alt="Version 2.3.1" />
+    <img src="https://img.shields.io/badge/Version-2.3.3-22c55e?style=flat-square" alt="Version 2.3.3" />
     <img src="https://img.shields.io/badge/Electron-36-47848F?style=flat-square&logo=electron" alt="Electron" />
     <img src="https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react" alt="React" />
     <img src="https://img.shields.io/badge/TypeScript-5.7-3178C6?style=flat-square&logo=typescript" alt="TypeScript" />
@@ -20,6 +20,13 @@
 [📖 中文文档](README_CN.md) | [📖 English Documentation](README_EN.md)
 
 ---
+
+## v2.3.3
+
+- 通话和语音录制期间自动保持屏幕唤醒
+- 语音消息最长录制时间调整为 2 分钟，并显示录制时限
+- 录音超时后自动停止并发送，避免生成超长语音文件
+- 完善聊天切换和页面卸载时的录音计时器、录音设备及媒体流清理
 
 ## v2.3.1
 

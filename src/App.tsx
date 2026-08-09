@@ -1,6 +1,7 @@
-import { useEffect } from 'react'
-import { useStore } from './store'
+import { useEffect, useState } from 'react'
+import { hydrateEncryptedMessageCache, useStore } from './store'
 import { loadFromIndexedDB } from './crypto/keystore'
+import { hydrateSenderKeys } from './crypto/groupCrypto'
 import { applyNativeProxy } from './api/proxy-bridge'
 import Login from './pages/Login'
 import DesktopLayout from './components/DesktopLayout'
@@ -9,16 +10,30 @@ import TermsOfUse from './pages/TermsOfUse'
 
 export default function App() {
   const token = useStore(s => s.token)
+  const user = useStore(s => s.user)
   const theme = useStore(s => s.theme)
+  const [hydratedAccount, setHydratedAccount] = useState<string | null>(null)
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme)
   }, [theme])
 
-  // Hydrate crypto keys from IndexedDB
+  // Restore OS-protected keys and authenticated cache before mounting chats.
   useEffect(() => {
-    loadFromIndexedDB().catch(() => {})
-  }, [])
+    let cancelled = false
+    if (!token || !user?.id) {
+      setHydratedAccount(null)
+      return
+    }
+    Promise.all([
+      loadFromIndexedDB(user.id),
+      hydrateSenderKeys(user.id),
+      hydrateEncryptedMessageCache(user.id),
+    ]).finally(() => {
+      if (!cancelled) setHydratedAccount(user.id)
+    })
+    return () => { cancelled = true }
+  }, [token, user?.id])
 
   // Apply persisted proxy settings on app startup
   useEffect(() => {
@@ -47,5 +62,5 @@ export default function App() {
   }
 
   // Authenticated → Desktop layout
-  return <DesktopLayout />
+  return hydratedAccount === user?.id ? <DesktopLayout /> : null
 }

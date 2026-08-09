@@ -22,4 +22,10 @@ contextBridge.exposeInMainWorld('electronAPI', {
   applyProxy: (config: ProxyConfig) => ipcRenderer.invoke('electron-apply-proxy', config),
   clearProxy: () => ipcRenderer.invoke('electron-clear-proxy'),
   getProxyInfo: () => ipcRenderer.invoke('electron-get-proxy-info'),
+  secureStorageAvailable: () => ipcRenderer.invoke('electron-secure-storage-available'),
+  secureStorageSeal: (account: string, purpose: string, plaintext: string) => ipcRenderer.invoke('electron-secure-storage-seal', account, purpose, plaintext),
+  secureStorageOpen: (account: string, purpose: string, ciphertext: string) => ipcRenderer.invoke('electron-secure-storage-open', account, purpose, ciphertext),
+  secureStorageSetSecret: (account: string, name: string, value: string) => ipcRenderer.invoke('electron-secure-storage-set-secret', account, name, value),
+  secureStorageGetSecret: (account: string, name: string) => ipcRenderer.invoke('electron-secure-storage-get-secret', account, name),
+  secureStorageDeleteSecret: (account: string, name: string) => ipcRenderer.invoke('electron-secure-storage-delete-secret', account, name),
 })

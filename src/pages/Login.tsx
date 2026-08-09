@@ -108,7 +108,7 @@ export default function Login() {
         const opk = await generateKeyPair()
         opks.push({ key_id: i, pub: opk.publicKey, priv: opk.privateKey })
       }
-      setKeys({
+      await setKeys({
         ik_pub: ikPair.publicKey, ik_priv: ikPair.privateKey,
         spk_pub: spkPair.publicKey, spk_priv: spkPair.privateKey,
         spk_sig: spkSig,
@@ -213,7 +213,7 @@ export default function Login() {
         })
 
         // Store keys locally
-        setKeys({
+        await setKeys({
           ik_pub: ikPair.publicKey,
           ik_priv: ikPair.privateKey,
           spk_pub: spkPair.publicKey,
@@ -222,7 +222,7 @@ export default function Login() {
           sign_pub: signPair.publicKey,
           sign_priv: signPair.privateKey,
           opks,
-        })
+        }, res.user.id)
 
         setAuth(res.token, res.user, res.refresh_token)
       } else {

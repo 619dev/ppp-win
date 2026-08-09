@@ -6,7 +6,7 @@
 
   <p>
     <img src="https://img.shields.io/badge/Platform-Windows-0078D6?style=flat-square&logo=windows" alt="Platform" />
-    <img src="https://img.shields.io/badge/Version-2.3.3-22c55e?style=flat-square" alt="Version 2.3.3" />
+    <img src="https://img.shields.io/badge/Version-2.3.5-22c55e?style=flat-square" alt="Version 2.3.5" />
     <img src="https://img.shields.io/badge/Electron-36-47848F?style=flat-square&logo=electron" alt="Electron" />
     <img src="https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react" alt="React" />
     <img src="https://img.shields.io/badge/TypeScript-5.7-3178C6?style=flat-square&logo=typescript" alt="TypeScript" />
@@ -20,6 +20,14 @@
 [📖 中文文档](README_CN.md) | [📖 English Documentation](README_EN.md)
 
 ---
+
+## v2.3.5
+
+- 使用 Windows 系统安全存储保护设备密钥、身份私钥和群聊 Sender Keys
+- 本地聊天记录使用账户与用途绑定的认证加密，密文保存至独立 IndexedDB
+- 聊天明文仅保留在运行内存中，持久化前移除解密字段
+- 自动迁移并删除旧版明文密钥、消息缓存与未加密媒体缓存
+- 损坏或遭篡改的缓存会被安全丢弃
 
 ## v2.3.3
 

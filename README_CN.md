@@ -5,7 +5,7 @@
 
   <p>
     <img src="https://img.shields.io/badge/Platform-Windows-0078D6?style=flat-square&logo=windows" alt="Platform" />
-    <img src="https://img.shields.io/badge/Version-2.3.3-22c55e?style=flat-square" alt="Version 2.3.3" />
+    <img src="https://img.shields.io/badge/Version-2.3.5-22c55e?style=flat-square" alt="Version 2.3.5" />
     <img src="https://img.shields.io/badge/Electron-36-47848F?style=flat-square&logo=electron" alt="Electron" />
     <img src="https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react" alt="React" />
     <img src="https://img.shields.io/badge/TypeScript-5.7-3178C6?style=flat-square&logo=typescript" alt="TypeScript" />
@@ -24,7 +24,15 @@
 
 PaperPhonePlus Desktop 是 [Paperphone-plus](https://github.com/619dev/Paperphone-plus) 的 Windows 桌面客户端版本，基于 Electron 构建。它将原项目的 React 前端封装为原生桌面应用，提供完整的即时通讯功能，并内置网络代理支持。
 
-## 🆕 v2.3.3 更新说明
+## 🆕 v2.3.5 更新说明
+
+- 使用 Windows 系统安全存储保护设备密钥、身份私钥和群聊 Sender Keys
+- 本地聊天记录使用账户与用途绑定的认证加密，密文保存至独立 IndexedDB
+- 聊天明文仅保留在运行内存中，持久化前移除解密字段
+- 自动迁移并删除旧版 localStorage、sessionStorage 和 IndexedDB 中的明文密钥及聊天缓存
+- 清理旧版未加密媒体缓存；损坏或遭篡改的缓存会被安全丢弃
+
+## v2.3.3 更新说明
 
 - 通话和语音录制期间自动保持屏幕唤醒
 - 语音消息最长录制时间调整为 2 分钟，并在录音界面显示时限
@@ -109,8 +117,8 @@ PaperPhonePlus Desktop 是 [Paperphone-plus](https://github.com/619dev/Paperphon
 
 | 文件 | 说明 |
 |------|------|
-| `PaperPhonePlus-2.3.3-Windows-Setup.exe` | NSIS 安装包（Windows x64） |
-| `PaperPhonePlus-2.3.3-Windows-Portable.exe` | 免安装便携版（Windows x64） |
+| `PaperPhonePlus-2.3.5-Windows-Setup.exe` | NSIS 安装包（Windows x64） |
+| `PaperPhonePlus-2.3.5-Windows-Portable.exe` | 免安装便携版（Windows x64） |
 
 安装版允许选择安装目录，并默认保留本地应用数据；便携版无需安装即可运行。首次加入会议时，请允许 Windows 使用摄像头和麦克风。
 

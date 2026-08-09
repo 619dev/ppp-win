@@ -12,6 +12,12 @@ export interface ElectronAPI {
   applyProxy: (config: ProxyConfig) => Promise<void>
   clearProxy: () => Promise<void>
   getProxyInfo: () => Promise<string>
+  secureStorageAvailable: () => Promise<boolean>
+  secureStorageSeal: (account: string, purpose: string, plaintext: string) => Promise<string>
+  secureStorageOpen: (account: string, purpose: string, ciphertext: string) => Promise<string>
+  secureStorageSetSecret: (account: string, name: string, value: string) => Promise<void>
+  secureStorageGetSecret: (account: string, name: string) => Promise<string | null>
+  secureStorageDeleteSecret: (account: string, name: string) => Promise<void>
 }
 
 declare global {

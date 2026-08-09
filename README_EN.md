@@ -5,7 +5,7 @@
 
   <p>
     <img src="https://img.shields.io/badge/Platform-Windows-0078D6?style=flat-square&logo=windows" alt="Platform" />
-    <img src="https://img.shields.io/badge/Version-2.3.3-22c55e?style=flat-square" alt="Version 2.3.3" />
+    <img src="https://img.shields.io/badge/Version-2.3.5-22c55e?style=flat-square" alt="Version 2.3.5" />
     <img src="https://img.shields.io/badge/Electron-36-47848F?style=flat-square&logo=electron" alt="Electron" />
     <img src="https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react" alt="React" />
     <img src="https://img.shields.io/badge/TypeScript-5.7-3178C6?style=flat-square&logo=typescript" alt="TypeScript" />
@@ -24,7 +24,15 @@
 
 PaperPhonePlus Desktop is the Windows desktop client of [Paperphone-plus](https://github.com/619dev/Paperphone-plus), built with Electron. It wraps the original React frontend into a native desktop application with full instant messaging capabilities and built-in network proxy support.
 
-## 🆕 What's New in v2.3.3
+## 🆕 What's New in v2.3.5
+
+- Protects the device key, identity private keys, and group Sender Keys with Windows secure storage
+- Encrypts cached chat history with account- and purpose-bound authenticated envelopes in a dedicated IndexedDB
+- Keeps display plaintext in memory only and strips decrypted fields before persistence
+- Migrates and removes legacy plaintext keys and chat caches from localStorage, sessionStorage, and IndexedDB
+- Removes the former unencrypted media cache and safely discards corrupt or tampered cache data
+
+## What's New in v2.3.3
 
 - Keeps the screen awake during calls and voice recording
 - Limits voice messages to two minutes and displays the recording limit
@@ -109,8 +117,8 @@ Go to the [Releases](../../releases) page and download:
 
 | File | Description |
 |------|-------------|
-| `PaperPhonePlus-2.3.3-Windows-Setup.exe` | NSIS installer (Windows x64) |
-| `PaperPhonePlus-2.3.3-Windows-Portable.exe` | Portable executable (Windows x64) |
+| `PaperPhonePlus-2.3.5-Windows-Setup.exe` | NSIS installer (Windows x64) |
+| `PaperPhonePlus-2.3.5-Windows-Portable.exe` | Portable executable (Windows x64) |
 
 The installer lets users select the destination and preserves local app data by default. The portable build runs without installation. Allow Windows camera and microphone access when joining a meeting for the first time.
 

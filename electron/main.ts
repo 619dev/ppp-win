@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, session, shell, nativeImage } from 'electron'
+import { app, BrowserWindow, ipcMain, session, shell, nativeImage, safeStorage } from 'electron'
 import path from 'path'
 import Store from 'electron-store'
 
@@ -17,6 +17,7 @@ interface StoreSchema {
   proxyList: ProxyConfig[]
   activeProxyId: string | null
   windowBounds: { x?: number; y?: number; width: number; height: number }
+  secureSecrets: Record<string, string>
 }
 
 // ── Persistent store ──────────────────────────────────────────
@@ -25,6 +26,7 @@ const store = new Store<StoreSchema>({
     proxyList: [],
     activeProxyId: null,
     windowBounds: { width: 1024, height: 768 },
+    secureSecrets: {},
   },
 }) as any  // electron-store@10 types are complex; cast to any for .get/.set
 
@@ -65,6 +67,36 @@ async function restoreProxy(): Promise<void> {
 
 // ── IPC handlers ──────────────────────────────────────────────
 function setupIPC(): void {
+  const encryptEnvelope = (account: string, purpose: string, plaintext: string): string => {
+    if (!safeStorage.isEncryptionAvailable()) throw new Error('OS secure storage is unavailable')
+    return safeStorage.encryptString(JSON.stringify({ version: 1, account, purpose, plaintext })).toString('base64')
+  }
+  const decryptEnvelope = (account: string, purpose: string, ciphertext: string): string => {
+    if (!safeStorage.isEncryptionAvailable()) throw new Error('OS secure storage is unavailable')
+    const envelope = JSON.parse(safeStorage.decryptString(Buffer.from(ciphertext, 'base64')))
+    if (envelope?.version !== 1 || envelope?.account !== account || envelope?.purpose !== purpose || typeof envelope?.plaintext !== 'string') {
+      throw new Error('Secure storage envelope does not match this account and purpose')
+    }
+    return envelope.plaintext
+  }
+  ipcMain.handle('electron-secure-storage-available', () => safeStorage.isEncryptionAvailable())
+  ipcMain.handle('electron-secure-storage-seal', (_event, account: string, purpose: string, plaintext: string) => encryptEnvelope(account, purpose, plaintext))
+  ipcMain.handle('electron-secure-storage-open', (_event, account: string, purpose: string, ciphertext: string) => decryptEnvelope(account, purpose, ciphertext))
+  ipcMain.handle('electron-secure-storage-set-secret', (_event, account: string, name: string, value: string) => {
+    const secrets = { ...(store.get('secureSecrets') || {}) }
+    secrets[Buffer.from(`${account}\0${name}`).toString('base64')] = encryptEnvelope(account, `secret:${name}`, value)
+    store.set('secureSecrets', secrets)
+  })
+  ipcMain.handle('electron-secure-storage-get-secret', (_event, account: string, name: string) => {
+    const ciphertext = (store.get('secureSecrets') || {})[Buffer.from(`${account}\0${name}`).toString('base64')]
+    return ciphertext ? decryptEnvelope(account, `secret:${name}`, ciphertext) : null
+  })
+  ipcMain.handle('electron-secure-storage-delete-secret', (_event, account: string, name: string) => {
+    const secrets = { ...(store.get('secureSecrets') || {}) }
+    delete secrets[Buffer.from(`${account}\0${name}`).toString('base64')]
+    store.set('secureSecrets', secrets)
+  })
+
   // Get proxy list and active ID
   ipcMain.handle('electron-get-proxy', () => {
     return {

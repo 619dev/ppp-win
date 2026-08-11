@@ -233,10 +233,6 @@ export default function Login() {
           setLoginToken(res.login_token)
         } else {
           setAuth(res.token, res.user, res.refresh_token)
-          // Restore or generate keys after login
-          await ensureKeysExist()
-          // Check if local keys match server (fixes existing old accounts)
-          await checkKeyConsistency()
         }
       }
     } catch (err: any) {
@@ -253,8 +249,6 @@ export default function Login() {
     try {
       const res = await post('/api/totp/verify', { login_token: loginToken, code: totpCode })
       setAuth(res.token, res.user, res.refresh_token)
-      await ensureKeysExist()
-      await checkKeyConsistency()
     } catch (err: any) {
       setError(err.message || t('common.error'))
     } finally {

@@ -6,7 +6,7 @@
 
   <p>
     <img src="https://img.shields.io/badge/Platform-Windows-0078D6?style=flat-square&logo=windows" alt="Platform" />
-    <img src="https://img.shields.io/badge/Version-2.3.5-22c55e?style=flat-square" alt="Version 2.3.5" />
+    <img src="https://img.shields.io/badge/Version-2.3.8-22c55e?style=flat-square" alt="Version 2.3.8" />
     <img src="https://img.shields.io/badge/Electron-36-47848F?style=flat-square&logo=electron" alt="Electron" />
     <img src="https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react" alt="React" />
     <img src="https://img.shields.io/badge/TypeScript-5.7-3178C6?style=flat-square&logo=typescript" alt="TypeScript" />
@@ -20,6 +20,13 @@
 [📖 中文文档](README_CN.md) | [📖 English Documentation](README_EN.md)
 
 ---
+
+## v2.3.8
+
+- 修复首次安装或保留登录态升级后缺少本地身份密钥时无法启动的问题
+- 修复安全存储迁移中断留下无效数据后反复启动失败的问题
+- 关闭二维码扫描器时可靠释放摄像头，并修复返回按钮的点击层级
+- 好友搜索结果会标记已有好友，避免重复发送好友申请
 
 ## v2.3.5
 

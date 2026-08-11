@@ -5,7 +5,7 @@
 
   <p>
     <img src="https://img.shields.io/badge/Platform-Windows-0078D6?style=flat-square&logo=windows" alt="Platform" />
-    <img src="https://img.shields.io/badge/Version-2.3.5-22c55e?style=flat-square" alt="Version 2.3.5" />
+    <img src="https://img.shields.io/badge/Version-2.3.8-22c55e?style=flat-square" alt="Version 2.3.8" />
     <img src="https://img.shields.io/badge/Electron-36-47848F?style=flat-square&logo=electron" alt="Electron" />
     <img src="https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react" alt="React" />
     <img src="https://img.shields.io/badge/TypeScript-5.7-3178C6?style=flat-square&logo=typescript" alt="TypeScript" />
@@ -24,7 +24,14 @@
 
 PaperPhonePlus Desktop is the Windows desktop client of [Paperphone-plus](https://github.com/619dev/Paperphone-plus), built with Electron. It wraps the original React frontend into a native desktop application with full instant messaging capabilities and built-in network proxy support.
 
-## 🆕 What's New in v2.3.5
+## 🆕 What's New in v2.3.8
+
+- Fixed startup when a fresh install or retained session has no local identity keys
+- Recovered safely from invalid secure-storage data left by an interrupted migration
+- Reliably releases the camera when closing the QR scanner and fixes the back button's click layering
+- Identifies existing friends in search results to prevent duplicate friend requests
+
+## What's New in v2.3.5
 
 - Protects the device key, identity private keys, and group Sender Keys with Windows secure storage
 - Encrypts cached chat history with account- and purpose-bound authenticated envelopes in a dedicated IndexedDB
@@ -117,8 +124,8 @@ Go to the [Releases](../../releases) page and download:
 
 | File | Description |
 |------|-------------|
-| `PaperPhonePlus-2.3.5-Windows-Setup.exe` | NSIS installer (Windows x64) |
-| `PaperPhonePlus-2.3.5-Windows-Portable.exe` | Portable executable (Windows x64) |
+| `PaperPhonePlus-2.3.8-Windows-Setup.exe` | NSIS installer (Windows x64) |
+| `PaperPhonePlus-2.3.8-Windows-Portable.exe` | Portable executable (Windows x64) |
 
 The installer lets users select the destination and preserves local app data by default. The portable build runs without installation. Allow Windows camera and microphone access when joining a meeting for the first time.
 

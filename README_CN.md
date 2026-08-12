@@ -5,7 +5,7 @@
 
   <p>
     <img src="https://img.shields.io/badge/Platform-Windows-0078D6?style=flat-square&logo=windows" alt="Platform" />
-    <img src="https://img.shields.io/badge/Version-2.3.8-22c55e?style=flat-square" alt="Version 2.3.8" />
+    <img src="https://img.shields.io/badge/Version-2.4.0-22c55e?style=flat-square" alt="Version 2.4.0" />
     <img src="https://img.shields.io/badge/Electron-36-47848F?style=flat-square&logo=electron" alt="Electron" />
     <img src="https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react" alt="React" />
     <img src="https://img.shields.io/badge/TypeScript-5.7-3178C6?style=flat-square&logo=typescript" alt="TypeScript" />
@@ -24,7 +24,11 @@
 
 PaperPhonePlus Desktop 是 [Paperphone-plus](https://github.com/619dev/Paperphone-plus) 的 Windows 桌面客户端版本，基于 Electron 构建。它将原项目的 React 前端封装为原生桌面应用，提供完整的即时通讯功能，并内置网络代理支持。
 
-## 🆕 v2.3.8 更新说明
+## 🆕 v2.4.0 更新说明
+
+- 修复历史单向好友记录导致“已是好友”但联系人不可见的问题；再次添加时会自动刷新联系人列表
+
+## v2.3.8 更新说明
 
 - 修复首次安装或保留登录态升级后缺少本地身份密钥时无法启动的问题
 - 修复安全存储迁移中断留下无效数据后反复启动失败的问题
@@ -124,8 +128,8 @@ PaperPhonePlus Desktop 是 [Paperphone-plus](https://github.com/619dev/Paperphon
 
 | 文件 | 说明 |
 |------|------|
-| `PaperPhonePlus-2.3.8-Windows-Setup.exe` | NSIS 安装包（Windows x64） |
-| `PaperPhonePlus-2.3.8-Windows-Portable.exe` | 免安装便携版（Windows x64） |
+| `PaperPhonePlus-2.4.0-Windows-Setup.exe` | NSIS 安装包（Windows x64） |
+| `PaperPhonePlus-2.4.0-Windows-Portable.exe` | 免安装便携版（Windows x64） |
 
 安装版允许选择安装目录，并默认保留本地应用数据；便携版无需安装即可运行。首次加入会议时，请允许 Windows 使用摄像头和麦克风。
 

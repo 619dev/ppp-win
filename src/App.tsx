@@ -74,7 +74,10 @@ export default function App() {
   // Authenticated → Desktop layout
   if (hydratedAccount === user?.id) return <DesktopLayout />
   if (secureHydrationError) {
-    return <div className="empty-state"><div>安全密钥加载失败，请关闭并重新打开应用。</div></div>
+    return <div className="empty-state">
+      <div>安全密钥加载失败，请关闭并重新打开应用。</div>
+      {import.meta.env.DEV && <div style={{ marginTop: 12, padding: '0 20px', fontSize: 12, wordBreak: 'break-word' }}>{secureHydrationError}</div>}
+    </div>
   }
   return null
 }

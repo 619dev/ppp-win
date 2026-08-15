@@ -5,7 +5,7 @@
 
   <p>
     <img src="https://img.shields.io/badge/Platform-Windows-0078D6?style=flat-square&logo=windows" alt="Platform" />
-    <img src="https://img.shields.io/badge/Version-2.4.2-22c55e?style=flat-square" alt="Version 2.4.2" />
+    <img src="https://img.shields.io/badge/Version-2.4.3-22c55e?style=flat-square" alt="Version 2.4.3" />
     <img src="https://img.shields.io/badge/Electron-36-47848F?style=flat-square&logo=electron" alt="Electron" />
     <img src="https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react" alt="React" />
     <img src="https://img.shields.io/badge/TypeScript-5.7-3178C6?style=flat-square&logo=typescript" alt="TypeScript" />
@@ -24,8 +24,9 @@
 
 PaperPhonePlus Desktop is the Windows desktop client of [Paperphone-plus](https://github.com/619dev/Paperphone-plus), built with Electron. It wraps the original React frontend into a native desktop application with full instant messaging capabilities and built-in network proxy support.
 
-## 🆕 What's New in v2.4.2
+## 🆕 What's New in v2.4.3
 
+- Fixed a security issue that allowed extra text-appearance encryption to be disabled without password verification; the correct extra password must now be re-entered even while unlocked.
 - Text appearance now hides protocol metadata and optimistic caches no longer retain original message bodies.
 - Extra message-history encryption moved to Profile > Message privacy and applies globally to all chats.
 
@@ -137,8 +138,8 @@ Go to the [Releases](../../releases) page and download:
 
 | File | Description |
 |------|-------------|
-| `PaperPhonePlus-2.4.2-Windows-Setup.exe` | NSIS installer (Windows x64) |
-| `PaperPhonePlus-2.4.2-Windows-Portable.exe` | Portable executable (Windows x64) |
+| `PaperPhonePlus-2.4.3-Windows-Setup.exe` | NSIS installer (Windows x64) |
+| `PaperPhonePlus-2.4.3-Windows-Portable.exe` | Portable executable (Windows x64) |
 
 The installer lets users select the destination and preserves local app data by default. The portable build runs without installation. Allow Windows camera and microphone access when joining a meeting for the first time.
 

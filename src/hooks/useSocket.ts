@@ -11,6 +11,7 @@ import { getSenderKey, storeSenderKey, clearGroupSenderKeys, clearAllSenderKeys,
 import { decryptWithSenderKey } from '../crypto/groupCrypto'
 import { get } from '../api/http'
 import { decodeMessagePayload } from '../utils/messagePayload'
+import { unprotectPresentationText } from '../crypto/presentationCrypto'
 
 /**
  * Fetch all sender keys for a group from the server and store them locally.
@@ -167,7 +168,7 @@ export function useSocket() {
             }
           } else {
             // Unencrypted group message
-            msgToAdd = { ...data, decrypted: data.ciphertext }
+            msgToAdd = { ...data, decrypted: await unprotectPresentationText(data.ciphertext) }
           }
         }
 

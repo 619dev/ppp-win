@@ -6,7 +6,7 @@
 
   <p>
     <img src="https://img.shields.io/badge/Platform-Windows-0078D6?style=flat-square&logo=windows" alt="Platform" />
-    <img src="https://img.shields.io/badge/Version-2.4.0-22c55e?style=flat-square" alt="Version 2.4.0" />
+    <img src="https://img.shields.io/badge/Version-2.4.1-22c55e?style=flat-square" alt="Version 2.4.1" />
     <img src="https://img.shields.io/badge/Electron-36-47848F?style=flat-square&logo=electron" alt="Electron" />
     <img src="https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react" alt="React" />
     <img src="https://img.shields.io/badge/TypeScript-5.7-3178C6?style=flat-square&logo=typescript" alt="TypeScript" />
@@ -20,6 +20,12 @@
 [📖 中文文档](README_CN.md) | [📖 English Documentation](README_EN.md)
 
 ---
+
+## v2.4.1
+
+- 加密失败时停止发送且不再回退明文，消息显示实际协议版本
+- 新增额外聊天记录密码、8 种文本外观编码及 5/15/30/60 分钟后台自动锁定
+- 未正确解锁时仅显示外观密文；私钥与 Sender Key 使用 Windows 安全存储保护，8 种语言文案完整同步
 
 ## v2.4.0
 

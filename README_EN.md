@@ -5,7 +5,7 @@
 
   <p>
     <img src="https://img.shields.io/badge/Platform-Windows-0078D6?style=flat-square&logo=windows" alt="Platform" />
-    <img src="https://img.shields.io/badge/Version-2.4.0-22c55e?style=flat-square" alt="Version 2.4.0" />
+    <img src="https://img.shields.io/badge/Version-2.4.1-22c55e?style=flat-square" alt="Version 2.4.1" />
     <img src="https://img.shields.io/badge/Electron-36-47848F?style=flat-square&logo=electron" alt="Electron" />
     <img src="https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react" alt="React" />
     <img src="https://img.shields.io/badge/TypeScript-5.7-3178C6?style=flat-square&logo=typescript" alt="TypeScript" />
@@ -23,6 +23,12 @@
 ## 📖 Introduction
 
 PaperPhonePlus Desktop is the Windows desktop client of [Paperphone-plus](https://github.com/619dev/Paperphone-plus), built with Electron. It wraps the original React frontend into a native desktop application with full instant messaging capabilities and built-in network proxy support.
+
+## 🆕 What's New in v2.4.1
+
+- Encrypted sends fail closed instead of falling back to plaintext, with the actual protocol shown per message
+- Adds an extra chat-history password, eight presentation codecs, and 5/15/30/60-minute background auto-lock
+- Locked histories show presentation ciphertext only; private keys and Sender Keys use Windows secure storage, with all eight UI languages synchronized
 
 ## 🆕 What's New in v2.4.0
 
@@ -128,8 +134,8 @@ Go to the [Releases](../../releases) page and download:
 
 | File | Description |
 |------|-------------|
-| `PaperPhonePlus-2.4.0-Windows-Setup.exe` | NSIS installer (Windows x64) |
-| `PaperPhonePlus-2.4.0-Windows-Portable.exe` | Portable executable (Windows x64) |
+| `PaperPhonePlus-2.4.1-Windows-Setup.exe` | NSIS installer (Windows x64) |
+| `PaperPhonePlus-2.4.1-Windows-Portable.exe` | Portable executable (Windows x64) |
 
 The installer lets users select the destination and preserves local app data by default. The portable build runs without installation. Allow Windows camera and microphone access when joining a meeting for the first time.
 

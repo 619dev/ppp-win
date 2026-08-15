@@ -5,7 +5,7 @@
 
   <p>
     <img src="https://img.shields.io/badge/Platform-Windows-0078D6?style=flat-square&logo=windows" alt="Platform" />
-    <img src="https://img.shields.io/badge/Version-2.4.1-22c55e?style=flat-square" alt="Version 2.4.1" />
+    <img src="https://img.shields.io/badge/Version-2.4.2-22c55e?style=flat-square" alt="Version 2.4.2" />
     <img src="https://img.shields.io/badge/Electron-36-47848F?style=flat-square&logo=electron" alt="Electron" />
     <img src="https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react" alt="React" />
     <img src="https://img.shields.io/badge/TypeScript-5.7-3178C6?style=flat-square&logo=typescript" alt="TypeScript" />
@@ -24,7 +24,10 @@
 
 PaperPhonePlus Desktop 是 [Paperphone-plus](https://github.com/619dev/Paperphone-plus) 的 Windows 桌面客户端版本，基于 Electron 构建。它将原项目的 React 前端封装为原生桌面应用，提供完整的即时通讯功能，并内置网络代理支持。
 
-## 🆕 v2.4.1 更新说明
+## 🆕 v2.4.2 更新说明
+
+- 文本外观现已隐藏协议元数据，发送中的本地缓存不再保留消息原文。
+- 额外聊天记录加密已移至个人信息 > 消息隐私，并全局应用于所有聊天。
 
 - 加密失败时停止发送且不再回退明文，消息显示实际协议版本
 - 新增额外聊天记录密码、8 种文本外观编码及 5/15/30/60 分钟后台自动锁定
@@ -134,8 +137,8 @@ PaperPhonePlus Desktop 是 [Paperphone-plus](https://github.com/619dev/Paperphon
 
 | 文件 | 说明 |
 |------|------|
-| `PaperPhonePlus-2.4.1-Windows-Setup.exe` | NSIS 安装包（Windows x64） |
-| `PaperPhonePlus-2.4.1-Windows-Portable.exe` | 免安装便携版（Windows x64） |
+| `PaperPhonePlus-2.4.2-Windows-Setup.exe` | NSIS 安装包（Windows x64） |
+| `PaperPhonePlus-2.4.2-Windows-Portable.exe` | 免安装便携版（Windows x64） |
 
 安装版允许选择安装目录，并默认保留本地应用数据；便携版无需安装即可运行。首次加入会议时，请允许 Windows 使用摄像头和麦克风。
 

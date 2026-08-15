@@ -6,7 +6,7 @@
 
   <p>
     <img src="https://img.shields.io/badge/Platform-Windows-0078D6?style=flat-square&logo=windows" alt="Platform" />
-    <img src="https://img.shields.io/badge/Version-2.4.1-22c55e?style=flat-square" alt="Version 2.4.1" />
+    <img src="https://img.shields.io/badge/Version-2.4.2-22c55e?style=flat-square" alt="Version 2.4.2" />
     <img src="https://img.shields.io/badge/Electron-36-47848F?style=flat-square&logo=electron" alt="Electron" />
     <img src="https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react" alt="React" />
     <img src="https://img.shields.io/badge/TypeScript-5.7-3178C6?style=flat-square&logo=typescript" alt="TypeScript" />
@@ -21,7 +21,10 @@
 
 ---
 
-## v2.4.1
+## v2.4.2
+
+- 文本外观现已隐藏协议元数据，发送中的本地缓存不再保留消息原文。
+- 额外聊天记录加密已移至个人信息 > 消息隐私，并全局应用于所有聊天。
 
 - 加密失败时停止发送且不再回退明文，消息显示实际协议版本
 - 新增额外聊天记录密码、8 种文本外观编码及 5/15/30/60 分钟后台自动锁定

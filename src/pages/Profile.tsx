@@ -15,7 +15,7 @@ import { PRESENTATION_CODECS, type PresentationCodecId } from '../crypto/present
 import { disablePresentationCrypto, enablePresentationCrypto, getPresentationSettings, isPresentationUnlocked, lockPresentationCrypto, unlockPresentationCrypto, updatePresentationSettings } from '../crypto/presentationCrypto'
 
 type SubView = null | 'password' | 'avatar' | '2fa' | 'sessions' | 'language' | 'fingerprint' | 'myqr' | 'proxy' | 'message-privacy'
-const APP_VERSION = '2.4.4'
+const APP_VERSION = '2.4.5'
 
 export default function Profile() {
   const { t } = useI18n()
@@ -431,36 +431,55 @@ export default function Profile() {
 
 function MessagePrivacySettings({ onBack, t }: { onBack: () => void; t: (k: string) => string }) {
   const [settings, setSettings] = useState(getPresentationSettings)
+  const [passwordDialog, setPasswordDialog] = useState<'enable' | 'unlock' | 'disable' | null>(null)
+  const [privacyPassword, setPrivacyPassword] = useState('')
+  const [privacyConfirmation, setPrivacyConfirmation] = useState('')
+  const [privacyError, setPrivacyError] = useState('')
+  const [privacyLoading, setPrivacyLoading] = useState(false)
   const refresh = () => setSettings(getPresentationSettings())
   useEffect(() => {
     window.addEventListener('paperphone:presentation-state-changed', refresh)
     return () => window.removeEventListener('paperphone:presentation-state-changed', refresh)
   }, [])
-  const toggleLock = async () => {
-    if (settings.enabled && isPresentationUnlocked()) { lockPresentationCrypto(); return }
-    const pass = prompt(t(settings.enabled ? 'chat.presentation_unlock_password_prompt' : 'chat.presentation_password_prompt')) || ''
-    if (!pass) return
-    try {
-      if (settings.enabled) {
-        if (!(await unlockPresentationCrypto(pass))) alert(t('chat.presentation_wrong_password'))
-      } else {
-        const confirmation = prompt(t('chat.presentation_password_confirm')) || ''
-        if (pass !== confirmation) { alert(t('password.mismatch')); return }
-        await enablePresentationCrypto(settings.codec, pass)
-      }
-      refresh()
-    } catch (err: any) { alert(err?.message || t('common.error')) }
+  const closePasswordDialog = () => {
+    setPasswordDialog(null)
+    setPrivacyPassword('')
+    setPrivacyConfirmation('')
+    setPrivacyError('')
   }
-  const disableEncryption = async () => {
-    const pass = prompt(t('chat.presentation_disable_password_prompt')) || ''
-    if (!pass) return
+  const toggleLock = () => {
+    if (settings.enabled && isPresentationUnlocked()) { lockPresentationCrypto(); return }
+    setPasswordDialog(settings.enabled ? 'unlock' : 'enable')
+  }
+  const submitPasswordDialog = async () => {
+    if (!passwordDialog || !privacyPassword) return
+    if (passwordDialog === 'enable' && privacyPassword !== privacyConfirmation) {
+      setPrivacyError(t('password.mismatch'))
+      return
+    }
+    setPrivacyLoading(true)
+    setPrivacyError('')
     try {
-      if (!(await disablePresentationCrypto(pass))) {
-        alert(t('chat.presentation_wrong_password'))
-        return
+      if (passwordDialog === 'unlock') {
+        if (!(await unlockPresentationCrypto(privacyPassword))) {
+          setPrivacyError(t('chat.presentation_wrong_password'))
+          return
+        }
+      } else if (passwordDialog === 'enable') {
+        await enablePresentationCrypto(settings.codec, privacyPassword)
+      } else {
+        if (!(await disablePresentationCrypto(privacyPassword))) {
+          setPrivacyError(t('chat.presentation_wrong_password'))
+          return
+        }
       }
       refresh()
-    } catch (err: any) { alert(err?.message || t('common.error')) }
+      closePasswordDialog()
+    } catch (err: any) {
+      setPrivacyError(err?.message || t('common.error'))
+    } finally {
+      setPrivacyLoading(false)
+    }
   }
   return <div className="page">
     <div className="page-header"><button className="back-btn" onClick={onBack}><ChevronLeft size={20} /></button><h1>{t('profile.message_privacy')}</h1></div>
@@ -483,9 +502,32 @@ function MessagePrivacySettings({ onBack, t }: { onBack: () => void; t: (k: stri
             style={{ padding: 6, borderRadius: 8, border: '1px solid var(--border)', background: 'var(--bg-card)', color: 'var(--text-primary)' }}>
             {[5, 15, 30, 60].map(minutes => <option key={minutes} value={minutes}>{minutes === 60 ? t('chat.presentation_1_hour') : `${minutes} ${t('chat.presentation_minutes')}`}</option>)}</select>
         </div>
-        <div className="settings-item" onClick={disableEncryption} style={{ cursor: 'pointer', color: 'var(--danger)' }}><span className="label">{t('chat.presentation_disable')}</span></div>
+        <div className="settings-item" onClick={() => setPasswordDialog('disable')} style={{ cursor: 'pointer', color: 'var(--danger)' }}><span className="label">{t('chat.presentation_disable')}</span></div>
       </>}
     </div>
+    {passwordDialog && <div style={{
+      position: 'fixed', inset: 0, zIndex: 9999, padding: 24,
+      background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center',
+    }} onClick={closePasswordDialog}>
+      <form style={{ background: 'var(--bg-primary)', borderRadius: 16, padding: 24, maxWidth: 360, width: '100%' }}
+        onClick={e => e.stopPropagation()} onSubmit={e => { e.preventDefault(); void submitPasswordDialog() }}>
+        <div style={{ fontSize: 17, fontWeight: 700, marginBottom: 16 }}>
+          {t(passwordDialog === 'enable' ? 'chat.presentation_password_prompt' : passwordDialog === 'unlock' ? 'chat.presentation_unlock_password_prompt' : 'chat.presentation_disable_password_prompt')}
+        </div>
+        <input className="input" type="password" autoFocus value={privacyPassword}
+          onChange={e => setPrivacyPassword(e.target.value)} style={{ marginBottom: 12 }} />
+        {passwordDialog === 'enable' && <input className="input" type="password"
+          placeholder={t('chat.presentation_password_confirm')} value={privacyConfirmation}
+          onChange={e => setPrivacyConfirmation(e.target.value)} style={{ marginBottom: 12 }} />}
+        {privacyError && <div className="error-msg" style={{ marginBottom: 12 }}>{privacyError}</div>}
+        <div style={{ display: 'flex', gap: 12 }}>
+          <button type="button" className="btn btn-full" onClick={closePasswordDialog} disabled={privacyLoading}>{t('common.cancel')}</button>
+          <button type="submit" className="btn btn-primary btn-full" disabled={privacyLoading || !privacyPassword || (passwordDialog === 'enable' && !privacyConfirmation)}>
+            {privacyLoading ? t('common.loading') : t('common.ok')}
+          </button>
+        </div>
+      </form>
+    </div>}
   </div>
 }
 

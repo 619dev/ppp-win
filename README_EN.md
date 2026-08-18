@@ -24,91 +24,11 @@
 
 PaperPhonePlus Desktop is the Windows desktop client of [Paperphone-plus](https://github.com/619dev/Paperphone-plus), built with Electron. It wraps the original React frontend into a native desktop application with full instant messaging capabilities and built-in network proxy support.
 
-## 🆕 What's New in v2.4.6
+## Changelog
 
-- Text appearance is now clearly documented as extra insurance above the existing end-to-end encryption: the shared extra password encrypts and renders the body first, followed by private-chat E2EE (X25519 / ML-KEM-768) or group Sender Key encryption.
-- Both private-chat participants, or every group member, must agree on and configure the same extra password; it is never uploaded or synchronized.
-- If passwords differ, E2EE and delivery still work, but recipients see only styled ciphertext and cannot read the original body.
-- This feature never replaces, bypasses, or downgrades the original E2EE; the Profile > Message privacy explanation is updated in all eight UI languages.
+The complete release history has moved to [changelog.md](changelog.md).
 
-## 🆕 What's New in v2.4.5
-
-- Fixed the unresponsive “Enable extra encryption” control under Profile > Message privacy in the Windows desktop app
-- Enabling, unlocking, and disabling extra encryption now use a consistent in-app password dialog instead of Electron's unsupported native `prompt()`
-
-## What's New in v2.4.4
-
-- Fixed the locked extra-encryption dialog so it requests the unlock password instead of asking users to set one, across all eight languages.
-
-- Fixed a security issue that allowed extra text-appearance encryption to be disabled without password verification; the correct extra password must now be re-entered even while unlocked.
-- Text appearance now hides protocol metadata and optimistic caches no longer retain original message bodies.
-- Extra message-history encryption moved to Profile > Message privacy and applies globally to all chats.
-
-- Encrypted sends fail closed instead of falling back to plaintext, with the actual protocol shown per message
-- Adds an extra chat-history password, eight presentation codecs, and 5/15/30/60-minute background auto-lock
-- Locked histories show presentation ciphertext only; private keys and Sender Keys use Windows secure storage, with all eight UI languages synchronized
-
-## 🆕 What's New in v2.4.0
-
-- Fixed legacy one-way friendship records causing an “Already friends” message while the contact remained invisible; adding the user again now repairs the relationship and refreshes the contact list immediately
-
-## What's New in v2.3.8
-
-- Fixed startup when a fresh install or retained session has no local identity keys
-- Recovered safely from invalid secure-storage data left by an interrupted migration
-- Reliably releases the camera when closing the QR scanner and fixes the back button's click layering
-- Identifies existing friends in search results to prevent duplicate friend requests
-
-## What's New in v2.3.5
-
-- Protects the device key, identity private keys, and group Sender Keys with Windows secure storage
-- Encrypts cached chat history with account- and purpose-bound authenticated envelopes in a dedicated IndexedDB
-- Keeps display plaintext in memory only and strips decrypted fields before persistence
-- Migrates and removes legacy plaintext keys and chat caches from localStorage, sessionStorage, and IndexedDB
-- Removes the former unencrypted media cache and safely discards corrupt or tampered cache data
-
-## What's New in v2.3.3
-
-- Keeps the screen awake during calls and voice recording
-- Limits voice messages to two minutes and displays the recording limit
-- Automatically stops and sends a recording when it reaches the time limit
-- Improves cleanup of recording timers, capture devices, and media streams when switching chats or leaving the page
-
-## What's New in v2.3.1
-
-- Added durable device sessions with automatic access-token refresh to reduce unnecessary sign-ins
-- Added automatic migration of legacy login sessions to refreshable persistent sessions
-- Improved WebSocket authentication, heartbeat monitoring, and reconnection after network recovery
-- Added a durable offline outbox, acknowledgement deduplication, and missed-message catch-up for better reliability on unstable networks
-- Logout now revokes the current device session while preserving local identity keys
-
-## What's New in v2.2.9
-
-- Added persistent sticker caching for pack lists, sticker metadata, and media files
-- Cached stickers remain available offline or during temporary server failures
-- Sticker media is cached before sending, with static, animated, and video stickers consistently using stable `file_id` values
-- “Clear cache” now also removes cached sticker media
-
-## What's New in v2.2.8
-
-- Added message replies with quoted previews and navigation to the original message
-- Migrated one-to-one voice and video calls to LiveKit SFU for unified media connection, reconnection, and track subscription
-- Updated conversation and notification previews to show the body of replied messages correctly
-- Added the current app version to the About section
-- Fixed missing remote audio in one-to-one voice calls
-- Fixed voice-mode changes not being applied in real time
-- Improved the video-call information overlay to avoid obscuring the remote video
-- Improved auto-growing chat input and Chinese IME newline/send behavior
-- Refined the attachment panel layout and restored the image attachment entry
-- Fixed duplicate unread-count increments when offline messages are replayed after reconnecting
-- Fixed unread counts not clearing when a conversation is opened directly from a notification or another entry point
-- Fixed Chinese username search and Enter handling with Chinese IMEs
-- Fixed video element attachment in one-to-one video calls
-- Prevented duplicate WebSocket connections while a connection is in progress
-- Added offline caching for contacts, groups, messages, Moments, and Timeline
-- Increased the local message cache from 200 to 2,000 messages per conversation
-- Added a local cache clearing option
-- Improved session persistence so ordinary network or authorization failures do not clear the local login
+---
 
 ## 🔐 Extra-encrypted text appearance: design and security boundary
 

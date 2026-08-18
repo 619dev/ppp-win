@@ -1,4 +1,4 @@
-import { post, put } from '../api/http'
+import { get, post, put } from '../api/http'
 import { clearAllSenderKeys } from './groupCrypto'
 import { getKeys, loadFromIndexedDB, setKeys, type KeyBundle } from './keystore'
 import { generateKeyPair, generateSignKeyPair, initSodium, signMessage } from './ratchet'
@@ -41,7 +41,10 @@ export async function ensureIdentityKeys(accountId: string): Promise<KeyBundle> 
 
 async function ensureIdentityKeysOnce(accountId: string): Promise<KeyBundle> {
   const existing = getKeys() || await loadFromIndexedDB(accountId)
-  if (existing) return existing
+  if (existing) {
+    await synchronizeIdentityPublicKeys(existing)
+    return existing
+  }
 
   const keys = await generateIdentityKeys()
   await setKeys(keys, accountId)
@@ -60,4 +63,32 @@ async function ensureIdentityKeysOnce(accountId: string): Promise<KeyBundle> {
     console.warn('[Identity] Identity created locally; server sync will be retried after login:', error)
   }
   return keys
+}
+
+/**
+ * The private identity key is device-local, so the matching public key stored
+ * by the server must follow it. A previous install/device can otherwise leave
+ * the server advertising a stale ik_pub, making every new incoming message
+ * impossible to decrypt on this device.
+ */
+async function synchronizeIdentityPublicKeys(keys: KeyBundle): Promise<void> {
+  try {
+    const me = await get('/api/users/me')
+    if (me?.ik_pub === keys.ik_pub) return
+
+    console.warn('[Identity] Server identity key is stale; publishing the local public key')
+    await put('/api/users/keys', {
+      ik_pub: keys.ik_pub,
+      spk_pub: keys.spk_pub,
+      spk_sig: keys.spk_sig,
+      kem_pub: keys.sign_pub,
+      prekeys: keys.opks.map(key => ({ key_id: key.key_id, opk_pub: key.pub })),
+    })
+    await post('/api/users/reset-sender-keys', {})
+    clearAllSenderKeys()
+  } catch (error) {
+    // Restoring the local private key must not make an offline startup fail.
+    // The next authenticated startup will retry the consistency check.
+    console.warn('[Identity] Public-key consistency check will be retried:', error)
+  }
 }

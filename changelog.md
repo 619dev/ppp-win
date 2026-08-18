@@ -4,6 +4,16 @@ All notable changes and new features are recorded here. Historical entries below
 
 所有重要版本改动和新特性统一记录于此。下方历史条目由仓库原有文档迁移而来。
 
+## 2.4.8
+
+- Fixed incoming private messages failing to decrypt on Windows when the locally protected identity private key no longer matched the public key advertised by the server.
+- The Windows client now verifies its published identity key during secure-state restoration, republishes the matching public bundle when stale, and resets obsolete Sender Key distributions without blocking offline startup.
+- Updated the application version to `2.4.8`.
+
+- 修复 Windows 本地安全存储中的身份私钥与服务器发布的公钥不一致时，收到的私聊消息无法解密的问题。
+- Windows 客户端现在会在恢复安全状态时校验已发布的身份公钥；发现失效公钥后自动重新发布匹配的公钥包并重置过期的 Sender Key 分发，同时不影响离线启动。
+- 应用版本更新为 `2.4.8`。
+
 ## 2.4.7
 
 - Fixed E2EE safety-number mismatches by deriving both views from the same pair of published identity keys; text appearance and its extra password remain independent of the E2EE safety number.

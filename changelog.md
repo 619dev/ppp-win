@@ -4,6 +4,18 @@ All notable changes and new features are recorded here. Historical entries below
 
 所有重要版本改动和新特性统一记录于此。下方历史条目由仓库原有文档迁移而来。
 
+## 2.4.9
+
+- Added a post-login text-appearance unlock prompt. When extra text-appearance encryption is enabled but locked, the Windows client now asks for its password after secure state restoration and again after automatic locking.
+- Added localized startup unlock and incorrect-password messages for all eight supported languages.
+- Adopted the PaperPhone design system: platform-native fonts, calmer gold controls, solid readable message bubbles, restrained glass effects, and accessibility preferences for reduced motion, reduced transparency, and increased contrast.
+- Added `DESIGN.md` as the shared UI design reference and updated the application, About-page, documentation, and release-artifact versions to `2.4.9`.
+
+- 新增登录后的文本外观解锁提示：启用额外文本外观加密但仍处于锁定状态时，Windows 客户端会在安全状态恢复完成后提示输入密码，并在自动锁定后再次提示。
+- 为启动解锁提示及密码错误状态补齐全部 8 种语言文案。
+- 吸收 PaperPhone 设计系统：采用平台系统字体、更克制的金色控件、稳定易读的实体消息气泡、适度的玻璃效果，并支持减少动画、减少透明度和增强对比度等无障碍偏好。
+- 新增 `DESIGN.md` 作为统一 UI 设计规范，并将应用、个人信息“关于”区域、说明文档和发布产物版本统一更新为 `2.4.9`。
+
 ## 2.4.8
 
 - Fixed incoming private messages failing to decrypt on Windows when the locally protected identity private key no longer matched the public key advertised by the server.

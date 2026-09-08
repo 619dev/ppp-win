@@ -5,7 +5,7 @@
 
   <p>
     <img src="https://img.shields.io/badge/Platform-Windows-0078D6?style=flat-square&logo=windows" alt="Platform" />
-    <img src="https://img.shields.io/badge/Version-2.4.9-22c55e?style=flat-square" alt="Version 2.4.9" />
+    <img src="https://img.shields.io/badge/Version-2.5.2-22c55e?style=flat-square" alt="Version 2.5.2" />
     <img src="https://img.shields.io/badge/Electron-36-47848F?style=flat-square&logo=electron" alt="Electron" />
     <img src="https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react" alt="React" />
     <img src="https://img.shields.io/badge/TypeScript-5.7-3178C6?style=flat-square&logo=typescript" alt="TypeScript" />
@@ -28,6 +28,13 @@ PaperPhonePlus Desktop 是 [Paperphone-plus](https://github.com/619dev/Paperphon
 
 完整版本更新记录已迁移至 [changelog.md](changelog.md)。
 
+#### 2.5.2 更新说明
+
+- 文件上传区分临时与永久存储：头像及群头像使用永久存储，聊天附件遵循服务端保留策略。
+- 启动时获取旧对象存储迁移配置，将历史媒体 URL 统一转换到新的文件接口。
+- 聊天中可进入批量下载模式，一次选择并下载最多 20 个图片、视频、语音或文件消息。
+- 头像与媒体 URL 在聊天、联系人、朋友圈、通话界面及桌面侧边栏中统一处理，并补齐八种语言文案。
+
 ---
 
 ## 🔐 额外加密文本外观：工作原理与安全边界
@@ -49,6 +56,7 @@ PaperPhonePlus Desktop 是 [Paperphone-plus](https://github.com/619dev/Paperphon
 
 ### 💬 即时通讯
 - 私聊 & 群聊，支持文字、图片、视频、文件、语音消息
+- 支持一次选择并批量下载最多 20 个聊天附件
 - 基于 LiveKit SFU 的一对一视频/语音通话
 - 基于 LiveKit SFU 的群组语音和视频会议（最多 100 人）
 - 会议主席、全员静音、讲课模式与自由讨论模式
@@ -87,10 +95,12 @@ PaperPhonePlus Desktop 是 [Paperphone-plus](https://github.com/619dev/Paperphon
 
 | 文件 | 说明 |
 |------|------|
-| `PaperPhonePlus-2.4.9-Windows-Setup.exe` | NSIS 安装包（Windows x64） |
-| `PaperPhonePlus-2.4.9-Windows-Portable.exe` | 免安装便携版（Windows x64） |
+| `PaperPhonePlus-2.5.2-Windows-Setup.exe` | NSIS 安装包（Windows x64） |
+| `PaperPhonePlus-2.5.2-Windows-Portable.exe` | 免安装便携版（Windows x64） |
 
 安装版允许选择安装目录，并默认保留本地应用数据；便携版无需安装即可运行。首次加入会议时，请允许 Windows 使用摄像头和麦克风。
+
+批量下载：进入聊天后点击标题栏中的下载按钮，选择最多 20 个可下载消息，再点击下载确认。下载请求会携带当前登录凭据；同名文件会自动添加序号，下载失败时会显示失败数量。
 
 ### 从源码构建
 

@@ -5,7 +5,7 @@
 
   <p>
     <img src="https://img.shields.io/badge/Platform-Windows-0078D6?style=flat-square&logo=windows" alt="Platform" />
-    <img src="https://img.shields.io/badge/Version-2.4.9-22c55e?style=flat-square" alt="Version 2.4.9" />
+    <img src="https://img.shields.io/badge/Version-2.5.2-22c55e?style=flat-square" alt="Version 2.5.2" />
     <img src="https://img.shields.io/badge/Electron-36-47848F?style=flat-square&logo=electron" alt="Electron" />
     <img src="https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react" alt="React" />
     <img src="https://img.shields.io/badge/TypeScript-5.7-3178C6?style=flat-square&logo=typescript" alt="TypeScript" />
@@ -28,6 +28,13 @@ PaperPhonePlus Desktop is the Windows desktop client of [Paperphone-plus](https:
 
 The complete release history has moved to [changelog.md](changelog.md).
 
+#### 2.5.2 Release Notes
+
+- Uploads now distinguish temporary and permanent storage: avatars and group images use permanent storage while chat attachments follow server retention policy.
+- The client loads legacy object-storage migration settings and rewrites historical media URLs to the current file endpoint.
+- Chats provide a batch-download mode for selecting up to 20 image, video, voice, or file messages.
+- Avatar and media URLs are normalized across chats, contacts, Moments, calls, and the desktop sidebar, with copy updated in all eight languages.
+
 ---
 
 ## 🔐 Extra-encrypted text appearance: design and security boundary
@@ -49,6 +56,7 @@ The app does not persist the extra password. While unlocked it exists only in th
 
 ### 💬 Instant Messaging
 - Private & group chat with text, images, videos, files, and voice messages
+- Batch download for up to 20 chat attachments at a time
 - LiveKit SFU-backed one-on-one video and voice calls
 - LiveKit SFU-backed group voice and video meetings for up to 100 participants
 - Host controls, mute all, lecture mode, and open discussion mode
@@ -87,10 +95,12 @@ Go to the [Releases](../../releases) page and download:
 
 | File | Description |
 |------|-------------|
-| `PaperPhonePlus-2.4.9-Windows-Setup.exe` | NSIS installer (Windows x64) |
-| `PaperPhonePlus-2.4.9-Windows-Portable.exe` | Portable executable (Windows x64) |
+| `PaperPhonePlus-2.5.2-Windows-Setup.exe` | NSIS installer (Windows x64) |
+| `PaperPhonePlus-2.5.2-Windows-Portable.exe` | Portable executable (Windows x64) |
 
 The installer lets users select the destination and preserves local app data by default. The portable build runs without installation. Allow Windows camera and microphone access when joining a meeting for the first time.
+
+To batch-download attachments, open a chat, select the download button in its header, choose up to 20 downloadable messages, and confirm. Requests include the current authentication token; duplicate filenames receive a numeric suffix, and partial failures report the number of files that could not be downloaded.
 
 ### Build from Source
 

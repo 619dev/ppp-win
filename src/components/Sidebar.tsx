@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback, useRef } from 'react'
-import { get, post } from '../api/http'
+import { get, post, normalizeFileUrl } from '../api/http'
 import { useStore, Friend, Group, SidebarView } from '../store'
 import { useI18n } from '../hooks/useI18n'
 import { MessageCircle, Users, Compass, User, Search, UserPlus, X } from 'lucide-react'
@@ -89,7 +89,7 @@ function ChatList() {
               onClick={() => setActiveChat(chat.id, chat.isGroup)}
             >
               <div className="avatar" style={{ position: 'relative' }}>
-                {chat.avatar ? <img src={chat.avatar} alt="" /> : (chat.isGroup ? <Users size={20} /> : chat.name[0]?.toUpperCase())}
+                {chat.avatar ? <img src={normalizeFileUrl(chat.avatar)} alt="" /> : (chat.isGroup ? <Users size={20} /> : chat.name[0]?.toUpperCase())}
                 {chat.isOnline && <span className="online-dot" />}
               </div>
               <div className="list-content">
@@ -185,7 +185,7 @@ export default function Sidebar() {
           title={user?.nickname || user?.username || ''}
         >
           {user?.avatar
-            ? <img src={user.avatar} alt="" />
+            ? <img src={normalizeFileUrl(user.avatar)} alt="" />
             : (user?.nickname || user?.username || 'U')[0]?.toUpperCase()
           }
         </div>
@@ -335,7 +335,7 @@ function ContactsInSidebar() {
             return (
               <div className="sidebar-search-result" key={user.id}>
                 <div className="avatar avatar-sm">
-                  {user.avatar ? <img src={user.avatar} alt="" /> : (user.nickname || user.username)?.[0]?.toUpperCase()}
+                  {user.avatar ? <img src={normalizeFileUrl(user.avatar)} alt="" /> : (user.nickname || user.username)?.[0]?.toUpperCase()}
                 </div>
                 <div className="list-content">
                   <div className="name">{user.nickname || user.username}</div>
@@ -358,7 +358,7 @@ function ContactsInSidebar() {
             onClick={() => setActiveChat(f.id, false)}
           >
             <div className="avatar" style={{ position: 'relative' }}>
-              {f.avatar ? <img src={f.avatar} alt="" /> : (f.nickname || f.username)[0]?.toUpperCase()}
+              {f.avatar ? <img src={normalizeFileUrl(f.avatar)} alt="" /> : (f.nickname || f.username)[0]?.toUpperCase()}
               {f.is_online && <span className="online-dot" />}
             </div>
             <div className="list-content">
@@ -375,7 +375,7 @@ function ContactsInSidebar() {
             onClick={() => setActiveChat(group.id, true)}
           >
             <div className="avatar">
-              {group.avatar ? <img src={group.avatar} alt="" /> : <Users size={20} />}
+              {group.avatar ? <img src={normalizeFileUrl(group.avatar)} alt="" /> : <Users size={20} />}
             </div>
             <div className="list-content">
               <div className="name">{group.name}</div>

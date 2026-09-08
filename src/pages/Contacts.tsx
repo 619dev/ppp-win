@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback, useRef } from 'react'
-import { get, post, del, put } from '../api/http'
+import { get, post, del, put, normalizeFileUrl } from '../api/http'
 import { useStore, Friend, Group } from '../store'
 import { useI18n } from '../hooks/useI18n'
 import { onWs } from '../api/socket'
@@ -239,7 +239,7 @@ export default function Contacts() {
             return (
               <div key={f.id} className="list-item" onClick={() => toggleFriendTag(editingTag.id, f.id)} style={{ cursor: 'pointer' }}>
                 <div className="avatar avatar-sm" style={{ position: 'relative' }}>
-                  {f.avatar ? <img src={f.avatar} alt="" /> : f.nickname[0]?.toUpperCase()}
+                  {f.avatar ? <img src={normalizeFileUrl(f.avatar)} alt="" /> : f.nickname[0]?.toUpperCase()}
                 </div>
                 <div className="list-content">
                   <div className="name">{f.nickname}</div>
@@ -286,7 +286,7 @@ export default function Contacts() {
           {filtered.map(f => (
             <div key={f.id} className="list-item" onClick={() => setActiveChat(f.id, false)}>
               <div className="avatar" style={{ position: 'relative' }}>
-                {f.avatar ? <img src={f.avatar} alt="" /> : f.nickname[0]?.toUpperCase()}
+                {f.avatar ? <img src={normalizeFileUrl(f.avatar)} alt="" /> : f.nickname[0]?.toUpperCase()}
                 {f.is_online && <span className="online-dot" />}
               </div>
               <div className="list-content">
@@ -382,7 +382,7 @@ export default function Contacts() {
           )}
           {searchResults.map(u => (
             <div key={u.id} className="list-item">
-              <div className="avatar avatar-sm">{u.avatar ? <img src={u.avatar} alt="" /> : u.nickname?.[0]}</div>
+              <div className="avatar avatar-sm">{u.avatar ? <img src={normalizeFileUrl(u.avatar)} alt="" /> : u.nickname?.[0]}</div>
               <div className="list-content">
                 <div className="name">{u.nickname}</div>
                 <div className="preview">@{u.username}</div>
@@ -441,7 +441,7 @@ export default function Contacts() {
               friends.map(f => (
                 <div key={f.id} className="list-item" onClick={() => setActiveChat(f.id, false)}>
                   <div className="avatar" style={{ position: 'relative' }}>
-                    {f.avatar ? <img src={f.avatar} alt="" /> : f.nickname[0]?.toUpperCase()}
+                    {f.avatar ? <img src={normalizeFileUrl(f.avatar)} alt="" /> : f.nickname[0]?.toUpperCase()}
                     {f.is_online && <span className="online-dot" />}
                   </div>
                   <div className="list-content">
@@ -475,7 +475,7 @@ export default function Contacts() {
                     {taggedFriends.map(f => (
                       <div key={f.id} className="list-item" onClick={() => setActiveChat(f.id, false)}>
                         <div className="avatar" style={{ position: 'relative' }}>
-                          {f.avatar ? <img src={f.avatar} alt="" /> : f.nickname[0]?.toUpperCase()}
+                          {f.avatar ? <img src={normalizeFileUrl(f.avatar)} alt="" /> : f.nickname[0]?.toUpperCase()}
                           {f.is_online && <span className="online-dot" />}
                         </div>
                         <div className="list-content">
@@ -499,7 +499,7 @@ export default function Contacts() {
                     {untaggedFriends.map(f => (
                       <div key={f.id} className="list-item" onClick={() => setActiveChat(f.id, false)}>
                         <div className="avatar" style={{ position: 'relative' }}>
-                          {f.avatar ? <img src={f.avatar} alt="" /> : f.nickname[0]?.toUpperCase()}
+                          {f.avatar ? <img src={normalizeFileUrl(f.avatar)} alt="" /> : f.nickname[0]?.toUpperCase()}
                           {f.is_online && <span className="online-dot" />}
                         </div>
                         <div className="list-content">
@@ -529,7 +529,7 @@ export default function Contacts() {
             </div>
             {groups.map(g => (
               <div key={g.id} className="list-item" onClick={() => setActiveChat(g.id, true)}>
-                <div className="avatar">{g.avatar ? <img src={g.avatar} alt="" /> : <Users size={20} />}</div>
+                <div className="avatar">{g.avatar ? <img src={normalizeFileUrl(g.avatar)} alt="" /> : <Users size={20} />}</div>
                 <div className="list-content">
                   <div className="name">{g.name}</div>
                 </div>
@@ -583,7 +583,7 @@ export default function Contacts() {
                         }}>
                           {selectedMembers.has(f.id) && <Check size={12} />}
                         </div>
-                        <div className="avatar avatar-sm">{f.avatar ? <img src={f.avatar} alt="" /> : f.nickname?.[0]}</div>
+                        <div className="avatar avatar-sm">{f.avatar ? <img src={normalizeFileUrl(f.avatar)} alt="" /> : f.nickname?.[0]}</div>
                         <div className="list-content">
                           <div className="name" style={{ fontSize: 14 }}>{f.nickname}</div>
                         </div>
@@ -612,7 +612,7 @@ export default function Contacts() {
         {/* ── Requests Tab ───────────────────────────── */}
         {tab === 'requests' && requests.map(r => (
           <div key={r.id} className="list-item">
-            <div className="avatar">{r.avatar ? <img src={r.avatar} alt="" /> : r.nickname?.[0]}</div>
+            <div className="avatar">{r.avatar ? <img src={normalizeFileUrl(r.avatar)} alt="" /> : r.nickname?.[0]}</div>
             <div className="list-content">
               <div className="name">{r.nickname}</div>
               {r.message && <div className="preview">{r.message}</div>}

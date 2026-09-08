@@ -22,7 +22,7 @@ export const fr: Record<string, string> = {
   'chat.uploading_image': 'Envoi de l\'image...', 'chat.uploading_video': 'Envoi de la vidéo...', 'chat.uploading_file': 'Envoi du fichier...', 'chat.uploading_voice': 'Envoi du message vocal...', 'chat.upload_failed': 'Échec de l\'envoi',
   'chat.attach_image': 'Envoyer une image', 'chat.attach_video': 'Vidéo', 'chat.attach_file': 'Fichier', 'chat.attach_voice': 'Vocal', 'chat.attach_more': 'Plus', 'chat.file': 'Fichier',
   'chat.recording': 'Enregistrement...', 'chat.stop_recording': 'Arrêter', 'chat.voice_speed': 'Vitesse', 'chat.mic_failed': 'Impossible d\'accéder au micro',
-  'chat.group_unencrypted_warning': 'Le chat de groupe n\'est pas chiffré. Des bots peuvent être ajoutés. Ne partagez pas d\'informations personnelles privées.',
+  'chat.group_unencrypted_warning': 'Le chat de groupe n\'est pas chiffré. Des bots peuvent être ajoutés. Ne partagez pas d\'informations personnelles privées.', 'chat.file_saved': 'Fichier enregistré dans Téléchargements',
 
   'contacts.title': 'Contacts', 'contacts.friends': 'Amis', 'contacts.groups': 'Groupes',
   'contacts.requests': 'Demandes d\'amis', 'contacts.add': 'Ajouter un ami',

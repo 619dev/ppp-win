@@ -2,10 +2,11 @@
 
 ## 1. Product character
 
-PaperPhonePlus is a private, end-to-end encrypted mobile messenger. Its interface
-combines Apple's quiet, content-first interaction model with a warm paper-gold
-identity. It should feel trustworthy, calm, fast, and native rather than like a
-marketing website or a desktop SaaS dashboard.
+PaperPhonePlus is a private, end-to-end encrypted messenger. This repository
+adapts its content-first interaction model to Windows while retaining the warm
+paper-gold identity shared with the mobile clients. It should feel trustworthy,
+calm, fast, and native rather than like a marketing website or a generic SaaS
+dashboard.
 
 Use this document for application screens. It intentionally adapts ideas from
 Apple-style interfaces instead of copying Apple marketing layouts.
@@ -22,8 +23,9 @@ Apple-style interfaces instead of copying Apple marketing layouts.
 4. **Glass belongs to chrome.** Translucency is reserved for navigation bars,
    composer bars, sheets, and overlays. Message bubbles and ordinary list rows use
    stable, readable surfaces.
-5. **One-handed by default.** Primary controls are reachable, touch targets are at
-   least 44×44 CSS pixels, and every screen respects device safe areas.
+5. **Comfortable at every input size.** Primary controls remain reachable, touch
+   targets are at least 44×44 CSS pixels on coarse pointers, and desktop controls
+   provide visible hover, focus, and keyboard states.
 
 ## 2. Color system
 
@@ -151,6 +153,10 @@ animations, and spring scaling.
 - Inactive tabs use muted text; do not place each tab inside a separate card.
 - Unread badges use danger red and must not depend on color alone: include a count.
 
+The Windows split-pane layout replaces the bottom tab bar with a resizable sidebar.
+The same destinations and unread states must remain available without duplicating
+navigation inside the conversation pane.
+
 ### Conversation list row
 
 - Avatar: 44×44px.
@@ -170,6 +176,19 @@ animations, and spring scaling.
 - Place delivery/read state beside the outgoing timestamp. Never communicate a
   failed send through color alone; include an icon and accessible label.
 - Long text, URLs, emoji, CJK text, and right-to-left text must wrap safely.
+
+### Batch attachment selection
+
+- The conversation header exposes a clearly labelled download action.
+- Selection mode replaces ordinary navigation actions with Cancel, a selected
+  count, and a disabled-until-valid confirmation action.
+- Image, video, voice, and file messages are selectable; unsupported or failed-to-
+  decrypt messages remain visible but visually subdued.
+- A circular check indicator supplements color so selection is never conveyed by
+  color alone.
+- Limit each batch to 20 files and report progress as completed/total.
+- Preserve authenticated file access, sanitize filenames, disambiguate duplicate
+  names, and report partial failures without discarding successful downloads.
 
 ### Composer
 
@@ -211,7 +230,8 @@ animations, and spring scaling.
 
 ## 8. Responsive and accessibility rules
 
-- Primary layout targets 320–480px phone widths.
+- Mobile routes target 320–480px widths; the Windows shell uses a split pane with a
+  resizable 280–480px sidebar and a flexible content pane.
 - Respect top, bottom, left, and right safe-area insets in every orientation.
 - Minimum touch target: 44×44px on coarse pointers.
 - Text must remain usable at 200% browser zoom without horizontal page scrolling.

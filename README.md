@@ -6,7 +6,7 @@
 
   <p>
     <img src="https://img.shields.io/badge/Platform-Windows-0078D6?style=flat-square&logo=windows" alt="Platform" />
-    <img src="https://img.shields.io/badge/Version-2.4.9-22c55e?style=flat-square" alt="Version 2.4.9" />
+    <img src="https://img.shields.io/badge/Version-2.5.2-22c55e?style=flat-square" alt="Version 2.5.2" />
     <img src="https://img.shields.io/badge/Electron-36-47848F?style=flat-square&logo=electron" alt="Electron" />
     <img src="https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react" alt="React" />
     <img src="https://img.shields.io/badge/TypeScript-5.7-3178C6?style=flat-square&logo=typescript" alt="TypeScript" />
@@ -24,6 +24,11 @@
 ## 更新日志
 
 完整版本更新记录已迁移至 [changelog.md](changelog.md)。
+
+### 2.5.2
+
+- 新增临时／永久文件存储分类、历史媒体 URL 迁移，以及一次最多 20 个聊天附件的批量下载。
+- Adds temporary/permanent upload storage classes, authenticated migration of legacy media URLs, and batch download for up to 20 chat attachments.
 
 ---
 

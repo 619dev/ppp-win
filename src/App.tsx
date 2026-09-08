@@ -4,6 +4,7 @@ import { ensureIdentityKeys } from './crypto/identity'
 import { hydrateSenderKeys } from './crypto/groupCrypto'
 import { getPresentationSettings, handlePresentationAppState, hydratePresentationCrypto, isPresentationUnlocked, presentationCiphertextForPlaintext, unlockPresentationCrypto } from './crypto/presentationCrypto'
 import { applyNativeProxy } from './api/proxy-bridge'
+import { initializeLegacyFileMapping } from './api/http'
 import Login from './pages/Login'
 import DesktopLayout from './components/DesktopLayout'
 import PrivacyPolicy from './pages/PrivacyPolicy'
@@ -21,6 +22,10 @@ export default function App() {
   const [presentationUnlockError, setPresentationUnlockError] = useState('')
   const [presentationUnlockBusy, setPresentationUnlockBusy] = useState(false)
   const { t } = useI18n()
+
+  useEffect(() => {
+    initializeLegacyFileMapping().catch(() => undefined)
+  }, [])
 
   const syncPresentationUnlockPrompt = () => {
     const shouldPrompt = Boolean(useStore.getState().token && useStore.getState().user?.id)

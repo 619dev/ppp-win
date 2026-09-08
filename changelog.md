@@ -4,6 +4,18 @@ All notable changes and new features are recorded here. Historical entries below
 
 所有重要版本改动和新特性统一记录于此。下方历史条目由仓库原有文档迁移而来。
 
+## 2.5.2
+
+- Added temporary and permanent upload storage classes so avatars and group images remain durable while chat attachments follow server retention policy.
+- Added legacy object-storage URL migration so existing media continues to load through the authenticated file endpoint.
+- Added batch download for up to 20 image, video, voice, or file messages at a time.
+- Normalized media URLs throughout the Windows desktop UI, including its desktop-only sidebar.
+
+- 新增临时与永久上传存储分类：头像和群头像永久保存，聊天附件遵循服务器保留策略。
+- 新增旧对象存储 URL 迁移映射，历史媒体可继续通过需要身份验证的文件接口加载。
+- 新增聊天附件批量下载，一次最多选择 20 个图片、视频、语音或文件消息。
+- 在 Windows 桌面界面中统一处理媒体 URL，包括桌面端专属侧边栏。
+
 ## 2.4.9
 
 - Added a post-login text-appearance unlock prompt. When extra text-appearance encryption is enabled but locked, the Windows client now asks for its password after secure state restoration and again after automatic locking.

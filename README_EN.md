@@ -5,7 +5,7 @@
 
   <p>
     <img src="https://img.shields.io/badge/Platform-Windows-0078D6?style=flat-square&logo=windows" alt="Platform" />
-    <img src="https://img.shields.io/badge/Version-2.5.2-22c55e?style=flat-square" alt="Version 2.5.2" />
+    <img src="https://img.shields.io/badge/Version-2.6.0-22c55e?style=flat-square" alt="Version 2.6.0" />
     <img src="https://img.shields.io/badge/Electron-36-47848F?style=flat-square&logo=electron" alt="Electron" />
     <img src="https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react" alt="React" />
     <img src="https://img.shields.io/badge/TypeScript-5.7-3178C6?style=flat-square&logo=typescript" alt="TypeScript" />
@@ -28,18 +28,20 @@ PaperPhonePlus Desktop is the Windows desktop client of [Paperphone-plus](https:
 
 The complete release history has moved to [changelog.md](changelog.md).
 
-#### 2.5.2 Release Notes
+#### 2.6.0 Release Notes
 
-- Uploads now distinguish temporary and permanent storage: avatars and group images use permanent storage while chat attachments follow server retention policy.
-- The client loads legacy object-storage migration settings and rewrites historical media URLs to the current file endpoint.
-- Chats provide a batch-download mode for selecting up to 20 image, video, voice, or file messages.
-- Avatar and media URLs are normalized across chats, contacts, Moments, calls, and the desktop sidebar, with copy updated in all eight languages.
+- Syncs Mac 2.6.0 signed private/group messaging, mutual identity verification, key-change warnings, group key epochs and offline history recovery.
+- Stores identity trust through Windows secure storage and updates durable sync, attachment authorization refresh, avatar URL normalization and security text in eight languages.
+- Requires a compatible 2.6.0 server and clients. See [tests/README.md](tests/README.md) for automated checks and native two-client acceptance.
+
+
+The source version is **2.6.0**, and the profile footer displays `PaperPhonePlus v2.6.0`. Type checking, security/group/sync, attachment, eight-language checks and the production build passed. A clean cross-build generated Windows x64 NSIS and portable executables with SHA-256 checksums; native runtime, secure storage and two-client acceptance still require verification on Windows.
 
 ---
 
 ## 🔐 Extra-encrypted text appearance: design and security boundary
 
-This feature is **extra insurance on top of the existing end-to-end encryption (E2EE)**. It does not replace E2EE with a visual encoding, and it never bypasses or weakens the original encryption. Private chats remain protected by the existing X25519 / ML-KEM-768 key agreement and message-encryption path; group chats continue to use the Sender Key protocol. Identity private keys and group Sender Keys remain protected by Windows secure storage.
+This feature is **extra insurance on top of the existing end-to-end encryption (E2EE)**. It does not replace E2EE with a visual encoding, and it never bypasses or weakens the original encryption. Private chats remain protected by the existing X25519 key agreement, Ed25519 signatures and message-encryption path; group chats continue to use the Sender Key protocol. Identity private keys and group Sender Keys remain protected by Windows secure storage.
 
 When enabled, every message is processed in this order:
 
@@ -48,7 +50,7 @@ When enabled, every message is processed in this order:
 3. That appearance ciphertext then enters the project's original encryption path: private-chat E2EE or group Sender Key encryption. The server still receives the original E2EE/Sender-Key ciphertext plus metadata required for delivery.
 4. The recipient reverses the order: first decrypt the original E2EE/Sender-Key layer, then decode the text-appearance frame and decrypt the body with the extra password.
 
-The extra password is never uploaded, synchronized automatically, or distributed by the server. Both people in a private chat must set the same password; every group member who needs to read the plaintext must also set that same password. Text appearances do not need to match: every message carries its own appearance identifier, so the recipient automatically detects and decodes the sender's choice. For example, one person may send Buddhist text while another sends Hangul; if the extra password matches, both decrypt normally. A user's appearance setting controls only the ciphertext appearance of messages they send. If the password is missing, locked, or different, messages are still sent and received normally and the original E2EE layer still decrypts successfully, but the app can display only the appearance ciphertext—not the original text.
+The extra password is never uploaded, synchronized automatically, or distributed by the server. Both people in a private chat must set the same password; every group member who needs to read the plaintext must also set that same password. Text appearances do not need to match: every message carries its own appearance identifier, so the recipient automatically detects and decodes the sender's choice. For example, one person may send Buddhist text while another sends Hangul; if the extra password matches, both decrypt normally. A user's appearance setting controls only the ciphertext appearance of messages they send. When extra encryption is enabled, sending requires the password to be unlocked first. If the recipient password is missing, locked, or different, the app displays the appearance ciphertext instead of the original text.
 
 The app does not persist the extra password. While unlocked it exists only in the current process memory; locally, the app stores only a random salt and AES-GCM verification data used to check whether an entered password is correct. Users can lock immediately or automatically 5, 15, 30, or 60 minutes after the app leaves the foreground. This layer adds an independent shared secret beyond E2EE; it does not replace a strong password, device lock, or system secure storage, and it cannot provide absolute protection on a fully compromised device while the password remains in memory.
 
@@ -69,7 +71,9 @@ The app does not persist the extra password. While unlocked it exists only in th
 ### 🔐 End-to-End Encryption
 - **E2EE**: All messages encrypted before sending; the server cannot read them
 - **Forward Secrecy**: Based on the Double Ratchet algorithm, each message uses a unique key
-- **Post-Quantum Encryption**: Integrated CRYSTALS-Kyber for resistance against quantum computing attacks
+- **Signatures and identity verification**: X25519 key agreement with Ed25519 signatures; mutual password verification establishes trust, and key changes require verification again
+- **Group security**: Signed Sender Key distribution, epoch rotation and recovery of decryptable history
+- **Protocol scope**: Real ML-KEM registration is not implemented in the signed path; no post-quantum protection is claimed. Message signatures do not encrypt uploaded attachment bytes
 - **Crypto Library**: libsodium (X25519, XSalsa20-Poly1305, Ed25519)
 
 ### 🌐 Network Proxy
@@ -91,12 +95,12 @@ The app does not persist the extra password. While unlocked it exists only in th
 
 ### Download from Releases
 
-Go to the [Releases](../../releases) page and download:
+Check [Releases](../../releases) for published installers. The 2.6.0 packaging configuration uses the filenames below; availability depends on the actual release assets:
 
 | File | Description |
 |------|-------------|
-| `PaperPhonePlus-2.5.2-Windows-Setup.exe` | NSIS installer (Windows x64) |
-| `PaperPhonePlus-2.5.2-Windows-Portable.exe` | Portable executable (Windows x64) |
+| `PaperPhonePlus-2.6.0-Windows-Setup.exe` | NSIS installer (Windows x64) |
+| `PaperPhonePlus-2.6.0-Windows-Portable.exe` | Portable executable (Windows x64) |
 
 The installer lets users select the destination and preserves local app data by default. The portable build runs without installation. Allow Windows camera and microphone access when joining a meeting for the first time.
 
@@ -123,12 +127,22 @@ npm install
 # Development mode (Vite HMR + Electron)
 npm run dev:electron
 
+# Type checking and regression checks
+npx tsc --noEmit
+npm run test:security
+npm run test:attachments
+npm run test:i18n
+
 # Production build
 npm run build
 
 # Package for Windows
 npm run build:win
 ```
+
+## Server Connection
+
+Enter your PaperPhone server HTTPS URL on the login page and use a compatible 2.6.0 server and clients. Signed messaging, identity verification, group key epochs and history sync require matching server endpoints. In development, `/api` and `/ws` proxy to local port 3000; see `vite.config.ts`. Exchange identity verification passwords offline instead of sending them online.
 
 ## 🎥 Video Meeting Deployment
 
@@ -169,7 +183,7 @@ The proxy is implemented via Electron's `session.setProxy()` API, transparently 
 │  │Login │ │ Chats │ │Calls │ │Moments│ │
 │  └──────┘ └───────┘ └──────┘ └──────┘ │
 │  ┌─────────────────────────────────┐   │
-│  │  Crypto (libsodium + Kyber)     │   │
+│  │  Crypto (X25519 + Ed25519)     │   │
 │  │  Double Ratchet + E2EE          │   │
 │  └─────────────────────────────────┘   │
 └─────────────────────────────────────────┘
@@ -184,7 +198,7 @@ The proxy is implemented via Electron's `session.setProxy()` API, transparently 
 | Build Tool | Vite 6 |
 | State Management | Zustand 5 |
 | Video Meetings | LiveKit Client 2.20 (SFU) |
-| Encryption | libsodium-wrappers-sumo + crystals-kyber-js |
+| Encryption | libsodium-wrappers-sumo (X25519, Ed25519); retained crystals-kyber-js compatibility code |
 | Packaging | electron-builder (NSIS + Portable) |
 | Persistence | electron-store |
 

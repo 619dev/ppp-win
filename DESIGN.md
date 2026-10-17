@@ -1,5 +1,7 @@
 # PaperPhonePlus Design System
 
+Version: **2.6.0**. Identity badges show success only after mutual password verification. Refreshing, unverified, changed-key and failure states use localized text and verification or retry actions. Group signature badges represent message verification separately from contact identity verification. Preserve Windows desktop panel navigation. The profile footer displays `PaperPhonePlus v2.6.0`; keep it aligned with the package version.
+
 ## 1. Product character
 
 PaperPhonePlus is a private, end-to-end encrypted messenger. This repository

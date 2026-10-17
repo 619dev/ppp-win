@@ -45,6 +45,9 @@ export default function App() {
   // Restore OS-protected keys and authenticated cache before mounting chats.
   useEffect(() => {
     let cancelled = false
+    setShowPresentationUnlock(false)
+    setPresentationPassword('')
+    setPresentationUnlockError('')
     if (!token || !user?.id) {
       setHydratedAccount(null)
       setSecureHydrationError(null)

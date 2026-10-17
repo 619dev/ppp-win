@@ -4,6 +4,19 @@ All notable changes and new features are recorded here. Historical entries below
 
 所有重要版本改动和新特性统一记录于此。下方历史条目由仓库原有文档迁移而来。
 
+## 2.6.0
+
+- 应用、锁文件、个人信息页底部及当前说明统一为 2.6.0；更新构建、测试、服务端连接和发布状态说明，校正文档中的旧加密宣传。
+- Type checking, security/group/sync, attachment, eight-language checks and the production build passed. A clean cross-build generated Windows x64 NSIS and portable executables with SHA-256 checksums. Native Windows runtime and two-client acceptance remain pending.
+
+- 同步 Mac 2.6.0：私聊与群聊消息签名、双向身份验证、密钥变更提示、群密钥 epoch 轮换与离线历史恢复。
+- 身份信任记录使用 Windows 安全存储；同步缓存持久化、附件鉴权刷新、头像地址规范化与八语言安全提示。
+- 需配套兼容的 2.6.0 服务端与客户端。验证命令及原生双客户端验收项目见 [tests/README.md](tests/README.md)。
+
+- Syncs Mac 2.6.0 signed private/group messaging, mutual identity verification, key-change warnings, group key epochs and offline history recovery.
+- Stores identity trust through Windows secure storage and updates durable sync, attachment authorization refresh, avatar URL normalization and security text in eight languages.
+- Requires a compatible 2.6.0 server and clients. See [tests/README.md](tests/README.md) for automated checks and native two-client acceptance.
+
 ## 2.5.2
 
 - Added temporary and permanent upload storage classes so avatars and group images remain durable while chat attachments follow server retention policy.

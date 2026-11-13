@@ -5,7 +5,7 @@
 
   <p>
     <img src="https://img.shields.io/badge/Platform-Windows-0078D6?style=flat-square&logo=windows" alt="Platform" />
-    <img src="https://img.shields.io/badge/Version-2.6.0-22c55e?style=flat-square" alt="Version 2.6.0" />
+    <img src="https://img.shields.io/badge/Version-2.6.5-22c55e?style=flat-square" alt="Version 2.6.5" />
     <img src="https://img.shields.io/badge/Electron-36-47848F?style=flat-square&logo=electron" alt="Electron" />
     <img src="https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react" alt="React" />
     <img src="https://img.shields.io/badge/TypeScript-5.7-3178C6?style=flat-square&logo=typescript" alt="TypeScript" />
@@ -28,29 +28,29 @@ PaperPhonePlus Desktop 是 [Paperphone-plus](https://github.com/619dev/Paperphon
 
 完整版本更新记录已迁移至 [changelog.md](changelog.md)。
 
-#### 2.6.0 更新说明
+#### 2.6.5 更新说明
 
-- 同步 Mac 2.6.0：私聊与群聊消息签名、双向身份验证、密钥变更提示、群密钥 epoch 轮换与离线历史恢复。
+- 同步 Mac 2.6.5 好友关系修复。可在个人资料页添加或删除好友，关系变更及重连后刷新好友列表。群聊使用服务端公布的成员公钥验证签名，以 Sender Key 加密，并在成员变更后轮换密钥。额外文本加密用于私聊。
 - 身份信任记录使用 Windows 安全存储；同步缓存持久化、附件鉴权刷新、头像地址规范化与八语言安全提示。
-- 需配套兼容的 2.6.0 服务端与客户端。验证命令及原生双客户端验收项目见 [tests/README.md](tests/README.md)。
+- 服务端需包含好友关系修复，群聊参与者需使用兼容新版群聊模式的客户端。验证命令及原生双客户端验收项目见 [tests/README.md](tests/README.md)。
 
 
-当前源码版本为 **2.6.0**，个人信息页面底部显示 `PaperPhonePlus v2.6.0`。类型检查、安全／群聊／同步、附件、八语言测试及生产构建已通过；已清理项目构建缓存和旧产物，并交叉编译生成 Windows x64 NSIS 安装版、便携版及 SHA-256 校验文件；Windows 原生运行、安全存储和双客户端互通仍待验收。
+当前源码版本为 **2.6.5**，个人信息页面底部显示 `PaperPhonePlus v2.6.5`。类型检查、安全／群聊／同步、附件、八语言测试及生产构建已通过；已清理项目构建缓存和旧产物，并交叉编译生成 Windows x64 NSIS 安装版、便携版及 SHA-256 校验文件；Windows 原生运行、安全存储和双客户端互通仍待验收。
 
 ---
 
 ## 🔐 额外加密文本外观：工作原理与安全边界
 
-这项功能是**建立在原有端到端加密（E2EE）之上的额外保险**，不是用文本外观代替 E2EE，也不会绕过或降低原有加密。私聊仍由 X25519 密钥协商、Ed25519 签名及消息加密链路保护；群聊仍使用 Sender Key 协议。身份私钥和群聊 Sender Key 继续由 Windows 系统安全存储保护。
+额外文本加密为私聊增加一层保护。私聊使用 X25519 密钥协商与 Ed25519 签名，群聊使用 Sender Key 和服务端公布的成员公钥。身份私钥和群聊 Sender Key 继续由 Windows 系统安全存储保护。
 
-启用后，每条消息按以下顺序处理：
+启用后，每条私聊消息按以下顺序处理：
 
-1. 发送方先用双方或群内全员约定的额外密码处理消息正文。密码通过 PBKDF2-SHA-256（210,000 次迭代及随机盐）派生 AES-256-GCM 密钥；每条消息使用独立随机 IV，并通过认证标签校验完整性。
+1. 发送方先用私聊双方约定的额外密码处理消息正文。密码通过 PBKDF2-SHA-256（210,000 次迭代及随机盐）派生 AES-256-GCM 密钥；每条消息使用独立随机 IV，并通过认证标签校验完整性。
 2. 额外加密后的完整数据帧（版本、盐、IV 和密文）再转换成所选的 8 种文本外观之一。这不是单纯替换字符的装饰效果，外观字符实际承载的是额外加密密文。
-3. 该外观密文随后才进入项目原有加密链路：私聊使用 E2EE，群聊使用 Sender Key；服务器接收到的仍是原有 E2EE／Sender Key 密文及投递所需元数据。
-4. 接收端执行相反流程：先用原有 E2EE／Sender Key 解密消息，再还原文本外观数据，并用额外密码解密出正文。
+3. 该外观密文随后才进入项目原有加密链路。服务器接收私聊 E2EE 密文及投递所需元数据。
+4. 接收端执行相反流程：先用原有 E2EE 解密消息，再还原文本外观数据，并用额外密码解密出正文。
 
-额外密码不会上传、自动同步或由服务器分发。私聊双方必须设置相同密码；群聊中希望阅读正文的所有成员也必须设置相同密码。文本外观不需要一致：每条消息都会携带自己的外观类型标记，接收端会自动识别并还原发送方选择的外观。例如一方发送“与佛论禅”、另一方发送“韩文”，只要额外密码相同，双方都能正常解密；每个人的外观设置只决定自己发出的密文样式。启用额外加密后，发送前需要先解锁密码；接收端密码缺失、仍处于锁定状态或密码不一致时，只能显示文本外观密文，无法显示原文。
+额外密码不会上传、自动同步或由服务器分发。私聊双方必须设置相同密码。文本外观不需要一致：每条消息都会携带自己的外观类型标记，接收端会自动识别并还原发送方选择的外观。例如一方发送“与佛论禅”、另一方发送“韩文”，只要额外密码相同，双方都能正常解密；每个人的外观设置只决定自己发出的密文样式。启用额外加密后，发送前需要先解锁密码；接收端密码缺失、仍处于锁定状态或密码不一致时，只能显示文本外观密文，无法显示原文。
 
 应用不会持久保存额外密码：解锁后密码只保留在当前运行内存中，本地仅保存随机盐和用于验证密码是否正确的 AES-GCM 验证数据。用户可以立即锁定，也可在应用离开前台 5、15、30 或 60 分钟后自动锁定。此额外层用于在原有 E2EE 之外增加一个独立的共享秘密；它不能替代强密码、设备锁、系统安全存储，也不能在设备已被完全控制且密码仍驻留内存时提供绝对保护。
 
@@ -72,7 +72,7 @@ PaperPhonePlus Desktop 是 [Paperphone-plus](https://github.com/619dev/Paperphon
 - **E2EE（端对端加密）**：所有消息在发送前加密，服务器无法读取
 - **前向保密（Forward Secrecy）**：基于 Double Ratchet 算法，每条消息使用不同密钥
 - **消息签名与身份验证**：X25519 密钥协商配合 Ed25519 签名；双向密码验证后显示身份可信标记，密钥变更时提示重新验证
-- **群聊安全**：验证 Sender Key 分发签名，按 epoch 轮换密钥并恢复仍可解密的历史
+- **群聊安全**：使用服务端公布的成员公钥验证签名，按成员变更轮换 Sender Key 并恢复仍可解密的历史
 - **协议范围**：当前签名路径未实现真实 ML-KEM 注册，不宣称后量子保护；上传的附件字节不会因消息签名而加密
 - **加密库**：libsodium (X25519, XSalsa20-Poly1305, Ed25519)
 
@@ -95,12 +95,12 @@ PaperPhonePlus Desktop 是 [Paperphone-plus](https://github.com/619dev/Paperphon
 
 ### 从 Release 下载
 
-已发布的安装包请查看 [Releases](../../releases)。2.6.0 构建配置生成以下文件名，实际可用版本以 Release 附件为准：
+已发布的安装包请查看 [Releases](../../releases)。2.6.5 构建配置生成以下文件名，实际可用版本以 Release 附件为准：
 
 | 文件 | 说明 |
 |------|------|
-| `PaperPhonePlus-2.6.0-Windows-Setup.exe` | NSIS 安装包（Windows x64） |
-| `PaperPhonePlus-2.6.0-Windows-Portable.exe` | 免安装便携版（Windows x64） |
+| `PaperPhonePlus-2.6.5-Windows-Setup.exe` | NSIS 安装包（Windows x64） |
+| `PaperPhonePlus-2.6.5-Windows-Portable.exe` | 免安装便携版（Windows x64） |
 
 安装版允许选择安装目录，并默认保留本地应用数据；便携版无需安装即可运行。首次加入会议时，请允许 Windows 使用摄像头和麦克风。
 
@@ -142,7 +142,7 @@ npm run build:win
 
 ## 服务端连接
 
-在登录页填写自己的 PaperPhone 服务端 HTTPS 地址，使用兼容 2.6.0 的服务端与客户端。私聊／群聊签名、身份验证、群密钥 epoch 和历史同步需要对应接口支持。开发模式的 `/api` 与 `/ws` 默认代理到本机 3000 端口，详见 `vite.config.ts`。身份验证密码应在线下交换，不要发送到网上。
+在登录页填写自己的 PaperPhone 服务端 HTTPS 地址，使用包含好友关系修复的服务端及兼容新版群聊模式的客户端。私聊／群聊签名、身份验证、群密钥 epoch 和历史同步需要对应接口支持。开发模式的 `/api` 与 `/ws` 默认代理到本机 3000 端口，详见 `vite.config.ts`。身份验证密码应在线下交换，不要发送到网上。
 
 ## 🎥 视频会议部署要求
 

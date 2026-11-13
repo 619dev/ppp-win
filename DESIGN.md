@@ -1,6 +1,8 @@
 # PaperPhonePlus Design System
 
-Version: **2.6.0**. Identity badges show success only after mutual password verification. Refreshing, unverified, changed-key and failure states use localized text and verification or retry actions. Group signature badges represent message verification separately from contact identity verification. Preserve Windows desktop panel navigation. The profile footer displays `PaperPhonePlus v2.6.0`; keep it aligned with the package version.
+Version: **2.6.5**. Identity badges show success only after mutual password verification. Refreshing, unverified, changed-key and failure states use localized text and verification or retry actions. Group signature badges represent message verification separately from contact identity verification. Preserve Windows desktop panel navigation. The profile footer displays `PaperPhonePlus v2.6.5`; keep it aligned with the package version.
+
+Contact profiles offer add and remove actions and private identity verification. Group member lists show membership and roles. Group signatures use server-published member keys.
 
 ## 1. Product character
 

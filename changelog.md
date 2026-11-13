@@ -4,6 +4,12 @@ All notable changes and new features are recorded here. Historical entries below
 
 所有重要版本改动和新特性统一记录于此。下方历史条目由仓库原有文档迁移而来。
 
+## 2.6.5
+
+- 同步 Mac 2.6.5 好友关系修复。可在个人资料页添加或删除好友，关系变更及重连后刷新好友列表。群聊使用服务端公布的成员公钥验证签名，以 Sender Key 加密，并在成员变更后轮换密钥。额外文本加密用于私聊。
+- Syncs the Mac 2.6.5 friendship fixes. Add or remove friends from their profiles. Contacts refresh when relationships change and after reconnecting. Group chats verify signatures with server-published member keys and encrypt messages with Sender Keys, which rotate on membership changes. Extra text encryption applies to private chats.
+- Windows 应用、锁文件和个人信息页底部版本统一为 2.6.5。发布 Windows x64 NSIS 安装版、便携版和 SHA-256 校验文件。
+
 ## 2.6.0
 
 - 应用、锁文件、个人信息页底部及当前说明统一为 2.6.0；更新构建、测试、服务端连接和发布状态说明，校正文档中的旧加密宣传。

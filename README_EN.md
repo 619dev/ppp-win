@@ -5,7 +5,7 @@
 
   <p>
     <img src="https://img.shields.io/badge/Platform-Windows-0078D6?style=flat-square&logo=windows" alt="Platform" />
-    <img src="https://img.shields.io/badge/Version-2.6.5-22c55e?style=flat-square" alt="Version 2.6.5" />
+    <img src="https://img.shields.io/badge/Version-2.6.7-22c55e?style=flat-square" alt="Version 2.6.7" />
     <img src="https://img.shields.io/badge/Electron-36-47848F?style=flat-square&logo=electron" alt="Electron" />
     <img src="https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react" alt="React" />
     <img src="https://img.shields.io/badge/TypeScript-5.7-3178C6?style=flat-square&logo=typescript" alt="TypeScript" />
@@ -28,14 +28,15 @@ PaperPhonePlus Desktop is the Windows desktop client of [Paperphone-plus](https:
 
 The complete release history has moved to [changelog.md](changelog.md).
 
-#### 2.6.5 Release Notes
+#### 2.6.7 Release Notes
 
-- Syncs the Mac 2.6.5 friendship fixes. Add or remove friends from their profiles. Contacts refresh when relationships change and after reconnecting. Group chats verify signatures with server-published member keys and encrypt messages with Sender Keys, which rotate on membership changes. Extra text encryption applies to private chats.
-- Stores identity trust through Windows secure storage and updates durable sync, attachment authorization refresh, avatar URL normalization and security text in eight languages.
-- Use a server with the friendship fixes and clients compatible with the updated group chat mode. See [tests/README.md](tests/README.md) for automated checks and native two-client acceptance.
+- User and group avatars, Moments, Timeline and chat attachments use persistent, account-scoped media caching. Cached media is available offline and revalidated after reconnecting.
+- Timeline restores the feed scroll position on return. Image and video uploads show the filename, percentage and progress bar. File selection and publishing pause during upload.
+- In Profile → Account deletion, choose automatic deletion after 3 months, 6 months, 1 year, 2 years or 3 years without signing in. The default is 1 year. Signing in restarts the countdown. Immediate deletion requires password confirmation.
+- Forgot password on the sign-in screen lets users with two-factor authentication reset their password with a six-digit authenticator code. Successful resets revoke existing device sessions.
+- Use a compatible 2.6.7 server. The server migrates existing MySQL data and checks for expired accounts at startup, then checks hourly. Account deletion and password recovery are localized in eight languages.
 
-
-The source version is **2.6.5**, and the profile footer displays `PaperPhonePlus v2.6.5`. Type checking, security/group/sync, attachment, eight-language checks and the production build passed. A clean cross-build generated Windows x64 NSIS and portable executables with SHA-256 checksums; native runtime, secure storage and two-client acceptance still require verification on Windows.
+The Profile footer displays `PaperPhonePlus v2.6.7`. The Windows x64 release includes an NSIS installer, a portable executable and SHA-256 checksums. See the [verification guide](tests/README.md) for automated checks and native Windows acceptance.
 
 ---
 
@@ -95,12 +96,13 @@ The app does not persist the extra password. While unlocked it exists only in th
 
 ### Download from Releases
 
-Check [Releases](../../releases) for published installers. The 2.6.5 packaging configuration uses the filenames below; availability depends on the actual release assets:
+Check [Releases](../../releases) for published installers. The 2.6.7 packaging configuration uses the filenames below; availability depends on the actual release assets:
 
 | File | Description |
 |------|-------------|
-| `PaperPhonePlus-2.6.5-Windows-Setup.exe` | NSIS installer (Windows x64) |
-| `PaperPhonePlus-2.6.5-Windows-Portable.exe` | Portable executable (Windows x64) |
+| `PaperPhonePlus-2.6.7-Windows-Setup.exe` | NSIS installer (Windows x64) |
+| `PaperPhonePlus-2.6.7-Windows-Portable.exe` | Portable executable (Windows x64) |
+| `SHA256SUMS.txt` | SHA-256 checksums for both executables |
 
 The installer lets users select the destination and preserves local app data by default. The portable build runs without installation. Allow Windows camera and microphone access when joining a meeting for the first time.
 
@@ -142,7 +144,7 @@ npm run build:win
 
 ## Server Connection
 
-Enter your PaperPhone server HTTPS URL on the login page and use a server with the friendship fixes and clients compatible with the updated group chat mode. Signed messaging, identity verification, group key epochs and history sync require matching server endpoints. In development, `/api` and `/ws` proxy to local port 3000; see `vite.config.ts`. Exchange identity verification passwords offline instead of sending them online.
+Enter your PaperPhone server HTTPS URL on the login page and use a compatible 2.6.7 server and clients compatible with the updated group chat mode. Signed messaging, identity verification, group key epochs and history sync require matching server endpoints. In development, `/api` and `/ws` proxy to local port 3000; see `vite.config.ts`. Exchange identity verification passwords offline instead of sending them online.
 
 ## 🎥 Video Meeting Deployment
 

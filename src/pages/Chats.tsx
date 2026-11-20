@@ -1,6 +1,7 @@
+import { CachedImage } from '../components/CachedMedia'
 import IdentityBadge from '../components/IdentityBadge'
 import { useEffect, useState } from 'react'
-import { get, normalizeFileUrl } from '../api/http'
+import { get } from '../api/http'
 import { useStore, Friend, Group } from '../store'
 import { useI18n } from '../hooks/useI18n'
 import { MessageCircle, Users } from 'lucide-react'
@@ -109,7 +110,7 @@ export default function Chats() {
               }}
             >
               <div className="avatar" style={{ position: 'relative' }}>
-                {chat.avatar ? <img src={normalizeFileUrl(chat.avatar)} alt="" /> : (chat.isGroup ? <Users size={20} /> : chat.name[0]?.toUpperCase())}
+                {chat.avatar ? <CachedImage src={chat.avatar} alt="" /> : (chat.isGroup ? <Users size={20} /> : chat.name[0]?.toUpperCase())}
                 {chat.isOnline && <span className="online-dot" />}
               </div>
               <div className="list-content">

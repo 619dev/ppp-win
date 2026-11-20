@@ -1,8 +1,14 @@
 # PaperPhonePlus Design System
 
-Version: **2.6.5**. Identity badges show success only after mutual password verification. Refreshing, unverified, changed-key and failure states use localized text and verification or retry actions. Group signature badges represent message verification separately from contact identity verification. Preserve Windows desktop panel navigation. The profile footer displays `PaperPhonePlus v2.6.5`; keep it aligned with the package version.
+Version **2.6.7**. Identity badges show success only after mutual password verification. Refreshing, unverified, changed-key and failure states use localized text and verification or retry actions. Group signature badges represent message verification separately from contact identity verification. Preserve Windows desktop panel navigation. The profile footer displays `PaperPhonePlus v2.6.7`; keep it aligned with the package version.
 
 Contact profiles offer add and remove actions and private identity verification. Group member lists show membership and roles. Group signatures use server-published member keys.
+
+## Media and account settings
+
+Packaged Electron stores original media bytes in IndexedDB under account-scoped URL keys. The HTTP(S) development renderer uses Cache Storage. Chat attachment caching retains the received bytes before decryption. The Offline cache action clears the stored media. Timeline keeps the feed mounted while showing a post or composer, restores its scroll position and displays per-file upload progress.
+
+Account deletion settings use the server's inactivity policy, with immediate deletion behind password confirmation. Password recovery occupies the form panel of the Windows sign-in screen and uses an existing authenticator enrollment. Both flows use localized status and error messages. The 2.6.7 server owns expiry, verification and session revocation.
 
 ## 1. Product character
 

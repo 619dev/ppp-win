@@ -4,6 +4,20 @@ All notable changes and new features are recorded here. Historical entries below
 
 所有重要版本改动和新特性统一记录于此。下方历史条目由仓库原有文档迁移而来。
 
+## 2.6.7 — 2026-11-20
+
+- 用户和群组头像、朋友圈、时间线及聊天附件使用按账号隔离的持久媒体缓存。已缓存媒体可离线查看，重连后重新校验。
+- 时间线返回列表时恢复滚动位置。上传图片或视频时显示文件名、百分比和进度条，上传期间暂停继续选取文件和发布。
+- 在「个人信息 → 账号删除」设置连续未登录 3 个月、6 个月、1 年、2 年或 3 年后自动删号，默认 1 年。成功登录重置计时。立即删除仍需确认密码。
+- 登录页的「忘记密码？」支持已启用双因素验证的账号使用验证器应用的六位验证码重设密码。成功后撤销原有设备会话。
+- 使用兼容 2.6.7 的服务端。自动删号由服务端执行，服务端启动时迁移现有 MySQL 数据并检查到期账号，随后每小时检查一次。账号删除和密码找回文案覆盖八种语言。
+
+- User and group avatars, Moments, Timeline and chat attachments use persistent, account-scoped media caching. Cached media is available offline and revalidated after reconnecting.
+- Timeline restores the feed scroll position on return. Image and video uploads show the filename, percentage and progress bar. File selection and publishing pause during upload.
+- In Profile → Account deletion, choose automatic deletion after 3 months, 6 months, 1 year, 2 years or 3 years without signing in. The default is 1 year. Signing in restarts the countdown. Immediate deletion requires password confirmation.
+- Forgot password on the sign-in screen lets users with two-factor authentication reset their password with a six-digit authenticator code. Successful resets revoke existing device sessions.
+- Use a compatible 2.6.7 server. The server migrates existing MySQL data and checks for expired accounts at startup, then checks hourly. Account deletion and password recovery are localized in eight languages.
+
 ## 2.6.5
 
 - 同步 Mac 2.6.5 好友关系修复。可在个人资料页添加或删除好友，关系变更及重连后刷新好友列表。群聊使用服务端公布的成员公钥验证签名，以 Sender Key 加密，并在成员变更后轮换密钥。额外文本加密用于私聊。

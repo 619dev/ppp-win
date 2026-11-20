@@ -1,5 +1,6 @@
-import { useEffect, useState, useRef } from 'react'
-import { get, post, del, uploadFile as httpUploadFile, normalizeFileUrl } from '../api/http'
+import { CachedImage, CachedVideo } from '../components/CachedMedia'
+import { useEffect, useLayoutEffect, useState, useRef } from 'react'
+import { get, post, del, uploadFileWithProgress, normalizeFileUrl } from '../api/http'
 import { useStore } from '../store'
 import { useI18n } from '../hooks/useI18n'
 import { ChevronLeft, ChevronRight, Film, Heart, ImageIcon, MessageCircle, Pencil, Trash2, VenetianMask, X, Play, FileText, User, Flag } from 'lucide-react'
@@ -40,9 +41,14 @@ export default function Timeline() {
   const setMainView = useStore(s => s.setMainView)
   const user = useStore(s => s.user)
   const [posts, setPosts] = useState<any[]>(() => readOfflineData('timeline', []))
+  const listRef = useRef<HTMLDivElement>(null)
+  const scrollPosition = useRef(0)
   const [loading, setLoading] = useState(true)
   const [showComposer, setShowComposer] = useState(false)
   const [selectedPost, setSelectedPost] = useState<any>(null)
+  useLayoutEffect(() => {
+    if (!selectedPost && !showComposer && listRef.current) listRef.current.scrollTop = scrollPosition.current
+  }, [selectedPost, showComposer])
   const blockedUsers = useStore(s => s.blockedUsers)
 
   const loadPosts = async () => {
@@ -56,16 +62,11 @@ export default function Timeline() {
 
   useEffect(() => { loadPosts() }, [])
 
-  if (showComposer) {
-    return <PostComposer t={t} onBack={() => setShowComposer(false)} onPublished={() => { setShowComposer(false); loadPosts() }} />
-  }
-
-  if (selectedPost) {
-    return <PostDetail t={t} postId={selectedPost} user={user} onBack={() => { setSelectedPost(null); loadPosts() }} />
-  }
-
   return (
-    <div className="page" id="timeline-page">
+    <>
+      {showComposer && <PostComposer t={t} onBack={() => setShowComposer(false)} onPublished={() => { setShowComposer(false); loadPosts() }} />}
+      {selectedPost && <PostDetail t={t} postId={selectedPost} user={user} onBack={() => { setSelectedPost(null); loadPosts() }} />}
+    <div className="page" id="timeline-page" style={{ display: showComposer || selectedPost ? 'none' : undefined }}>
       <div className="page-header">
         <button className="back-btn" onClick={() => setMainView(null)}><ChevronLeft size={20} /></button>
         <h1>{t('timeline.title')}</h1>
@@ -73,7 +74,7 @@ export default function Timeline() {
           <Pencil size={14} /> {t('timeline.post')}
         </button>
       </div>
-      <div className="page-body" style={{ padding: '4px 4px 80px' }}>
+      <div ref={listRef} onScroll={e => { if (!selectedPost && !showComposer) scrollPosition.current = e.currentTarget.scrollTop }} className="page-body" style={{ padding: '4px 4px 80px' }}>
         {loading && <div className="loading-spinner" />}
 
         {!loading && posts.length === 0 && (
@@ -106,7 +107,7 @@ export default function Timeline() {
                 {cover && (
                   <div style={{ position: 'relative' }}>
                     {isVideo && !cover.thumbnail ? (
-                      <video
+                      <CachedVideo
                         src={normalizeFileUrl(cover.url) + '#t=0.1'}
                         muted
                         playsInline
@@ -114,7 +115,7 @@ export default function Timeline() {
                         style={{ width: '100%', display: 'block' }}
                       />
                     ) : (
-                      <img
+                      <CachedImage
                         src={normalizeFileUrl(isVideo ? (cover.thumbnail || cover.url) : cover.url)}
                         alt=""
                         loading="lazy"
@@ -156,7 +157,7 @@ export default function Timeline() {
                   }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
                       <div className="avatar" style={{ width: 16, height: 16, fontSize: 9 }}>
-                        {p.is_anonymous ? <VenetianMask size={18} /> : (p.user?.avatar ? <img src={normalizeFileUrl(p.user.avatar)} alt="" /> : p.user?.nickname?.[0])}
+                        {p.is_anonymous ? <VenetianMask size={18} /> : (p.user?.avatar ? <CachedImage src={p.user.avatar} alt="" /> : p.user?.nickname?.[0])}
                       </div>
                       <span>{p.is_anonymous ? t('timeline.anonymous') : p.user?.nickname}</span>
                     </div>
@@ -169,6 +170,7 @@ export default function Timeline() {
         </div>
       </div>
     </div>
+    </>
   )
 }
 
@@ -261,7 +263,7 @@ function PostDetail({ t, postId, user, onBack }: {
         {images.length > 0 && (
           <div>
             <div style={{ position: 'relative', background: '#000', minHeight: 200 }}>
-              <img
+              <CachedImage
                 src={normalizeFileUrl(images[imgIdx]?.url)}
                 alt=""
                 style={{ width: '100%', maxHeight: '60vh', objectFit: 'contain', display: 'block' }}
@@ -297,7 +299,7 @@ function PostDetail({ t, postId, user, onBack }: {
                 background: 'var(--bg-card)',
               }}>
                 {images.map((img: any, i: number) => (
-                  <img
+                  <CachedImage
                     key={i}
                     src={normalizeFileUrl(img.url)}
                     alt=""
@@ -315,7 +317,7 @@ function PostDetail({ t, postId, user, onBack }: {
         )}
 
         {video && (
-          <video
+          <CachedVideo
             src={normalizeFileUrl(video.url)}
             poster={video.thumbnail ? normalizeFileUrl(video.thumbnail) : undefined}
             controls
@@ -329,7 +331,7 @@ function PostDetail({ t, postId, user, onBack }: {
         <div style={{ padding: '16px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
             <div className="avatar avatar-sm">
-              {p.is_anonymous ? <VenetianMask size={18} /> : (p.user?.avatar ? <img src={normalizeFileUrl(p.user.avatar)} alt="" /> : p.user?.nickname?.[0]?.toUpperCase())}
+              {p.is_anonymous ? <VenetianMask size={18} /> : (p.user?.avatar ? <CachedImage src={p.user.avatar} alt="" /> : p.user?.nickname?.[0]?.toUpperCase())}
             </div>
             <div>
               <div style={{ fontWeight: 600, fontSize: 14 }}>
@@ -376,7 +378,7 @@ function PostDetail({ t, postId, user, onBack }: {
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 fontSize: 10, fontWeight: 600, color: 'var(--text-muted)',
               }}>
-                {l.avatar ? <img src={normalizeFileUrl(l.avatar)} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : l.nickname?.[0]?.toUpperCase()}
+                {l.avatar ? <CachedImage src={l.avatar} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : l.nickname?.[0]?.toUpperCase()}
               </div>
             ))}
           </div>
@@ -474,17 +476,19 @@ function PostComposer({ t, onBack, onPublished }: {
   const [isAnon, setIsAnon] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState('')
+  const [upload, setUpload] = useState<{ name: string; progress: number } | null>(null)
   const imageInputRef = useRef<HTMLInputElement>(null)
   const videoInputRef = useRef<HTMLInputElement>(null)
 
   const uploadOneFile = async (file: File): Promise<string> => {
-    const res = await httpUploadFile(file)
+    setUpload({ name: file.name, progress: 0 })
+    const res = await uploadFileWithProgress(file, progress => setUpload({ name: file.name, progress }), 'permanent')
     return res.url
   }
 
   const handleImageSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || [])
-    if (files.length === 0) return
+    if (files.length === 0 || upload) return
     const remaining = MAX_IMAGES - images.length
     const toUpload = files.slice(0, remaining)
     setError('')
@@ -495,15 +499,18 @@ function PostComposer({ t, onBack, onPublished }: {
         setMediaMode('images')
       } catch { setError(t('timeline.upload_failed')) }
     }
+    setUpload(null)
     e.target.value = ''
   }
 
   const handleVideoSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
-    if (!file) return
+    if (!file || upload) return
+    setUpload({ name: file.name, progress: 0 })
     setError('')
     const duration = await getVideoDuration(file)
     if (duration > MAX_VIDEO_MINUTES * 60) {
+      setUpload(null)
       setError(t('timeline.video_too_long'))
       e.target.value = ''
       return
@@ -522,6 +529,7 @@ function PostComposer({ t, onBack, onPublished }: {
         setVideoThumb(thumbUrl)
       }
     } catch { setError(t('timeline.upload_failed')) }
+    setUpload(null)
     e.target.value = ''
   }
 
@@ -543,7 +551,7 @@ function PostComposer({ t, onBack, onPublished }: {
   const removeVideo = () => { setVideoUrl(''); setVideoThumb(''); setVideoDuration(0); setMediaMode('none') }
 
   const handlePublish = async () => {
-    if (!text.trim() && images.length === 0 && !videoUrl) return
+    if (upload || (!text.trim() && images.length === 0 && !videoUrl)) return
     if (text.length > MAX_TEXT) { setError(t('timeline.text_too_long')); return }
     setSubmitting(true)
     setError('')
@@ -575,7 +583,7 @@ function PostComposer({ t, onBack, onPublished }: {
         <button
           className="btn btn-sm btn-primary"
           onClick={handlePublish}
-          disabled={submitting || (!text.trim() && images.length === 0 && !videoUrl)}
+          disabled={!!upload || submitting || (!text.trim() && images.length === 0 && !videoUrl)}
           style={{ marginLeft: 'auto' }}
         >
           {submitting ? t('common.loading') : t('timeline.post')}
@@ -620,12 +628,16 @@ function PostComposer({ t, onBack, onPublished }: {
 
         {error && <div className="error-msg" style={{ marginBottom: 12 }}>{error}</div>}
 
+        {upload && <div role="status" aria-live="polite" style={{ marginBottom: 12 }}>
+          <div style={{ fontSize: 13, marginBottom: 6, overflowWrap: 'anywhere' }}>{upload.name} · {upload.progress}%</div>
+          <progress aria-label={upload.name} value={upload.progress} max={100} style={{ width: '100%' }} />
+        </div>}
         {/* Image previews */}
         {mediaMode === 'images' && images.length > 0 && (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 4, marginBottom: 12 }}>
             {images.map((url, i) => (
               <div key={i} style={{ position: 'relative', paddingTop: '100%' }}>
-                <img src={url} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', borderRadius: 6 }} />
+                <CachedImage src={url} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', borderRadius: 6 }} />
                 <button
                   onClick={() => removeImage(i)}
                   style={{
@@ -644,7 +656,7 @@ function PostComposer({ t, onBack, onPublished }: {
         {/* Video preview */}
         {mediaMode === 'video' && videoUrl && (
           <div style={{ position: 'relative', marginBottom: 12 }}>
-            <video src={videoUrl} controls style={{ width: '100%', borderRadius: 8, maxHeight: 260 }} />
+            <CachedVideo src={videoUrl} controls style={{ width: '100%', borderRadius: 8, maxHeight: 260 }} />
             <button
               onClick={removeVideo}
               style={{
@@ -660,12 +672,12 @@ function PostComposer({ t, onBack, onPublished }: {
         {/* Media buttons */}
         <div style={{ display: 'flex', gap: 12 }}>
           {mediaMode !== 'video' && (
-            <button className="btn btn-secondary btn-sm" onClick={() => imageInputRef.current?.click()} disabled={images.length >= MAX_IMAGES}>
+            <button className="btn btn-secondary btn-sm" onClick={() => imageInputRef.current?.click()} disabled={!!upload || images.length >= MAX_IMAGES}>
               <ImageIcon size={16} /> {t('timeline.add_images')} ({images.length}/{MAX_IMAGES})
             </button>
           )}
           {(mediaMode !== 'images' || images.length === 0) && !videoUrl && (
-            <button className="btn btn-secondary btn-sm" onClick={() => videoInputRef.current?.click()}>
+            <button className="btn btn-secondary btn-sm" onClick={() => videoInputRef.current?.click()} disabled={!!upload}>
               <Film size={16} /> {t('timeline.add_video')}
             </button>
           )}

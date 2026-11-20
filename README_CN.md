@@ -5,7 +5,7 @@
 
   <p>
     <img src="https://img.shields.io/badge/Platform-Windows-0078D6?style=flat-square&logo=windows" alt="Platform" />
-    <img src="https://img.shields.io/badge/Version-2.6.5-22c55e?style=flat-square" alt="Version 2.6.5" />
+    <img src="https://img.shields.io/badge/Version-2.6.7-22c55e?style=flat-square" alt="Version 2.6.7" />
     <img src="https://img.shields.io/badge/Electron-36-47848F?style=flat-square&logo=electron" alt="Electron" />
     <img src="https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react" alt="React" />
     <img src="https://img.shields.io/badge/TypeScript-5.7-3178C6?style=flat-square&logo=typescript" alt="TypeScript" />
@@ -28,14 +28,15 @@ PaperPhonePlus Desktop 是 [Paperphone-plus](https://github.com/619dev/Paperphon
 
 完整版本更新记录已迁移至 [changelog.md](changelog.md)。
 
-#### 2.6.5 更新说明
+#### 2.6.7 更新说明
 
-- 同步 Mac 2.6.5 好友关系修复。可在个人资料页添加或删除好友，关系变更及重连后刷新好友列表。群聊使用服务端公布的成员公钥验证签名，以 Sender Key 加密，并在成员变更后轮换密钥。额外文本加密用于私聊。
-- 身份信任记录使用 Windows 安全存储；同步缓存持久化、附件鉴权刷新、头像地址规范化与八语言安全提示。
-- 服务端需包含好友关系修复，群聊参与者需使用兼容新版群聊模式的客户端。验证命令及原生双客户端验收项目见 [tests/README.md](tests/README.md)。
+- 用户和群组头像、朋友圈、时间线及聊天附件使用按账号隔离的持久媒体缓存。已缓存媒体可离线查看，重连后重新校验。
+- 时间线返回列表时恢复滚动位置。上传图片或视频时显示文件名、百分比和进度条，上传期间暂停继续选取文件和发布。
+- 在「个人信息 → 账号删除」设置连续未登录 3 个月、6 个月、1 年、2 年或 3 年后自动删号，默认 1 年。成功登录重置计时。立即删除仍需确认密码。
+- 登录页的「忘记密码？」支持已启用双因素验证的账号使用验证器应用的六位验证码重设密码。成功后撤销原有设备会话。
+- 使用兼容 2.6.7 的服务端。自动删号由服务端执行，服务端启动时迁移现有 MySQL 数据并检查到期账号，随后每小时检查一次。账号删除和密码找回文案覆盖八种语言。
 
-
-当前源码版本为 **2.6.5**，个人信息页面底部显示 `PaperPhonePlus v2.6.5`。类型检查、安全／群聊／同步、附件、八语言测试及生产构建已通过；已清理项目构建缓存和旧产物，并交叉编译生成 Windows x64 NSIS 安装版、便携版及 SHA-256 校验文件；Windows 原生运行、安全存储和双客户端互通仍待验收。
+个人信息页面底部显示 `PaperPhonePlus v2.6.7`。Windows x64 提供 NSIS 安装版、便携版及 SHA-256 校验文件。验证命令和 Windows 原生验收项目见 [测试说明](tests/README.md)。
 
 ---
 
@@ -95,12 +96,13 @@ PaperPhonePlus Desktop 是 [Paperphone-plus](https://github.com/619dev/Paperphon
 
 ### 从 Release 下载
 
-已发布的安装包请查看 [Releases](../../releases)。2.6.5 构建配置生成以下文件名，实际可用版本以 Release 附件为准：
+已发布的安装包请查看 [Releases](../../releases)。2.6.7 构建配置生成以下文件名，实际可用版本以 Release 附件为准：
 
 | 文件 | 说明 |
 |------|------|
-| `PaperPhonePlus-2.6.5-Windows-Setup.exe` | NSIS 安装包（Windows x64） |
-| `PaperPhonePlus-2.6.5-Windows-Portable.exe` | 免安装便携版（Windows x64） |
+| `PaperPhonePlus-2.6.7-Windows-Setup.exe` | NSIS 安装包（Windows x64） |
+| `PaperPhonePlus-2.6.7-Windows-Portable.exe` | 免安装便携版（Windows x64） |
+| `SHA256SUMS.txt` | 两个 EXE 的 SHA-256 校验值 |
 
 安装版允许选择安装目录，并默认保留本地应用数据；便携版无需安装即可运行。首次加入会议时，请允许 Windows 使用摄像头和麦克风。
 
@@ -142,7 +144,7 @@ npm run build:win
 
 ## 服务端连接
 
-在登录页填写自己的 PaperPhone 服务端 HTTPS 地址，使用包含好友关系修复的服务端及兼容新版群聊模式的客户端。私聊／群聊签名、身份验证、群密钥 epoch 和历史同步需要对应接口支持。开发模式的 `/api` 与 `/ws` 默认代理到本机 3000 端口，详见 `vite.config.ts`。身份验证密码应在线下交换，不要发送到网上。
+在登录页填写自己的 PaperPhone 服务端 HTTPS 地址，使用兼容 2.6.7 的服务端及兼容新版群聊模式的客户端。私聊／群聊签名、身份验证、群密钥 epoch 和历史同步需要对应接口支持。开发模式的 `/api` 与 `/ws` 默认代理到本机 3000 端口，详见 `vite.config.ts`。身份验证密码应在线下交换，不要发送到网上。
 
 ## 🎥 视频会议部署要求
 

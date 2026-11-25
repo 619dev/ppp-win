@@ -3,7 +3,7 @@ import { useEffect, useState, useCallback, useRef } from 'react'
 import { get, post } from '../api/http'
 import { useStore, Friend, Group, SidebarView } from '../store'
 import { useI18n } from '../hooks/useI18n'
-import { MessageCircle, Users, Compass, User, Search, UserPlus, X } from 'lucide-react'
+import { MessageCircle, Users, Compass, User, Search, UserPlus, X, Camera, Globe } from 'lucide-react'
 
 /* ── Chat List (embedded in sidebar) ─────────────────────────── */
 function ChatList() {
@@ -400,8 +400,8 @@ function DiscoverInSidebar() {
   const setMainView = useStore(s => s.setMainView)
 
   const items = [
-    { icon: '📸', label: t('discover.moments') || 'Moments', action: () => setMainView('moments') },
-    { icon: '🌐', label: t('discover.timeline') || 'Timeline', action: () => setMainView('timeline') },
+    { icon: Camera, label: t('discover.moments') || 'Moments', action: () => setMainView('moments') },
+    { icon: Globe, label: t('discover.timeline') || 'Timeline', action: () => setMainView('timeline') },
   ]
 
   return (
@@ -410,7 +410,7 @@ function DiscoverInSidebar() {
       {items.map((item, i) => (
         <div key={i} className="list-item" onClick={item.action}>
           <div className="avatar" style={{ background: 'var(--bg-input)', boxShadow: 'none', fontSize: 20 }}>
-            {item.icon}
+            <item.icon size={20} />
           </div>
           <div className="list-content">
             <div className="name">{item.label}</div>

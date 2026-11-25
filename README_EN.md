@@ -5,7 +5,7 @@
 
   <p>
     <img src="https://img.shields.io/badge/Platform-Windows-0078D6?style=flat-square&logo=windows" alt="Platform" />
-    <img src="https://img.shields.io/badge/Version-2.6.7-22c55e?style=flat-square" alt="Version 2.6.7" />
+    <img src="https://img.shields.io/badge/Version-2.6.8-22c55e?style=flat-square" alt="Version 2.6.8" />
     <img src="https://img.shields.io/badge/Electron-36-47848F?style=flat-square&logo=electron" alt="Electron" />
     <img src="https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react" alt="React" />
     <img src="https://img.shields.io/badge/TypeScript-5.7-3178C6?style=flat-square&logo=typescript" alt="TypeScript" />
@@ -28,15 +28,13 @@ PaperPhonePlus Desktop is the Windows desktop client of [Paperphone-plus](https:
 
 The complete release history has moved to [changelog.md](changelog.md).
 
-#### 2.6.7 Release Notes
+#### 2.6.8 Release Notes
 
-- User and group avatars, Moments, Timeline and chat attachments use persistent, account-scoped media caching. Cached media is available offline and revalidated after reconnecting.
-- Timeline restores the feed scroll position on return. Image and video uploads show the filename, percentage and progress bar. File selection and publishing pause during upload.
-- In Profile → Account deletion, choose automatic deletion after 3 months, 6 months, 1 year, 2 years or 3 years without signing in. The default is 1 year. Signing in restarts the countdown. Immediate deletion requires password confirmation.
-- Forgot password on the sign-in screen lets users with two-factor authentication reset their password with a six-digit authenticator code. Successful resets revoke existing device sessions.
-- Use a compatible 2.6.7 server. The server migrates existing MySQL data and checks for expired accounts at startup, then checks hourly. Account deletion and password recovery are localized in eight languages.
+- Uses Lucide icons for chat controls, group message status, calls, QR scanning, settings and the Discover sidebar. A green check mark appears on the profile after mutual identity verification.
+- Updates emoji category and sticker tab icons while preserving emoji insertion, recent emoji and stickers.
+- Works with a compatible 2.6.7 server without a new database migration.
 
-The Profile footer displays `PaperPhonePlus v2.6.7`. The Windows x64 release includes an NSIS installer, a portable executable and SHA-256 checksums. See the [verification guide](tests/README.md) for automated checks and native Windows acceptance.
+The Profile footer displays `PaperPhonePlus v2.6.8`. The Windows x64 release includes an NSIS installer, a portable executable and SHA-256 checksums. See the [verification guide](tests/README.md) for automated checks and native Windows acceptance.
 
 ---
 
@@ -96,12 +94,12 @@ The app does not persist the extra password. While unlocked it exists only in th
 
 ### Download from Releases
 
-Check [Releases](../../releases) for published installers. The 2.6.7 packaging configuration uses the filenames below; availability depends on the actual release assets:
+Check [Releases](../../releases) for published installers. The 2.6.8 packaging configuration uses the filenames below; availability depends on the actual release assets:
 
 | File | Description |
 |------|-------------|
-| `PaperPhonePlus-2.6.7-Windows-Setup.exe` | NSIS installer (Windows x64) |
-| `PaperPhonePlus-2.6.7-Windows-Portable.exe` | Portable executable (Windows x64) |
+| `PaperPhonePlus-2.6.8-Windows-Setup.exe` | NSIS installer (Windows x64) |
+| `PaperPhonePlus-2.6.8-Windows-Portable.exe` | Portable executable (Windows x64) |
 | `SHA256SUMS.txt` | SHA-256 checksums for both executables |
 
 The installer lets users select the destination and preserves local app data by default. The portable build runs without installation. Allow Windows camera and microphone access when joining a meeting for the first time.
@@ -133,6 +131,7 @@ npm run dev:electron
 npx tsc --noEmit
 npm run test:security
 npm run test:attachments
+npm run test:media-cache
 npm run test:i18n
 
 # Production build

@@ -4,6 +4,16 @@ All notable changes and new features are recorded here. Historical entries below
 
 所有重要版本改动和新特性统一记录于此。下方历史条目由仓库原有文档迁移而来。
 
+## 2.6.8 — 2026-11-26
+
+- 将聊天、群消息状态、通话、扫码、设置和发现侧栏的界面图标统一为 Lucide。双方完成身份验证后，个人资料显示绿色对勾。
+- 更新表情选择器的分类图标及贴纸入口，保留 Emoji 输入、最近使用记录和贴纸。
+- 此版本可连接兼容的 2.6.7 服务端，无需新的数据库迁移。
+
+- Uses Lucide icons for chat controls, group message status, calls, QR scanning, settings and the Discover sidebar. A green check mark appears on the profile after mutual identity verification.
+- Updates emoji category and sticker tab icons while preserving emoji insertion, recent emoji and stickers.
+- Works with a compatible 2.6.7 server without a new database migration.
+
 ## 2.6.7 — 2026-11-20
 
 - 用户和群组头像、朋友圈、时间线及聊天附件使用按账号隔离的持久媒体缓存。已缓存媒体可离线查看，重连后重新校验。
